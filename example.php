@@ -1,8 +1,6 @@
+<?php
 
-$app_name = '';
-$api_key = '';
-
-$inf = new Infusionsoft($app_name, $api_key, 7);
+$inf = new Infusionsoft();
 
 //Plain load of a contact
 $data = $inf->Data('Contact');
@@ -10,7 +8,6 @@ $data->load(9377);
 $data->LastName = 'Test';
 $data->save();
 
---
 
 //Looping through
 $data = $inf->Data('Contact');

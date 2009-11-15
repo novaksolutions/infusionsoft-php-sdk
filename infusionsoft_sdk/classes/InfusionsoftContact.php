@@ -2,9 +2,10 @@
 
 class InfusionsoftContact extends InfusionsoftBaseDataObject {
     
-    public function __construct($controller, $contact = FALSE)
+    public function __construct($_infusionsoft_app, $contact = FALSE)
     {
-        $this->_controller = $controller;
+    	$this->_load_rpc_method = 'ContactService.load';
+        $this->__infusionsoft_app = $_infusionsoft_app;
         $this->_table = 'Contact';
         $this->_reset_fields();                       
         
@@ -17,7 +18,7 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
             
             if (is_array($contact))
             {
-                $this->_load_array_as_contact($contact);
+                $this->loadFromArray($contact);
             }
         }
         
@@ -57,7 +58,7 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
      * @return void
      * @author Jon Gales
      */
-    private function _load_array_as_contact($contact_data)
+    private function loadFromArray($contact_data)
     {
         if (!isset($contact_data['Id']))
         {
@@ -70,27 +71,7 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
         {
             $this->$col = $val;
         }
-    }
-    
-    /**
-     * Loads a contact from Infusionsoft
-     *
-     * @param int $contact_id 
-     * @return void
-     * @author Jon Gales
-     */
-    public function load($contact_id)
-    {
-        $this->_reset_fields();
-        
-        $params = array($this->_controller->api_key, 
-                        $contact_id, 
-                        $this->_controller->fields[$this->_table]);
-        
-        $contact = $this->_controller->send('ContactService.load', $params);
-        
-        $this->_load_array_as_contact($contact);
-    }
+    }   
     
     /**
      * Adds a contact to the database
@@ -101,12 +82,12 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
      */
     public function add($data)
     {
-        $params = array($this->_controller->api_key, 
+        $params = array($this->_infusionsoft_app->api_key, 
                         $data);
                 
-        $contact_id = $this->_controller->send('ContactService.add', $params);
+        $contact_id = $this->_infusionsoft_app->send('ContactService.add', $params);
         
-        return $this->_controller->Contact($contact_id);
+        return $this->_infusionsoft_app->Contact($contact_id);
     }
     
     /**
@@ -142,11 +123,11 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
      */
     public function find_by_email($email, $return_as_objects = TRUE)
     {        
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $email,
-                        $this->_controller->fields[$this->_table]);
+                        $this->_infusionsoft_app->fields[$this->_table]);
                     
-        $contacts = $this->_controller->send('ContactService.findByEmail', $params);
+        $contacts = $this->_infusionsoft_app->send('ContactService.findByEmail', $params);
         
         if (!$contacts)
         {
@@ -159,7 +140,7 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
         
             foreach ($contacts as $contact)
             {
-                $return_contacts[] = $this->_controller->Contact($contact);
+                $return_contacts[] = $this->_infusionsoft_app->Contact($contact);
             }
         
             return $return_contacts;
@@ -212,11 +193,11 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
             throw new InfusionException('You must load a contact before adding to a group');
         }
         
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->Id,
                         $group_id);
                         
-        $this->_controller->send('ContactService.addToGroup', $params);
+        $this->_infusionsoft_app->send('ContactService.addToGroup', $params);
     }
 
     /**
@@ -233,11 +214,11 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
             throw new InfusionException('You must load a contact before removing it from a group');
         }
         
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->Id,
                         $group_id);
                         
-        $this->_controller->send('ContactService.removeFromGroup', $params);
+        $this->_infusionsoft_app->send('ContactService.removeFromGroup', $params);
     }
         
     /**
@@ -250,32 +231,32 @@ class InfusionsoftContact extends InfusionsoftBaseDataObject {
     {
         if ($this->Id)
         {
-            $params = array($this->_controller->api_key,
+            $params = array($this->_infusionsoft_app->api_key,
                             $this->Id,
                             $this->fields());
-            return $this->_controller->send('ContactService.update', $params);
+            return $this->_infusionsoft_app->send('ContactService.update', $params);
         }
         
-        if ($this->_controller->fields_are_blank($this->fields()))
+        if ($this->_infusionsoft_app->fields_are_blank($this->fields()))
         {
             throw new InfusionException('Cannot save blank contacts');
         }
         
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->fields());
             
-        $this->Id = $this->_controller->send('ContactService.add', $params);
+        $this->Id = $this->_infusionsoft_app->send('ContactService.add', $params);
         
         return $this->Id;
     }
     
     public function Credit_Card($last_4 = FALSE)
     {
-        return new Infusion_Credit_Card($this->_controller, $this, $last_4);
+        return new InfusionCreditCard($this->_infusionsoft_app, $this, $last_4);
     }
     
     public function Invoice($invoice = FALSE)
 	{
-	    return new Infusion_Invoice($this->_controller, $this, $invoice);
+	    return new InfusionInvoice($this->_infusionsoft_app, $this, $invoice);
 	}
 }

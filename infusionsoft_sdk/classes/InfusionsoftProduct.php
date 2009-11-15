@@ -2,9 +2,9 @@
 
 class InfusionsoftProduct extends InfusionsoftBaseDataObject {
     
-    public function __construct($controller, $product)
+    public function __construct($infusionsoft_app, $product)
     {
-        $this->_controller = $controller;
+        $this->_infusionsoft_app = $infusionsoft_app;
         $this->_table = 'Product';
         
         $this->_reset_fields();
@@ -32,12 +32,12 @@ class InfusionsoftProduct extends InfusionsoftBaseDataObject {
      */
     public function load($product_id)
     {
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->_table,
                         $product_id,
-                        $this->_controller->fields[$this->_table]);
+                        $this->_infusionsoft_app->fields[$this->_table]);
                         
-        foreach ($this->_controller->send('DataService.load', $params) as $col => $val)
+        foreach ($this->_infusionsoft_app->send('DataService.load', $params) as $col => $val)
         {
             $this->$col = $val;
         }
@@ -56,19 +56,19 @@ class InfusionsoftProduct extends InfusionsoftBaseDataObject {
         if ($this->Id)
         {
             
-            $params = array($this->_controller->api_key,
+            $params = array($this->_infusionsoft_app->api_key,
                             $this->_table,
                             $product_id,
                             $this->fields());
                         
-            return $this->_controller->send('DataService.update', $params);
+            return $this->_infusionsoft_app->send('DataService.update', $params);
         }
         
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->_table,
                         $this->fields());
             
-        $this->Id = $this->_controller->send('DataService.add', $params);
+        $this->Id = $this->_infusionsoft_app->send('DataService.add', $params);
         
     }
     
@@ -80,20 +80,20 @@ class InfusionsoftProduct extends InfusionsoftBaseDataObject {
      */
     public function list_all()
     {
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->_table,
                         1000,
                         0,
                         array('Id'=>'%'),
-                        $this->_controller->fields[$this->_table]);
+                        $this->_infusionsoft_app->fields[$this->_table]);
             
-        $products = $this->_controller->send('DataService.query', $params);
+        $products = $this->_infusionsoft_app->send('DataService.query', $params);
         
         $return_products = array();
         
         foreach ($products as $product)
         {
-            $return_products[] = $this->_controller->Product($product);
+            $return_products[] = $this->_infusionsoft_app->Product($product);
         }
         
         return $return_products;

@@ -1,5 +1,5 @@
 <?php
-class Infusionsoft {
+class InfusionsoftApp {
 	
 	public $app_name;
 	public $api_key;
@@ -17,8 +17,21 @@ class Infusionsoft {
 		$this->client->setSSLVerifyPeer(0);
 		
 		$this->_parse_api_field_access();
+		$this->_addCustomFields();
 	}
 		
+	private function _addCustomFields(){
+		if(is_array($GLOBALS['infusionsoft_custom_fields'])){
+			foreach($GLOBALS['infusionsoft_custom_fields'] as $table=>$fields){
+				if(is_array($fields)){
+					foreach($fields as $field){
+						$this->fields[$table][] = $field;
+					}
+				}		
+			}
+		}			
+	}
+	
 	private function _parse_api_field_access()
 	{
         if (!($dom = new DomDocument()))
@@ -127,20 +140,31 @@ class Infusionsoft {
 		return $out;
 	}
 	
+	public function table_exists($table){			
+		if(isset($this->fields[$table])) return true;
+		else return false;
+	}
+	
 	public function Contact($contact = FALSE)
 	{
         return new InfusionsoftContact($this, $contact);
 	}
 
+	public function Order($id){
+		return new InfusionsoftOrder($this, $id);				
+	}
+	
+	public function Data($table, $initial_data = FALSE)
+	{
+	    return new InfusionsoftData($this, $table, $initial_data);
+	}
+	
 	public function Product($product = FALSE)
 	{
 	    return new InfusionsoftProduct($this, $product);
 	}
 
-	public function Data($table, $initial_data = FALSE)
-	{
-	    return new InfusionsoftData($this, $table, $initial_data);
-	}
+
 
 }
 

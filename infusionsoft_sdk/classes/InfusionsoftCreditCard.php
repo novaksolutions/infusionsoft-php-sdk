@@ -18,9 +18,9 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
      * @param mixed $card 
      * @author Jon Gales
      */
-    public function __construct($controller, $contact, $card = FALSE)
+    public function __construct($infusionsoft_app, $contact, $card = FALSE)
     {
-        $this->_controller = $controller;
+        $this->_infusionsoft_app = $infusionsoft_app;
         $this->_table = 'CreditCard';
         $this->_contact = $contact;
 
@@ -79,11 +79,11 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
         
         if ($this->validate($card_data))
         {
-            $params = array($this->_controller->api_key,
+            $params = array($this->_infusionsoft_app->api_key,
                             $this->_table,
                             $card_data);
                         
-            $this->Id = $this->_controller->send('DataService.add', $params);
+            $this->Id = $this->_infusionsoft_app->send('DataService.add', $params);
         }
         else
         {
@@ -106,10 +106,10 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
             throw new InfusionException('You must first supply or load a card before validating it');
         }
         
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $card);
                         
-        $status = $this->_controller->send('InvoiceService.validateCreditCard', $params);
+        $status = $this->_infusionsoft_app->send('InvoiceService.validateCreditCard', $params);
         
         if ($status['Valid'] != 'true')
         {
@@ -145,11 +145,11 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
             $last_4 = $card_number;
         }
         
-        $params = array($this->_controller->api_key,
+        $params = array($this->_infusionsoft_app->api_key,
                         $this->_contact->Id,
                         strval($last_4));
                         
-        $card = $this->_controller->send('InvoiceService.locateExistingCard', $params);
+        $card = $this->_infusionsoft_app->send('InvoiceService.locateExistingCard', $params);
         
         if ($card)
         {
