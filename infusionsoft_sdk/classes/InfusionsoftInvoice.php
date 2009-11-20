@@ -9,6 +9,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
             throw new InfusionException('A contact must be loaded before an invoice can be initialized');
         }
         
+     	$this->_factoryMethodNameInApp = 'Invoice';   
         $this->_infusionsoft_app  = $infusionsoft_app;
         $this->_table       = 'Invoice';
         $this->_contact     = $contact;

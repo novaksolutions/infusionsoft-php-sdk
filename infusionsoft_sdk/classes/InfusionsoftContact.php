@@ -1,28 +1,32 @@
 <?php
 
-class InfusionsoftContact extends InfusionsoftBaseDataObject {
+class InfusionsoftContact extends InfusionsoftData {
     
-    public function __construct($_infusionsoft_app, $contact = FALSE)
-    {
+	public function __construct($initial_data = false){		
+		parent::__construct("Contact", $initial_data);		
+	}
+	
+	
+    /*
+     public function __construct($_infusionsoft_app, $contact = FALSE){
+    	$this->_factoryMethodNameInApp = 'Contact';
     	$this->_load_rpc_method = 'ContactService.load';
         $this->__infusionsoft_app = $_infusionsoft_app;
         $this->_table = 'Contact';
         $this->_reset_fields();                       
         
-        if ($contact)
-        {
-            if (is_numeric($contact))
-            {
+        if ($contact){
+            if (is_numeric($contact)){
                 $this->load($contact);
             }
             
-            if (is_array($contact))
-            {
+            if (is_array($contact)){
                 $this->loadFromArray($contact);
             }
         }
         
     }
+    */
     
     public function __toString() {
         

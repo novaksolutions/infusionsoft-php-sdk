@@ -20,6 +20,7 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
      */
     public function __construct($infusionsoft_app, $contact, $card = FALSE)
     {
+    	$this->_factoryMethodNameInApp = 'CreditCard';
         $this->_infusionsoft_app = $infusionsoft_app;
         $this->_table = 'CreditCard';
         $this->_contact = $contact;

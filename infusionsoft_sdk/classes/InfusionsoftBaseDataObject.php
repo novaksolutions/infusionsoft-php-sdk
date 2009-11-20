@@ -18,24 +18,15 @@ class InfusionsoftBaseDataObject {
         return $return;
     }
     
-    
-    /**
-     * Resets all instance variables to make room for a new object
-     * Optionally loads up another array or object of data
-     * 
-     * @param mixed data
-     * @return void
-     * @author Jon Gales
-     */
-    
     protected function _reset_fields($data = FALSE)
-    {
-        if (!isset($this->_infusionsoft_app->fields[$this->_table]))
+    {    	
+        if (!isset($GLOBALS['InfusionsoftApp']->fields[$this->_table]))
         {
+        	
             throw new InfusionsoftException(sprintf("Unknown table: %s", $this->_table));
         }
         
-        foreach ($this->_infusionsoft_app->fields[$this->_table] as $field)
+        foreach ($GLOBALS['InfusionsoftApp']->fields[$this->_table] as $field)
         {
             $this->$field = NULL;
             
@@ -50,8 +41,7 @@ class InfusionsoftBaseDataObject {
         }
     }
     
-    public function load($id)
-    {
+    public function load($id){
         if (!is_numeric($id))
         {
             throw InfusionsoftException('Id value must be numeric');
@@ -60,9 +50,9 @@ class InfusionsoftBaseDataObject {
         $params = array($this->_infusionsoft_app->api_key,
                         $this->_table,
                         intval($id),
-                        $this->_infusionsoft_app->fields[$this->_table]);
+                        $GLOBALS['InfusionsoftApp']->fields[$this->_table]);
                     
-        $data = $this->_infusionsoft_app->send($this->_load_rpc_method, $params);
+        $data = $GLOBALS['InfusionsoftApp']->send($this->_load_rpc_method, $params);
         
         $this->_reset_fields($data);
 
@@ -77,11 +67,25 @@ class InfusionsoftBaseDataObject {
     public function toArray()
     {
         $fields = array();        
-        foreach ($this->_infusionsoft_app->fields[$this->_table] as $field)
+        foreach ($GLOBALS['InfusionsoftApp']->fields[$this->_table] as $field)
         {
             $fields[$field] = $this->$field;
         }        
         return $fields;
-    }
+    }   
+
+	public function fields_are_blank($fields){
+	    $blank = TRUE;
+        
+        foreach ($fields as $name => $val)
+        {
+            if ($val)
+            {
+                $blank = FALSE;
+            }
+        }
+        
+        return $blank;
+	}
 }
 ?>

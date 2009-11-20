@@ -93,31 +93,7 @@ class InfusionsoftApp {
 	    }
 	    
 		return date('Ymd\TH:i:s');
-	}
-	
-	/**
-	 * Helper method to check if the given fields associative array has
-	 * all blank values. Used for when data methods want to prevent saving
-	 * empty records.
-	 *
-	 * @param array $fields 
-	 * @return bool
-	 * @author Jon Gales
-	 */
-	public function fields_are_blank($fields)
-	{
-	    $blank = TRUE;
-        
-        foreach ($fields as $name => $val)
-        {
-            if ($val)
-            {
-                $blank = FALSE;
-            }
-        }
-        
-        return $blank;
-	}
+	}			
 	
 	/**
 	 * Bool test for Infusion Soft's API
@@ -150,14 +126,28 @@ class InfusionsoftApp {
         return new InfusionsoftContact($this, $contact);
 	}
 
-	public function Order($id){
-		return new InfusionsoftOrder($this, $id);				
+	public function getOrderDAO(){
+		return new InfusionsoftOrderDAO($this);
 	}
 	
+	public function Order($initialData = false){
+		return new InfusionsoftOrder($this, $initialData);				
+	}
+		
+	public function OrderItem($initialData = false){
+		return new InfusionsoftOrderItem($this, $initialData);				
+	}
+	
+	public function getOrderItemDAO(){
+		return new InfusionsoftOrderItemDAO($this);				
+	}
+	
+	/*
 	public function Data($table, $initial_data = FALSE)
 	{
 	    return new InfusionsoftData($this, $table, $initial_data);
 	}
+	*/
 	
 	public function Product($product = FALSE)
 	{

@@ -2,7 +2,7 @@
 include('infusionsoft_sdk.php');
 
 
-$inf = new Infusionsoft();
+$inf = new InfusionsoftApp();
 ?>
 Testing Unauthenicated API Connection to: https://<?php echo $GLOBALS['infusionsoft_host']; ?><br />
 
@@ -11,9 +11,10 @@ if($inf->ping()){
 	echo 'Success!!! - Everything appears to be working fine.<br/><br/>';
 	
 	echo 'Testing Authenticated API Connect by searching for Contact 1<br/>';
-	$data = $inf->Data('Contact');
+	$DAO = new InfusionsoftContactDAO();
+	
 	try{
-		$data->load(-1);
+		$data = $DAO->getOneByField('Id', -1);
 	}
 	catch(Exception $e){	
 		if(strpos($e->error, "[InvalidKey]") !== FALSE){
