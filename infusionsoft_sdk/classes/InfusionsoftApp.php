@@ -63,9 +63,12 @@ class InfusionsoftApp {
 	 * @return mixed bool false or object
 	 * @author Jon Gales
 	 */
-	public function send($method, $args)
-	{		
-		$args = array_unshift($args, $this->api_key);
+	public function send($method, $args, $includeKey = true)
+	{
+    if($includeKey){
+      $args = array_unshift($args, $this->api_key);
+    }
+    
 		$call = new xmlrpcmsg($method, array_map('php_xmlrpc_encode', $args));
 		if($GLOBALS['infusionsoft_debug']){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');
@@ -105,7 +108,7 @@ class InfusionsoftApp {
 	{
 		$out = false;
 		try{
-			$result = $this->send('DataService.echo', array('Hello World'));
+			$result = $this->send('DataService.echo', array('Hello World'), false);
 			if($result) $out = true;			
 		}		
 		catch(Exception $e){
