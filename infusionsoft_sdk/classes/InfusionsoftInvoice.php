@@ -36,8 +36,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
     {
         $this->_reset_fields();
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->_contact->Id,
+        $params = array($this->_contact->Id,
                         $desc,
                         php_xmlrpc_encode($this->_infusionsoft_app->date(),array('auto_dates')),
                         0,
@@ -58,8 +57,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
      */
     public function get_payments()
     {
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id);
+        $params = array($this->Id);
                         
         return $this->_infusionsoft_app->send('InvoiceService.getPayments', $params);
     }
@@ -75,8 +73,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
      */
     public function add($product, $quantity = 1, $type = 0)
     {
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id,
+        $params = array($this->Id,
                         $product->Id,
                         $type,
                         $product->ProductPrice,
@@ -96,8 +93,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
             throw new InfusionException('You must set a merchant account before charging an invoice');
         }
 
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id,
+        $params = array($this->Id,
                         $auto_charge,
                         $card,
                         $this->_infusionsoft_app->merchant_acct,
@@ -118,8 +114,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
      */
     private function recalculate_tax()
     {
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id);
+        $params = array($this->Id);
                         
         return $this->_infusionsoft_app->send('InvoiceService.recalculateTax', $params);
     }
@@ -132,8 +127,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
      */
     public function calculate_amount_owed()
     {
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id);
+        $params = array($this->Id);
                         
         return $this->_infusionsoft_app->send('InvoiceService.calculateAmountOwed', $params);
     }
@@ -154,8 +148,7 @@ class InfusionsoftInvoice extends InfusionsoftBaseDataObject {
         
         $this->recalculate_tax();
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id,
+        $params = array($this->Id,
                         $notes,
                         $card->Id,
                         $this->_infusionsoft_app->merchant_acct,

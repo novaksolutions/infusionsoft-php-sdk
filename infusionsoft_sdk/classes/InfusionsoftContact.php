@@ -86,8 +86,7 @@ class InfusionsoftContact extends InfusionsoftData {
      */
     public function add($data)
     {
-        $params = array($this->_infusionsoft_app->api_key, 
-                        $data);
+        $params = array($data);
                 
         $contact_id = $this->_infusionsoft_app->send('ContactService.add', $params);
         
@@ -127,8 +126,7 @@ class InfusionsoftContact extends InfusionsoftData {
      */
     public function find_by_email($email, $return_as_objects = TRUE)
     {        
-        $params = array($this->_infusionsoft_app->api_key,
-                        $email,
+        $params = array($email,
                         $this->_infusionsoft_app->fields[$this->_table]);
                     
         $contacts = $this->_infusionsoft_app->send('ContactService.findByEmail', $params);
@@ -197,8 +195,7 @@ class InfusionsoftContact extends InfusionsoftData {
             throw new InfusionException('You must load a contact before adding to a group');
         }
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id,
+        $params = array($this->Id,
                         $group_id);
                         
         $this->_infusionsoft_app->send('ContactService.addToGroup', $params);
@@ -218,8 +215,7 @@ class InfusionsoftContact extends InfusionsoftData {
             throw new InfusionException('You must load a contact before removing it from a group');
         }
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->Id,
+        $params = array($this->Id,
                         $group_id);
                         
         $this->_infusionsoft_app->send('ContactService.removeFromGroup', $params);
@@ -235,8 +231,7 @@ class InfusionsoftContact extends InfusionsoftData {
     {
         if ($this->Id)
         {
-            $params = array($this->_infusionsoft_app->api_key,
-                            $this->Id,
+            $params = array($this->Id,
                             $this->fields());
             return $this->_infusionsoft_app->send('ContactService.update', $params);
         }

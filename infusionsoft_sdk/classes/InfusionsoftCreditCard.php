@@ -80,8 +80,7 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
         
         if ($this->validate($card_data))
         {
-            $params = array($this->_infusionsoft_app->api_key,
-                            $this->_table,
+            $params = array($this->_table,
                             $card_data);
                         
             $this->Id = $this->_infusionsoft_app->send('DataService.add', $params);
@@ -107,8 +106,7 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
             throw new InfusionException('You must first supply or load a card before validating it');
         }
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $card);
+        $params = array($card);
                         
         $status = $this->_infusionsoft_app->send('InvoiceService.validateCreditCard', $params);
         
@@ -146,8 +144,7 @@ class InfusionsoftCreditCard extends InfusionsoftBaseDataObject {
             $last_4 = $card_number;
         }
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->_contact->Id,
+        $params = array($this->_contact->Id,
                         strval($last_4));
                         
         $card = $this->_infusionsoft_app->send('InvoiceService.locateExistingCard', $params);

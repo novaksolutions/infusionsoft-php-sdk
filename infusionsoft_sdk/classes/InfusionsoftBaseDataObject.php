@@ -47,8 +47,7 @@ class InfusionsoftBaseDataObject {
             throw InfusionsoftException('Id value must be numeric');
         }
         
-        $params = array($this->_infusionsoft_app->api_key,
-                        $this->_table,
+        $params = array($this->_table,
                         intval($id),
                         $GLOBALS['InfusionsoftApp']->fields[$this->_table]);
                     

@@ -65,7 +65,7 @@ class InfusionsoftApp {
 	 */
 	public function send($method, $args)
 	{		
-		
+		$args = array_unshift($args, $this->api_key);
 		$call = new xmlrpcmsg($method, array_map('php_xmlrpc_encode', $args));
 		if($GLOBALS['infusionsoft_debug']){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');
