@@ -18,18 +18,5 @@ class InfusionsoftBaseDAO{
     	}	
     	return $fields;
     }
-    
-    protected function _returnResults($records){    	      
-        if (!$records){
-            return array();
-        }        
         
-        $return_records = array();                           
-        foreach ($records as $record){
-        	$objectName = $this->_objectName;
-            $return_records[] = new $objectName($record);
-        }        
-        
-        return $return_records; 	
-    }
 }
