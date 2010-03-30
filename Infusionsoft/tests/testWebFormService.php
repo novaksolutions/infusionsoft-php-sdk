@@ -7,7 +7,7 @@ foreach($webforms as $webformId=>$webformName){
 	?>
 	<h1>Webform: <?php echo $webformId . '-' . $webformName; ?></h1>	
 	<?php
-	echo Infusionsoft_WebFormService::getHtml(Infusionsoft_AppPool::getApp(), $webformId);
+	echo Infusionsoft_WebFormService::getHTML($webformId, Infusionsoft_AppPool::getApp());
 	?><hr><?php  	
 }
 ?>
