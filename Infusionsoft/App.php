@@ -36,7 +36,7 @@ class Infusionsoft_App{
 		$call = new xmlrpcmsg($method, array_map('php_xmlrpc_encode', $args));
 		if($this->debug){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');
-		//if($this->debug) var_dump($req);		
+		if($this->debug) var_dump($req);		
 		if ($req->faultCode()){
 			$exception = new Infusionsoft_Exception($req->faultString(), $method, $args); 
 			$this->addException($exception);			

@@ -1,8 +1,13 @@
 <?php
 class Infusionsoft_Generated_TicketType extends Infusionsoft_Generated_Base{
-    protected static $table_fields = array('Id', 'CategoryId', 'Label');
+    protected static $tableFields = array('Id', 'CategoryId', 'Label');
     
-    public function __construct(){
-    	$this->table = 'TicketType';
+    
+    public function __construct($id = null, $app = null){    	    	
+    	parent::__construct('TicketType', $id, $app);    	    	
     }
+    
+    public function getFields(){
+		return self::$tableFields;	
+	}
 }

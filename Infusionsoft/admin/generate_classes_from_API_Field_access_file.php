@@ -59,16 +59,24 @@ class StubGenerator{
 	}
 }
 
-$filePath = dirname(__FILE__) . '/misc/API_Field_Access.xml';
+$filePath = dirname(__FILE__) . '/API_Field_Access.xml';
 $fields = new DataServiceTableFields();
 $fields->parseApiFieldAccessXML($filePath);
+
+$tables = array();
+
 foreach($fields->fields as $table=>$fields){
 	$stubGenerator = new StubGenerator($table, $fields);
-	$stubGenerator->write(dirname(__FILE__) . '/generated/a_template_base_class.php', dirname(__FILE__) . '/generated/' . $table . '.php');
+	$stubGenerator->write(dirname(dirname(__FILE__)) . '/generated/a_template_base_class.php', dirname(dirname(__FILE__)) . '/generated/' . $table . '.php');
 
 	$stubGenerator = new StubGenerator($table, array());
-	if(!file_exists(dirname(__FILE__) . '/' . $table . '.php')){
-		$stubGenerator->write(dirname(__FILE__) . '/generated/a_template_class.php', dirname(__FILE__) . '/' . $table . '.php');
-	}
+	//if(!file_exists(dirname(__FILE__) . '/' . $table . '.php')){
+		$stubGenerator->write(dirname(dirname(__FILE__)) . '/generated/a_template_class.php', dirname(dirname(__FILE__)) . '/' . $table . '.php');
+	//}
+	
+	$tables[] = $table;
 }
 
+$handle = fopen(dirname(dirname(__FILE__)) . "/examples/object_editor_all_tables.php", "w");
+fwrite($handle, "<?php \$all_tables = " . var_export($tables, true) . ";");
+fclose($handle);

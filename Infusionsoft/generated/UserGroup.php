@@ -1,8 +1,13 @@
 <?php
 class Infusionsoft_Generated_UserGroup extends Infusionsoft_Generated_Base{
-    protected static $table_fields = array('Id', 'Name', 'OwnerId');
+    protected static $tableFields = array('Id', 'Name', 'OwnerId');
     
-    public function __construct(){
-    	$this->table = 'UserGroup';
+    
+    public function __construct($id = null, $app = null){    	    	
+    	parent::__construct('UserGroup', $id, $app);    	    	
     }
+    
+    public function getFields(){
+		return self::$tableFields;	
+	}
 }

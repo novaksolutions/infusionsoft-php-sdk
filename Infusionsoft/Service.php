@@ -13,7 +13,7 @@ class Infusionsoft_Service{
 		return $out;
 	}
 	
-	protected static function _returnResults($className, $app, $records){    	      
+	protected static function _returnResults($className, $appHostName, $records){    	      
         if (!$records){
             return array();
         }        
@@ -22,10 +22,15 @@ class Infusionsoft_Service{
         foreach ($records as $record){        	
         	$object = new $className();        	
             $object->loadFromArray($record);
-            $object->setAppKey($app);
+            $object->setAppPoolAppKey($appHostName);
             $return_records[] = $object;             
         }        
         
         return $return_records; 	
+    }
+    
+    protected static function getDefaultAppIfNull($app){
+    	if($app == null) $app = Infusionsoft_AppPool::getApp();
+    	return $app;
     }
 }

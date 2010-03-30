@@ -1,8 +1,13 @@
 <?php
 class Infusionsoft_Generated_GroupAssign extends Infusionsoft_Generated_Base{
-    protected static $table_fields = array('Id', 'UserId', 'GroupId', 'Admin');
+    protected static $tableFields = array('Id', 'UserId', 'GroupId', 'Admin');
     
-    public function __construct(){
-    	$this->table = 'GroupAssign';
+    
+    public function __construct($id = null, $app = null){    	    	
+    	parent::__construct('GroupAssign', $id, $app);    	    	
     }
+    
+    public function getFields(){
+		return self::$tableFields;	
+	}
 }

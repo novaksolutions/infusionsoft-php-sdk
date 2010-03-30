@@ -1,8 +1,13 @@
 <?php
 class Infusionsoft_Generated_Template extends Infusionsoft_Generated_Base{
-    protected static $table_fields = array('Id', 'PieceType', 'PieceTitle', 'Categories');
+    protected static $tableFields = array('Id', 'PieceType', 'PieceTitle', 'Categories');
     
-    public function __construct(){
-    	$this->table = 'Template';
+    
+    public function __construct($id = null, $app = null){    	    	
+    	parent::__construct('Template', $id, $app);    	    	
     }
+    
+    public function getFields(){
+		return self::$tableFields;	
+	}
 }

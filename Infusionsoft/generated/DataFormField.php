@@ -1,8 +1,13 @@
 <?php
 class Infusionsoft_Generated_DataFormField extends Infusionsoft_Generated_Base{
-    protected static $table_fields = array('DataType', 'Id', 'FormId', 'GroupId', 'Label', 'DefaultValue', 'Values', 'ListRows', 'UserGroup');
+    protected static $tableFields = array('DataType', 'Id', 'FormId', 'GroupId', 'Label', 'DefaultValue', 'Values', 'ListRows', 'UserGroup');
     
-    public function __construct(){
-    	$this->table = 'DataFormField';
+    
+    public function __construct($id = null, $app = null){    	    	
+    	parent::__construct('DataFormField', $id, $app);    	    	
     }
+    
+    public function getFields(){
+		return self::$tableFields;	
+	}
 }
