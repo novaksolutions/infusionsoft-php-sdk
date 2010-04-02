@@ -17,7 +17,7 @@ class Infusionsoft_Generated_Base{
 		return $this->table;
 	}	
 
-	public function load($id, $app){
+	public function load($id, $app = null){
 		Infusionsoft_DataService::load($this, $id, $app);
     	if($this->Id == ''){
     		throw new Infusionsoft_Exception("Could not load " . $this->table . " with id " . $id);
@@ -25,7 +25,11 @@ class Infusionsoft_Generated_Base{
 	}
 	
 	public function save($app = null){
-		Infusionsoft_DataService::save($this, $app);		
+		return Infusionsoft_DataService::save($this, $app);		
+	}
+
+	public function delete($app = null){
+		Infusionsoft_DataService::delete($this, $app);
 	}
 	
 	public function loadFromArray($data){

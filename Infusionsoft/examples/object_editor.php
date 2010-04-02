@@ -1,5 +1,5 @@
 <?php
-	include('../include_me.php');
+	include('../infusionsoft.php');
 	include('object_editor_all_tables.php');
 	if($_GET['object'] == ''){
 		renderLoadForm(); 
