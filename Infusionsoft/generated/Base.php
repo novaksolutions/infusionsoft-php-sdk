@@ -6,8 +6,7 @@ class Infusionsoft_Generated_Base{
 	protected $appPoolAppKey = null;
 	
 	public function __construct($table, $id = null, $app = null){
-		$this->table = $table;
-			   	
+		$this->table = $table;			   	
     	if($id != null){
     		$this->load($id, $app);	
     	}	
@@ -18,8 +17,9 @@ class Infusionsoft_Generated_Base{
 	}	
 
 	public function load($id, $app = null){
-		Infusionsoft_DataService::load($this, $id, $app);
-    	if($this->Id == ''){
+		$object = Infusionsoft_DataService::load($this, $id, $app);
+		$this->loadFromObject($object);		
+    	if($this->Id == ''){    		    		
     		throw new Infusionsoft_Exception("Could not load " . $this->table . " with id " . $id);
     	}	
 	}
@@ -32,10 +32,10 @@ class Infusionsoft_Generated_Base{
 		Infusionsoft_DataService::delete($this, $app);
 	}
 	
-	public function loadFromArray($data){
+	public function loadFromArray($data){		
 		foreach ($this->getFields() as $field){
 			$this->$field = NULL;
-			if ($data && is_array($data) && isset($data[$field])){
+			if ($data && is_array($data) && isset($data[$field])){								
 				$this->$field = $data[$field];					
 			}
 		}
@@ -66,8 +66,9 @@ class Infusionsoft_Generated_Base{
 	}
 	
 	public function __get($name){
+		
 		if($this->isValidField($name)){
-			if(isset($this->data[$name])){				
+			if(isset($this->data[$name])){							
 				return $this->data[$name];
 			}
 			else{
@@ -75,7 +76,7 @@ class Infusionsoft_Generated_Base{
 			}
 		}
 		else{
-			throw new Exception("Invalid Field Name: " + $name);
+			throw new Infusionsoft_Exception("Invalid Field Name: " + $name);
 			return '';
 		}
 	}

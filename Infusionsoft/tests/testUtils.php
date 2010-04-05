@@ -29,7 +29,7 @@ function didItWorkNonEmptyArray($out){
 }
 
 function didItWorkObject($out){
-	if(is_array($out) && count($out) > 0){
+	if(is_object($out) && $out->Id != ''){
 		echo 'It Works!';
 	}
 	else{

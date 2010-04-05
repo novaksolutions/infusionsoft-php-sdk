@@ -10,4 +10,8 @@ class Infusionsoft_Generated_ProductInterestBundle extends Infusionsoft_Generate
     public function getFields(){
 		return self::$tableFields;	
 	}
+	
+	public function addCustomField($name){
+		self::$tableFields[] = $name;
+	}
 }

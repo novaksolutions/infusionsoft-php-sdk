@@ -10,4 +10,8 @@ class Infusionsoft_Generated_<?php echo $this->table; ?> extends Infusionsoft_Ge
     public function getFields(){
 		return self::$tableFields;	
 	}
+	
+	public function addCustomField($name){
+		self::$tableFields[] = $name;
+	}
 }

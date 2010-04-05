@@ -92,7 +92,7 @@ class Infusionsoft_DataService extends Infusionsoft_Service{
 		if(!$returnFields){	
 			$returnFields = $object->getFields();
 		}						
-		
+				
 		$params = array(
 			$object->getTable(),
 			(int) $id,
@@ -100,7 +100,7 @@ class Infusionsoft_DataService extends Infusionsoft_Service{
 		);
 
 		$records = $app->send('DataService.load', $params);		
-		return self::_returnResults(get_class($object), $app->getHostName(), $records);
+		return self::_returnResult(get_class($object), $app->getHostName(), $records);
 	}
 	
 	public static function query($object, $queryData, $limit = 1000, $page = 0, $returnFields = false, Infisionsoft_App $app = null){

@@ -10,4 +10,8 @@ class Infusionsoft_Generated_Product extends Infusionsoft_Generated_Base{
     public function getFields(){
 		return self::$tableFields;	
 	}
+	
+	public function addCustomField($name){
+		self::$tableFields[] = $name;
+	}
 }

@@ -10,4 +10,8 @@ class Infusionsoft_Generated_Contact extends Infusionsoft_Generated_Base{
     public function getFields(){
 		return self::$tableFields;	
 	}
+	
+	public function addCustomField($fieldName){
+		array_push(self::$tableFields, $fieldName);
+	}
 }

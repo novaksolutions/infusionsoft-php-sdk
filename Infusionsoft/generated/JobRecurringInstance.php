@@ -10,4 +10,8 @@ class Infusionsoft_Generated_JobRecurringInstance extends Infusionsoft_Generated
     public function getFields(){
 		return self::$tableFields;	
 	}
+	
+	public function addCustomField($name){
+		self::$tableFields[] = $name;
+	}
 }
