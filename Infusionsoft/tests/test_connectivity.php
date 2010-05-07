@@ -1,6 +1,6 @@
 <?php
 include("../infusionsoft.php");
-include("useSessionAppInfoIfPresent.php");
+include('testUtils.php');
 
 ?>
 Testing Hostname with API Ping.

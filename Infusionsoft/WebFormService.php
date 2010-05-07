@@ -5,7 +5,7 @@ class Infusionsoft_WebFormService extends Infusionsoft_Service{
 	}
 	
 	public static function getMap(Infusionsoft_App $app = null){
-		$app = parent::getDefaultAppIfNull($app);
+		$app = parent::getAppIfNull($app);
 		return $app->send("WebFormService.getMap", array());
 	}
 	

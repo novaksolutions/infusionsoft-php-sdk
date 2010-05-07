@@ -1,7 +1,7 @@
 <?php
 class Infusionsoft_DataService extends Infusionsoft_Service{
-	public static function ping(Infusionsoft_App $app){
-		return parent::ping($app, 'DataService');						
+	public static function ping(Infusionsoft_App $app = null){
+		return parent::ping('DataService', $app);						
 	}
 	
 	public static function addCustomField(Infusionsoft_Generated_Base &$object, $displayName, $dataType, $groupId, $id, Infusionsoft_App $app = null){

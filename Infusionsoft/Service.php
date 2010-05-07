@@ -2,7 +2,7 @@
 class Infusionsoft_Service{
 	
 	public static function ping($serviceName, Infusionsoft_App $app = null){	
-		$app = self::getDefaultAppIfNull($app);	
+		$app = self::getAppIfNull($app);	
 		$out = false;
 		try{
 			$result = $app->sendWithoutAddingKey( $serviceName . '.echo', array('Hello World'), false);
