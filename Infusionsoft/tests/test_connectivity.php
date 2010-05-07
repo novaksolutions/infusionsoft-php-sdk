@@ -1,8 +1,11 @@
-Testing Hostname with API Ping.
-<br />
 <?php
 include("../infusionsoft.php");
 include("useSessionAppInfoIfPresent.php");
+
+?>
+Testing Hostname with API Ping.
+<br />
+<?php 
 if(Infusionsoft_DataService::ping(Infusionsoft_AppPool::getApp())){
 	?>
 &nbsp;&nbsp;Ping Succeeded!!<br/><br/>Testing your API Key: by calling WebFormService.getMap. <br/>
