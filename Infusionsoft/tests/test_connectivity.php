@@ -1,7 +1,7 @@
 Testing Hostname with API Ping.
 <br />
 <?php
-include("../infusionsoft.php");
+include("../Infusionsoft.php");
 include("useSessionAppInfoIfPresent.php");
 if(Infusionsoft_DataService::ping(Infusionsoft_AppPool::getApp())){
 	?>

@@ -3,7 +3,7 @@
 	<input type="submit"/>
 </form><br/>
 <?php
-include('../infusionsoft.php');
+include('../Infusionsoft.php');
 if(isset($_REQUEST['ContactId'])){
 	Infusionsoft_Contact::addCustomField('_LeadScore');
 	

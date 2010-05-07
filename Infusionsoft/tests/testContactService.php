@@ -1,5 +1,5 @@
 <?php
-include('../infusionsoft.php');
+include('../Infusionsoft.php');
 include('testUtils.php');
 ?>
 <h1>Testing Save With New Contact</h1>

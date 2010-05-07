@@ -6,7 +6,7 @@
 		</form>
 			
 	<?php
-		include('../infusionsoft.php');
+		include('../Infusionsoft.php');
 		
 		if(isset($_POST['ContactId'])){			
 			$invoices = getInvoicesForContact($_POST['ContactId']);
