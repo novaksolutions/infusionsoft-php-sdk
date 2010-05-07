@@ -1,4 +1,6 @@
 <?php
+include("useSessionAppInfoIfPresent.php");
+
 function didItWorkNotEmpty($out){
 	if($out != ''){
 		echo 'It Works!';

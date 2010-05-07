@@ -17,10 +17,9 @@ class Infusionsoft_AppPool{
 		}
 	}
 	
-	public static function addApp($app, $appHostname = null){
-		if(count(self::$apps) == 0) self::$apps['default'] = $app;
-		$appKey = $appHostname;
-		if($appHostname == null){
+	public static function addApp($app, $appKey = null){
+		if(count(self::$apps) == 0) self::$apps['default'] = $app;		
+		if($appKey == null){
 			$appKey = $app->getHostname();
 		}
 		self::$apps[$appKey] = $app;

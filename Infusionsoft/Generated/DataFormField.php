@@ -1,6 +1,6 @@
 <?php
 class Infusionsoft_Generated_DataFormField extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('DataType', 'Id', 'FormId', 'GroupId', 'Label', 'DefaultValue', 'Values', 'ListRows', 'UserGroup');
+    protected static $tableFields = array('DataType', 'Id', 'FormId', 'GroupId', 'Name', 'Label', 'DefaultValue', 'Values', 'ListRows', 'UserGroup');
     
     
     public function __construct($id = null, $app = null){    	    	

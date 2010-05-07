@@ -1,3 +1,6 @@
+<html>
+<body>
+	
 <?php
 class DataServiceTableFields {
 	public $fields = array();
@@ -69,10 +72,11 @@ foreach($fields->fields as $table=>$fields){
 	$stubGenerator = new StubGenerator($table, $fields);
 	$stubGenerator->write(dirname(dirname(__FILE__)) . '/generated/a_template_base_class.php', dirname(dirname(__FILE__)) . '/generated/' . $table . '.php');
 
-	$stubGenerator = new StubGenerator($table, array());
-	//if(!file_exists(dirname(__FILE__) . '/' . $table . '.php')){
+	
+	if(!file_exists(dirname(dirname(__FILE__)) . '/' . $table . '.php') || isset($_GET['overwriteUserEditable'])){
+		$stubGenerator = new StubGenerator($table, array());
 		$stubGenerator->write(dirname(dirname(__FILE__)) . '/generated/a_template_class.php', dirname(dirname(__FILE__)) . '/' . $table . '.php');
-	//}
+	}
 	
 	$tables[] = $table;
 }
@@ -80,3 +84,13 @@ foreach($fields->fields as $table=>$fields){
 $handle = fopen(dirname(dirname(__FILE__)) . "/examples/object_editor_all_tables.php", "w");
 fwrite($handle, "<?php \$all_tables = " . var_export($tables, true) . ";");
 fclose($handle);
+
+?>
+
+<a href="?overwriteUserEditable" onClick="return confirm('Are you sure you want to overwrite your changes to the Infusionsoft Data Classes?\n\nThis will ERASE ANY changes you\'ve made to the generated classes, and their user editable counterparts.');">Overwrite User Editable Classes (THIS IS FOR SDK DEVELOPERS ONLY!)</a>
+	<br/>
+	<br/>
+	
+	
+</body>
+</html>
