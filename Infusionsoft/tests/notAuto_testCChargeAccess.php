@@ -1,5 +1,5 @@
 <?php
-include('../Infusionsoft.php');
+include('../infusionsoft.php');
 include('testUtils.php');
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-include("../Infusionsoft.php");
+include("../infusionsoft.php");
 
 $webforms = Infusionsoft_WebFormService::getMap(Infusionsoft_AppPool::getApp());
 
