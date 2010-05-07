@@ -1,8 +1,8 @@
-<html>
-<body>
-
 <?php
 session_start();
+?><html>
+<body>
+<?php
 if(isset($_POST['appHostName'])){
 	$_SESSION['appHostName'] = $_POST['appHostName'];
 	$_SESSION['appPort'] = $_POST['appPort'];
