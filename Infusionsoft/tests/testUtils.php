@@ -1,5 +1,5 @@
 <?php
-include("useSessionAppInfoIfPresent.php");
+require_once("useSessionAppInfoIfPresent.php");
 
 function didItWorkNotEmpty($out){
 	if($out != ''){

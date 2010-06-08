@@ -6,7 +6,7 @@ include('testUtils.php');
 Testing Hostname with API Ping.
 <br />
 <?php 
-if(Infusionsoft_DataService::ping(Infusionsoft_AppPool::getApp())){
+if(Infusionsoft_DataService::ping()){
 	?>
 &nbsp;&nbsp;Ping Succeeded!!<br/><br/>Testing your API Key: by calling WebFormService.getMap. <br/>
 	<?php
