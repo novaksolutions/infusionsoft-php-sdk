@@ -3,6 +3,7 @@ class InfusionsoftApp {
 	
 	public $app_name;
 	public $api_key;
+	public $url;
 	public $fields;
 	
 	public function __construct($host = '', $api_key = '', $merchant_acct = False){		

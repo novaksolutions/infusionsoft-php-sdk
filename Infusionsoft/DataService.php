@@ -1,5 +1,5 @@
 <?php
-class Infusionsoft_DataService extends Infusionsoft_Service{
+class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 	public static function ping(Infusionsoft_App $app = null){
 		return parent::ping('DataService', $app);						
 	}
@@ -60,7 +60,7 @@ class Infusionsoft_DataService extends Infusionsoft_Service{
 
 		return $out;	
 	}
-	
+		
 	public static function getAppSetting($moduleName, $settingName, Infusionsoft_App $app = null){	
 		$app = parent::getObjectOrDefaultAppIfNull($app);					
 		
@@ -148,8 +148,7 @@ class Infusionsoft_DataService extends Infusionsoft_Service{
 	}		
 	
 	public static function save(Infusionsoft_Generated_Base &$object, Infusionsoft_App $app = null){		
-		$app = parent::getObjectOrDefaultAppIfNull($app, $object);			
-		
+		$app = parent::getObjectOrDefaultAppIfNull($app, $object);					
 		$out = 0;
 
 		if ($object->isEmpty()){

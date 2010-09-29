@@ -2,7 +2,7 @@
 class Infusionsoft_Service{
 	
 	public static function ping($serviceName, Infusionsoft_App $app = null){	
-		$app = self::getAppIfNull($app);	
+		$app = self::getObjectOrDefaultAppIfNull($app);	
 		$out = false;
 		try{
 			$result = $app->sendWithoutAddingKey( $serviceName . '.echo', array('Hello World'), false);
@@ -44,8 +44,8 @@ class Infusionsoft_Service{
     
     protected static function getObjectOrDefaultAppIfNull(Infusionsoft_App $app = null, Infusionsoft_Generated_Base $object = null){
     	//If an app is explicitly set, skip this...
-    	if($app == null){
-    		//If the object has an app key, return it's app
+    	if($app == null){			    		
+    		//If the object has an app key, return it's app       				    		
 	    	if($object != null && $object->getAppPoolAppKey() != null){			
 				$app = Infusionsoft_AppPool::getApp($object->getAppPoolAppKey());
 			}
@@ -53,14 +53,12 @@ class Infusionsoft_Service{
 			else{
 	    		$app = Infusionsoft_AppPool::getApp();
 			}	
-    	}
+    	}    	
     	return $app;
     }
     
-	protected static function getAppIfNull(Infusionsoft_App $app = null){
-    	if($app == null){
-    		$app = Infusionsoft_AppPool::getApp();	
-    	}
-    	return $app;
+    protected static function send($app, $method, $params, $object = null){
+    	$app = self::getObjectOrDefaultAppIfNull($app, $object);
+    	return $app->send($method, $params);
     }
 }

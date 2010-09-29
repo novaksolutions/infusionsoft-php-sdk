@@ -5,7 +5,8 @@
 <body>
 <h1>Installation</h1>
 <p>Copy the config.sample.php file to config.php and set your APIKey and App Hostname, this needs to be your complete app hostname, i.e.  joey.infusionsoft.com</p>
-<p>Test your settings by clicking on this link: <a href="tests/test_connectivity.php">Test Connectivity</a></p>
+
+<p>Test your settings by clicking on this link: <a href="tests/testConnectivity.php">Test Connectivity</a></p>
 
 <h1>WARNINGS</h1>
 <ul>
@@ -20,22 +21,30 @@
 </ul>
 <h1>Admin Utilities</h1>
 <ul>
+<li>Utilities
+	<ul>
+		<li><a href="tests/qa_tests.php" target="_blank">Set App Info For Tests</a></li>
+	</ul>
+</li>
+
 <li>Automatic Tests
 	<ul>		
 		<li><a href="tests/testContactService.php">Test ContactService</a></li>
 		<li><a href="tests/testDataService.php">Test DataService</a></li>
 		<li><a href="tests/testWebFormService.php">Test WebFormService</a></li>
+		<li><a href="tests/testConnectivity.php">Test Connectivity</a></li>
 	</ul>
 </li>
 
+
 <li>Tests That Require User Input
-    
+	<ul>		
+		<li><a href="tests/notAuto_test_getEmailTemplate.php">Explore Templates</a></li>
+		<li><a href="tests/notAuto_testCChargeAccess.php">Test CCharge Access</a></li>
+	</ul>    
 </li>
-<li>Utilities
-	<ul>
-		<li><a href="qa_tests.php" target="_blank">Test Setup Utility</a></li>
-	</ul>
-</li>
+
+
 <li>
 	<a href="admin/generate_classes_from_API_Field_access_file.php">Generate DataServiceObjects from API_Field_Access.xml</a></li>
 </ul>

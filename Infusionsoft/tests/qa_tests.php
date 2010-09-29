@@ -6,7 +6,7 @@ session_start();
 if(isset($_POST['appHostName'])){
 	$_SESSION['appHostName'] = $_POST['appHostName'];
 	$_SESSION['appPort'] = $_POST['appPort'];
-	$_SESSION['appKey'] = $_POST['appHost'];
+	$_SESSION['appKey'] = $_POST['appKey'];
 	echo 'App Session Info Set.';
 }
 
@@ -32,7 +32,7 @@ if(isset($_POST['clearsession'])){
 
 <tr>
 <td>App Key:</td>
-<td><input size="50" type="text" name="appHost" value="<?php if(isset($_SESSION['appKey'])) echo $_SESSION['appKey'];?>"></td>
+<td><input size="50" type="text" name="appKey" value="<?php if(isset($_SESSION['appKey'])) echo $_SESSION['appKey'];?>"></td>
 </tr>
 </table>
 
@@ -46,12 +46,15 @@ Clear App Info From Session So Tests Use the config.php file.<br/>
 </form>
 
 <br/>
-<h1>Tests</h1>
-<ul>
-	<li>
-		<a href="tests/notAuto_testCChargeAccess.php">Test CCharge Table</a>
-	</li>
-</ul>
+
+<?php 
+	
+	if(isset($_SESSION['appPort'])){
+		?><h1>Connectivity Test</h1><?php 
+		include('testConnectivity.php');
+	}
+?>
+<a href="../index.html">&lt;- Back</a>
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require('Classloader.php');
+require_once('Classloader.php');
 require_once('xmlrpc.inc');
 
 $classLoader = new Infusionsoft_Classloader();

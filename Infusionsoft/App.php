@@ -23,6 +23,10 @@ class Infusionsoft_App{
 
 	public function getHostname(){
 		return $this->hostname;
+	}
+
+	public function getPort(){
+		return $this->port;
 	}		
 
 	public function getExceptions(){
@@ -34,6 +38,7 @@ class Infusionsoft_App{
 
 	public function sendWithoutAddingKey($method, $args){
 		$call = new xmlrpcmsg($method, array_map('php_xmlrpc_encode', $args));
+		if($this->debug) var_dump(array_map('php_xmlrpc_encode', $args));
 		if($this->debug){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');
 		if($this->debug) var_dump($req);		

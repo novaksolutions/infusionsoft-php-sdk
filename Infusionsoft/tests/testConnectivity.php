@@ -1,9 +1,9 @@
 <?php
 include("../infusionsoft.php");
 include('testUtils.php');
-
+$app = Infusionsoft_AppPool::getApp();
 ?>
-Testing Hostname with API Ping.
+Testing Host <?php echo $app->getHostname() . ':' . $app->getPort();?> with API Ping.
 <br />
 <?php 
 if(Infusionsoft_DataService::ping()){

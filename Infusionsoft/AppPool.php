@@ -6,9 +6,9 @@ class Infusionsoft_AppPool{
 			
 	}
 	
-	public static function getApp($appHostname = ''){
+	public static function getApp($appHostname = ''){		
 		$appKey = strtolower($appHostname);
-		if($appKey == '') $appKey = 'default';		
+		if($appKey == '') $appKey = 'default';				
 		if(array_key_exists($appKey, self::$apps)){
 			return self::$apps[$appKey];	
 		}		
@@ -17,11 +17,13 @@ class Infusionsoft_AppPool{
 		}
 	}
 	
-	public static function addApp($app, $appKey = null){
-		if(count(self::$apps) == 0) self::$apps['default'] = $app;		
+	public static function addApp($app, $appKey = null){		
+		if(count(self::$apps) == 0){
+			self::$apps['default'] = $app;				
+		}		
 		if($appKey == null){
 			$appKey = $app->getHostname();
-		}
-		self::$apps[$appKey] = $app;
+		}		
+		self::$apps[$appKey] = $app;		
 	}
 }

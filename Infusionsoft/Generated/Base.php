@@ -6,10 +6,10 @@ class Infusionsoft_Generated_Base{
 	protected $appPoolAppKey = null;
 	
 	public function __construct($table, $id = null, $app = null){
-		$this->table = $table;			   	
+		$this->table = $table;					   	
     	if($id != null){
     		$this->load($id, $app);	
-    	}	
+    	}	    	
 	}
 	
 	public function getTable(){
@@ -18,7 +18,7 @@ class Infusionsoft_Generated_Base{
 
 	public function load($id, $app = null){
 		$object = Infusionsoft_DataService::load($this, $id, $app);
-		$this->loadFromObject($object);		
+		$this->loadFromObject($object);			
     	if($this->Id == ''){    		    		
     		throw new Infusionsoft_Exception("Could not load " . $this->table . " with id " . $id);
     	}	

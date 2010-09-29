@@ -1,299 +1,255 @@
+
 <?php
-class Infusionsoft_ContactService extends Infusionsoft_Service{
-	
-	/*
-	 * Using This method will fire off the Contact API Add Action
-	 */
-	protected static function add(Infusionsoft_Contact &$contact, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);
-		
-		$params = array(
-			$contact->toArray()
-		);
+class Infusionsoft_ContactService extends Infusionsoft_ContactServiceBase{
 
-		$contactId = $app->send('ContactService.add', $params);
-		
-		if($contactId > 0){
-			$contact->Id = $contactId;
-		}
-		
-		return $contactId;		
-	}
-	
-	public static function addToCampaign(Infusionsoft_Contact &$contact, $campaignId, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);
-		
-		if(!($contact->Id > 0)){
-			throw new Infusionsoft_Exception("Cannot add an unsaved contact to a group.");
-		}
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $campaignId
-		);
+    public static function add($data, Infusionsoft_App $app = null){
+        $params = array(
+            $data
+        );
 
-		$success = $app->send('ContactService.addToCampaign', $params);
-		return $success;		
-	}
-	
-	public static function addToGroup(Infusionsoft_Contact &$contact, $groupId, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);
-		
-		if(!($contact->Id > 0)){
-			throw new Infusionsoft_Exception("Cannot add an unsaved contact to a group.");
-		}
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $groupId
-		);
+        return parent::send($app, "ContactService.add", $params);
+    }
+    
+    public static function load($id, $selectedFields, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $id, 
+            $selectedFields
+        );
 
-		$success = $app->send('ContactService.add', $params);
-		return $success;		
-	}
-	
-	public static function findByEmail($emailAddress, $returnFields = false, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app);
-		
-		if(!$returnFields){	
-			$contact = new Infusionsoft_Contact();
-			$returnFields = $contact->getFields();
-		}						
-		
-		$params = array(			
-			$emailAddress,
-			$returnFields
-		);
+        return parent::send($app, "ContactService.load", $params);
+    }
+    
+    public static function merge($contactId, $duplicateContactId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $duplicateContactId
+        );
 
-		$records = $app->send('ContactService.findByEmail', $params);		
-		return self::_returnResults('Infusionsoft_Contact', $app->getHostName(), $records);
-	}
-	
-	/*
-	public static function linkContact(Infusionsoft_Contact &$contact, $remoteApp, Infusionsoft_Contact &$remoteContact, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);
-		
-		if(!($contact->Id > 0)){
-			throw new Infusionsoft_Exception("Cannot link an unsaved contact.");
-		}
-		
-		$params = array(
-			$remoteApp,
-			(int) $contact->Id,
-			(int) $remoteContact->Id
-		);
+        return parent::send($app, "ContactService.merge", $params);
+    }
+    
+    public static function update($contactId, $data, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            $data
+        );
 
-		$success = $app->send('ContactService.linkContact', $params);
-		return $success;		
-	} 
-	
-	public static function locateContactLink($locateMapId, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app);
-		
-		
-		
-		$params = array(
-			$remoteApp,
-			(int) $contact->Id,
-			(int) $locateMapId
-		);
+        return parent::send($app, "ContactService.update", $params);
+    }
+        
+    
+    public static function addWithDupCheck($data, $dupCheckType, Infusionsoft_App $app = null){
+        $params = array(
+            $data, 
+            $dupCheckType
+        );
 
-		$localContactId = $app->send('ContactService.markLinkUpdated', $params);
-		return $localContactId;		
-	}
-	
-	public static function markLinkUpdated($locateMapId, Infusionsoft_Contact &$remoteContact, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app, $remoteContact);		
-		
-		$params = array(			
-			(int) $locateMapId
-		);
+        return parent::send($app, "ContactService.addWithDupCheck", $params);
+    }
+    
+    public static function addToCampaign($contactId, $campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $campaignId
+        );
 
-		$success = $app->send('ContactService.markLinkUpdated', $params);
-		return $success;		
-	} 
-	 */
-	
-	
-	
-	public static function getCampaigneeDetails(Infusionsoft_Contact &$contact, $campaignId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $campaignId
-		);
+        return parent::send($app, "ContactService.addToCampaign", $params);
+    }
+    
+    public static function addToGroup($contactId, $groupId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $groupId
+        );
 
-		$detailsAsArray = $app->send('ContactService.getCampaigneeStepDetails', $params);		
-		return $detailsAsArray;
-	}
-	
-	public static function getCampaigneeStepDetails(Infusionsoft_Contact &$contact, $stepId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $stepId
-		);
+        return parent::send($app, "ContactService.addToGroup", $params);
+    }
+    
+    public static function getAppSetting($hash, $module, $param, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $hash, 
+            $module, 
+            $param
+        );
 
-		$detailsAsArray = $app->send('ContactService.getCampaigneeStepDetails', $params);		
-		return $detailsAsArray;
-	}
-	
-	public static function getCampaignStepDetails($stepId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app);									
-		
-		$params = array(			
-			(int) $stepId
-		);
+        return parent::send($app, "ContactService.getAppSetting", $params);
+    }
+    
+    public static function getAppSettingInt($hash, $module, $param, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $hash, 
+            $module, 
+            $param
+        );
 
-		$detailsAsArray = $app->send('ContactService.getCampaignStepDetails', $params);		
-		return $detailsAsArray;
-	}
-	
-	public static function getCampaignStepOrder($stepId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app);									
-		
-		$params = array(			
-			(int) $stepId
-		);
+        return parent::send($app, "ContactService.getAppSettingInt", $params);
+    }
+    
+    public static function linkContact($remoteApp, $remoteId, $localId, Infusionsoft_App $app = null){
+        $params = array(
+            $remoteApp, 
+            (int) $remoteId, 
+            (int) $localId
+        );
 
-		$order = $app->send('ContactService.getCampaignStepOrder', $params);		
-		return $order;
-	}
-	
-	public static function getNextCampaignStep(Infusionsoft_Contact &$contact, $campaignId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $campaignId
-		);
+        return parent::send($app, "ContactService.linkContact", $params);
+    }
+    
+    public static function locateContactLink($locateMapId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $locateMapId
+        );
 
-		$success = $app->send('ContactService.getNextCampaignStep', $params);		
-		return $success;
-	}
-	
-	/*
-	 * This is identical to DataService.load, the ContactService actually calls the DataService at Infusionsoft. (See ContactService.java)
-	 */
-	public static function load(Infusionsoft_Contact &$object, $id, $returnFields = false, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $object);
-		
-		if(!$returnFields){	
-			$returnFields = $object->getFields();
-		}						
-		
-		$params = array(			
-			(int) $id,
-			$returnFields
-		);
+        return parent::send($app, "ContactService.locateContactLink", $params);
+    }
+    
+    public static function markLinkUpdated($locateMapId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $locateMapId
+        );
 
-		$records = $app->send('ContactService.load', $params);		
-		return self::_returnResults(get_class($object), $app->getHostName(), $records);
-	}
-	
-	public static function pauseCampaign(Infusionsoft_Contact &$contact, $campaignId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $campaignId
-		);
+        return parent::send($app, "ContactService.markLinkUpdated", $params);
+    }
+    
+    public static function pauseCampaign($contactId, $campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $campaignId
+        );
 
-		$success = $app->send('ContactService.pauseCampaign', $params);		
-		return $success;
-	}
-	
-	public static function removeFromCampaign(Infusionsoft_Contact &$contact, $campaignId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $campaignId
-		);
+        return parent::send($app, "ContactService.pauseCampaign", $params);
+    }
+    
+    public static function refreshApp($hash, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $hash
+        );
 
-		$success = $app->send('ContactService.removeFromCampaign', $params);		
-		return $success;
-	}
-	
-	public static function rescheduleCampaignStep($contacts, $campaignStepId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$contactIds = array();
-		foreach($contacts as $contact){
-			$contactIds[] = (int) $contact->Id;	
-		}
-		
-		
-		$params = array(
-			$contactIds,
-			$campaignStepId
-		);
+        return parent::send($app, "ContactService.refreshApp", $params);
+    }
+    
+    public static function removeFromCampaign($contactId, $campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $campaignId
+        );
 
-		$success = $app->send('ContactService.rescheduleCampaignStep', $params);		
-		return $success;
-	}
-	
-	public static function resumeCampaignForContact(Infusionsoft_Contact &$contact, $campaignId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $campaignId
-		);
+        return parent::send($app, "ContactService.removeFromCampaign", $params);
+    }
+    
+    public static function removeFromGroup($contactId, $groupId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $groupId
+        );
 
-		$success = $app->send('ContactService.resumeCampaignForContact', $params);		
-		return $success;
-	}
-	
-	public static function runActionSequence(Infusionsoft_Contact &$contact, $actionSequenceId, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $actionSequenceId
-		);
+        return parent::send($app, "ContactService.removeFromGroup", $params);
+    }
+    
+    public static function resumeCampaignForContact($contactId, $campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $campaignId
+        );
 
-		$success = $app->send('ContactService.runActionSequence', $params);		
-		return $success;
-	}
-	
-	public static function runActionSequenceWithParams(Infusionsoft_Contact &$contact, $actionSequenceId, $arrayOfParams, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			(int) $actionSequenceId,
-			$arrayOfParams
-		);
+        return parent::send($app, "ContactService.resumeCampaignForContact", $params);
+    }
+    
+    public static function runActionSequence($contactId, $actionSequenceId, $params, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $actionSequenceId, 
+            $params
+        );
 
-		$success = $app->send('ContactService.runActionSequence', $params);		
-		return $success;
-	}
+        return parent::send($app, "ContactService.runActionSequence", $params);
+    }
+    
+    public static function rescheduleCampaignStep($contactId, $campaignStepId, Infusionsoft_App $app = null){
+        $params = array(
+            $contactId, 
+            (int) $campaignStepId
+        );
 
-	public static function submitSurveyAndApplyActionSets($surveyResultId, $arrayOfActionSetIds, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app);									
-		
-		$params = array(
-			(int) $surveyResultId,
-			$arrayOfActionSetIds
-		);
+        return parent::send($app, "ContactService.rescheduleCampaignStep", $params);
+    }
+    
+    public static function getNextCampaignStep($contactId, $campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $campaignId
+        );
 
-		$success = $app->send('ContactService.submitSurveyAndApplyActionSets', $params);		
-		return $success;
-	}
-	
-	public static function update(Infusionsoft_Contact &$contact, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $contact);									
-		
-		$params = array(
-			(int) $contact->Id,
-			$contact->toArray()
-		);
+        return parent::send($app, "ContactService.getNextCampaignStep", $params);
+    }
+    
+    public static function findByEmail($email, $selectedFields, Infusionsoft_App $app = null){
+        $params = array(
+            $email, 
+            $selectedFields
+        );
 
-		$success = $app->send('ContactService.update', $params);		
-		return $success;
-	}
-	
+        return parent::send($app, "ContactService.findByEmail", $params);
+    }
+    
+    public static function submitSurveyAndApplyActionSets($surveyResultId, $actionSetIds, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $surveyResultId, 
+            $actionSetIds
+        );
+
+        return parent::send($app, "ContactService.submitSurveyAndApplyActionSets", $params);
+    }
+    
+    public static function getCampaigneeDetails($contactId, $campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $campaignId
+        );
+
+        return parent::send($app, "ContactService.getCampaigneeDetails", $params);
+    }
+    
+    public static function getCampaigneeStepDetails($contactId, $stepId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $stepId
+        );
+
+        return parent::send($app, "ContactService.getCampaigneeStepDetails", $params);
+    }
+    
+    public static function getCampaignStepDetails($stepId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $stepId
+        );
+
+        return parent::send($app, "ContactService.getCampaignStepDetails", $params);
+    }
+    
+    public static function getCampaignStepOrder($campaignId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $campaignId
+        );
+
+        return parent::send($app, "ContactService.getCampaignStepOrder", $params);
+    }
+    
+    public static function getActivityHistoryTemplateMap(Infusionsoft_App $app = null){
+        $params = array(
+        );
+
+        return parent::send($app, "ContactService.getActivityHistoryTemplateMap", $params);
+    }
+    
+    public static function applyActivityHistoryTemplate($contactId, $historyId, $userId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId, 
+            (int) $historyId, 
+            (int) $userId
+        );
+
+        return parent::send($app, "ContactService.applyActivityHistoryTemplate", $params);
+    }
+    
 }

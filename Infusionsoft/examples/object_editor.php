@@ -1,6 +1,7 @@
 <?php
 	include('../infusionsoft.php');
-	include('object_editor_all_tables.php');
+	include('object_editor_all_tables.php');	
+	include('../tests/testUtils.php');
 	if($_GET['object'] == ''){
 		renderLoadForm(); 
 	}
@@ -19,7 +20,7 @@
 		}
 		foreach($object->getFields() as $fieldName){
 			$object->$fieldName = $_POST[$fieldName];			
-		}	 
+		}	 		
 		$object->save();
 		
 		echo 'Object Saved!';
