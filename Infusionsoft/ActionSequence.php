@@ -5,3 +5,5 @@ class Infusionsoft_ActionSequence extends Infusionsoft_Generated_ActionSequence{
     }
 }
 
+
+
