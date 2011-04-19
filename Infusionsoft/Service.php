@@ -61,4 +61,19 @@ class Infusionsoft_Service{
     	$app = self::getObjectOrDefaultAppIfNull($app, $object);
     	return $app->send($method, $params);
     }
+
+    public static function apiDate($dateStr){
+        $dArray = date_parse($dateStr);
+        if ($dArray['error_count'] < 1) {
+            $tStamp =
+                    mktime($dArray['hour'], $dArray['minute'], $dArray['second'], $dArray['month'],
+                           $dArray['day'], $dArray['year']);
+            return date('Ymd\TH:i:s', $tStamp);
+        } else {
+            foreach ($dArray['errors'] as $err) {
+                echo "ERROR: " . $err . "<br />";
+            }
+            die("The above errors prevented the application from executing properly.");
+        }
+    }
 }

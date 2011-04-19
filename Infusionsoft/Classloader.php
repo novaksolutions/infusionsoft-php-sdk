@@ -3,40 +3,27 @@
 
 class Infusionsoft_Classloader{	
 	protected $paths = array();
-	protected static $allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
-	
-	static public function sanitizeClassName($className){
-		$out = '';
-		for($i=0;$i<strlen($className);$i++){
-			$character = substr($className, $i, 1);		
-			if(strpos(self::$allowedChars, $character) !== FALSE){
-				$out .= $character;
-			}
-		}			
-		return $out;
-	}
-	
-	public function __construct($path = null){
-		if($path == null){
-			//Add one directory above this file to the path.
-			$path = dirname(dirname(__FILE__)) . "/";
-		}
+
+    public function __construct(){
+        $path = dirname(dirname(__FILE__)) . "/";
 		$this->paths[] = $path;
 	}
 		
-	public function loadClass($class){
-		$class = self::sanitizeClassName($class);
-		$relativePath = str_replace('_', "/", $class) . ".php";
-		foreach($this->paths as $path){			
-			if(file_exists($path . $relativePath)){
-				include($path . $relativePath);
-				return true;
-			}				
-		}
+	public function loadClass($className){
+        if(strpos($className, "Infusionsoft_") === 0){
+            $className = preg_replace('/[^a-zA-Z0-9_]/s', '', $className);
+            $relativePath = str_replace('_', "/", $className) . ".php";
+            foreach($this->paths as $path){
+                if(file_exists($path . $relativePath)){
+                    include($path . $relativePath);
+                    return true;
+                }
+            }
+        }
 		return false;
 	}	
 		
-	public function addPath($path){
+	protected function addPath($path){
 		$paths[] = $path;
 	}
 	

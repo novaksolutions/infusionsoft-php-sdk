@@ -37,7 +37,12 @@ class Infusionsoft_App{
 	}
 
 	public function sendWithoutAddingKey($method, $args){
-		$call = new xmlrpcmsg($method, array_map('php_xmlrpc_encode', $args));
+        $encoded_arguments = array();
+        foreach($args as $argument){
+            $encoded_arguments[] = php_xmlrpc_encode($argument, array('auto_dates'));
+        }
+
+		$call = new xmlrpcmsg($method, $encoded_arguments);
 		if($this->debug) var_dump(array_map('php_xmlrpc_encode', $args));
 		if($this->debug){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');

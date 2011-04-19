@@ -30,7 +30,7 @@ class Infusionsoft_InvoiceService extends Infusionsoft_Service{
         return parent::send($app, "InvoiceService.addOrderCommissionOverride", $params);
     }
     
-    public static function addOrderItem($invoiceId, $productId, $type, $price, $quantity, $description, $notes, Infusionsoft_App $app = null){
+    public static function addOrderItem($invoiceId, $productId, $type, $price, $quantity, $description, $notes = '', Infusionsoft_App $app = null){
         $params = array(
             (int) $invoiceId, 
             (int) $productId, 
@@ -119,11 +119,11 @@ class Infusionsoft_InvoiceService extends Infusionsoft_Service{
         return parent::send($app, "InvoiceService.chargeInvoice", $params);
     }
     
-    public static function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId, Infusionsoft_App $app = null){
+    public static function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId = 0, $saleAffiliateId = 0, Infusionsoft_App $app = null){
         $params = array(
             (int) $contactId, 
             $description, 
-            $orderDate, 
+            parent::apiDate($orderDate),
             (int) $leadAffiliateId, 
             (int) $saleAffiliateId
         );

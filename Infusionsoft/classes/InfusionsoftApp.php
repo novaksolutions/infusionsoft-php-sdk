@@ -20,16 +20,20 @@ class InfusionsoftApp {
 		$this->_parse_api_field_access();
 		$this->_addCustomFields();
 	}
-		
+
+    public function addCustomFields(array $fields){
+        foreach($fields as $table=>$fields){
+            if(is_array($fields)){
+                foreach($fields as $field){
+                    $this->fields[$table][] = $field;
+                }
+            }
+        }
+    }
+    
 	private function _addCustomFields(){
 		if(is_array($GLOBALS['infusionsoft_custom_fields'])){
-			foreach($GLOBALS['infusionsoft_custom_fields'] as $table=>$fields){
-				if(is_array($fields)){
-					foreach($fields as $field){
-						$this->fields[$table][] = $field;
-					}
-				}		
-			}
+			$this->addCustomFields($GLOBALS['infusionsoft_custom_fields']);
 		}			
 	}
 	
@@ -66,11 +70,16 @@ class InfusionsoftApp {
 	 */
 	public function send($method, $args, $includeKey = true)
 	{
-    if($includeKey){
-      $args = array_unshift($args, $this->api_key);
-    }
-    
-		$call = new xmlrpcmsg($method, array_map('php_xmlrpc_encode', $args));
+        if($includeKey){
+          $args = array_unshift($args, $this->api_key);
+        }
+
+        $encoded_arguments = array();
+        foreach($args as $argument){
+            $encoded_arguments[] = php_xmlrpc_encode($argument, array('auto_dates'));
+        }
+        
+		$call = new xmlrpcmsg($method, $encoded_arguments);
 		if($GLOBALS['infusionsoft_debug']){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');
 		if($GLOBALS['infusionsoft_debug']) var_dump($req);				
