@@ -2,11 +2,11 @@
 <?php
 class Infusionsoft_InvoiceService extends Infusionsoft_Service{
 
-    public static function addManualPayment($invoiceId, $amt, $paymentDate, $paymentType, $paymentDescription, $bypassCommissions, Infusionsoft_App $app = null){
+    public static function addManualPayment($invoiceId, $amt, $paymentDate, $paymentType = 'API', $paymentDescription = '', $bypassCommissions = false, Infusionsoft_App $app = null){
         $params = array(
             (int) $invoiceId, 
             (double) $amt, 
-            $paymentDate, 
+            parent::apiDate($paymentDate),
             $paymentType, 
             $paymentDescription, 
             $bypassCommissions

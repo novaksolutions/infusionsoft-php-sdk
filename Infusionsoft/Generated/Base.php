@@ -61,7 +61,7 @@ class Infusionsoft_Generated_Base{
 			$this->data[$name] = $value;
 		}
 		else{
-			throw new Exception("Invalid Field Name: " + $name);
+			throw new Exception("Invalid Field Name: " . $name);
 		}
 	}
 	
