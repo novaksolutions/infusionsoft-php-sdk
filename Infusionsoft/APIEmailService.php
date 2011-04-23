@@ -37,6 +37,15 @@ class Infusionsoft_APIEmailService extends Infusionsoft_Service{
 
         return parent::send($app, "APIEmailService.sendEmail", $params);
     }
+
+    public static function sendTemplate(array $contactList, $templateId, Infusionsoft_App $app = null){
+        $params = array(
+            $contactList,
+            (int) $templateId
+        );
+
+        return parent::send($app, "APIEmailService.sendEmail", $params);
+    }
     
     public static function createEmailTemplate($templateTitle, $visibility, $fromAddress, $toAddress, $ccAddresses, $bccAddresses, $contentType, $subject, $htmlBody, $textBody, Infusionsoft_App $app = null){
         $params = array(
