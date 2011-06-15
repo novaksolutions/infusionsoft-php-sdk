@@ -11,6 +11,8 @@ $data->save();
 
 //Looping through
 $data = $inf->Data('Contact');
+
+
 foreach($data->query(array('LastName'=>'Test')) as $contact)
 {
 	$contact->LastName = 'Gales';
