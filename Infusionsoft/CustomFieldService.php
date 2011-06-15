@@ -49,4 +49,20 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
 
 		return $out;	
 	}
+
+    public static function getCustomField(Infusionsoft_Generated_Base $object, $name, Infusionsoft_App $app = null){
+        if(!property_exists($object, 'customFieldFormId')){
+            throw new Infusionsoft_Exception(get_class($object) . ' does not have Custom Fields.');
+        }
+
+        $dataFormField = new Infusionsoft_DataFormField();
+        if($object->getAppPoolAppKey() != null){
+            $dataFormField->setAppPoolAppKey($object->getAppPoolAppKey());
+        }
+
+        $conditions = array('FormId' => $object->customFieldFormId, 'Name' => $name);
+		$out = parent::query(new Infusionsoft_DataFormField(), $conditions);
+
+		return array_pop($out);
+	}
 }

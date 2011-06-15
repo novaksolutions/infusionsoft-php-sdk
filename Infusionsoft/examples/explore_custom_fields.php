@@ -14,3 +14,6 @@
             //$customField->save();
         }
     }
+
+    $customField = Infusionsoft_CustomFieldService::getCustomField(new Infusionsoft_Contact(), 'Test');
+    var_dump($customField);
