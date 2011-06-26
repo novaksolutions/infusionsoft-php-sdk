@@ -51,6 +51,10 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
 	}
 
     public static function getCustomField(Infusionsoft_Generated_Base $object, $name, Infusionsoft_App $app = null){
+        if(strpos($name, '_') === 0){
+            $name = substr($name, 1, strlen($name) - 1);
+        }
+        
         if(!property_exists($object, 'customFieldFormId')){
             throw new Infusionsoft_Exception(get_class($object) . ' does not have Custom Fields.');
         }

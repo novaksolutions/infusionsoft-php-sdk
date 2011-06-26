@@ -179,14 +179,6 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         return parent::send($app, "InvoiceService.validateCreditCard", $params);
     }
     
-    public static function validateCreditCard($creditCard, Infusionsoft_App $app = null){
-        $params = array(
-            $creditCard
-        );
-
-        return parent::send($app, "InvoiceService.validateCreditCard", $params);
-    }
-    
     public static function setInvoiceSyncStatus($id, $syncStatus, Infusionsoft_App $app = null){
         $params = array(
             (int) $id, 
