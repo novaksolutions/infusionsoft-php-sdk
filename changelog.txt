@@ -1,3 +1,5 @@
 0.9.4
-
 Added support for SearchService and examples.
+
+0.9.5
+Added StageMove and SavedFilter DataService objects.
