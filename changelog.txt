@@ -3,3 +3,6 @@ Added support for SearchService and examples.
 
 0.9.5
 Added StageMove and SavedFilter DataService objects.
+
+0.9.6
+Added a few new examples.
