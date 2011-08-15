@@ -6,3 +6,6 @@ Added StageMove and SavedFilter DataService objects.
 
 0.9.6
 Added a few new examples.
+
+0.9.7
+Added a search and searchWithOrderby method to the data service that allows you to easily to wildcard searches when you query tables.
