@@ -103,7 +103,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		return self::_returnResult(get_class($object), $app->getHostName(), $records);
 	}
 	
-	public static function query($object, $queryData, $limit = 1000, $page = 0, $returnFields = false, Infisionsoft_App $app = null){
+	public static function query($object, $queryData, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
 		$app = parent::getObjectOrDefaultAppIfNull($app, $object);
 		
 		if(!$returnFields){	
@@ -122,7 +122,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
 	}
 	
-	public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infisionsoft_App $app = null){
+	public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
 		$app = parent::getObjectOrDefaultAppIfNull($app, $object);
 		
 		if(!$returnFields){	
@@ -145,8 +145,27 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 
 		$records = $app->send('DataService.query', $params);		
 		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
-	}		
-	
+	}
+
+	public static function search($object, $searchData, $queryData = array(), $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
+		$app = parent::getObjectOrDefaultAppIfNull($app, $object);
+		$queryData = self::makeQueryFromSearch($searchData, $queryData);
+		return self::query($object, $queryData, $limit, $page, $returnFields, $app);
+	}
+
+	public static function searchWithOrderBy($object, $orderByField, $searchData, $queryData = array(), $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
+		$app = parent::getObjectOrDefaultAppIfNull($app, $object);
+		$queryData = self::makeQueryFromSearch($searchData, $queryData);
+		return self::queryWithOrderBy($object, $queryData, $orderByField, $limit, $page, $returnFields, $app);
+	}
+
+    private static function makeQueryFromSearch($searchData, $queryData){
+        foreach ($searchData as $key => $searchString){
+            $queryData[$key] = "%" . $searchString . "%";
+        }
+        return $queryData;
+    }
+
 	public static function save(Infusionsoft_Generated_Base &$object, Infusionsoft_App $app = null){		
 		$app = parent::getObjectOrDefaultAppIfNull($app, $object);					
 		$out = 0;

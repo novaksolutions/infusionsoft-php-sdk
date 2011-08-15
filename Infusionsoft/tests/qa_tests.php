@@ -18,6 +18,7 @@ if(isset($_POST['clearsession'])){
 }
 ?>
 <h1>Set App Info For Testing</h1>
+<p><span style="color: red">*</span>Note:  This DOES NOT update your config.php file, rather it stores this information in the session so that you can quickly run all the tests without any setup.</p>
 <form method="post">
 <table>
 <tr>
