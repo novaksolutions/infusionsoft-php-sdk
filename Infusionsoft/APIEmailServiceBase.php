@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
 

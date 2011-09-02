@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_FileServiceBase extends Infusionsoft_Service{
 

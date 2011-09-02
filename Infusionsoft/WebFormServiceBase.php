@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_WebFormServiceBase extends Infusionsoft_Service{
 

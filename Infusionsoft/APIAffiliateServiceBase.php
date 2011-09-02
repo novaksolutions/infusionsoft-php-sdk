@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_APIAffiliateServiceBase extends Infusionsoft_Service{
 

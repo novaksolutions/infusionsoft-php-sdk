@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_ContactServiceBase extends Infusionsoft_Service{
 

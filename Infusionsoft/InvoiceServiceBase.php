@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
 

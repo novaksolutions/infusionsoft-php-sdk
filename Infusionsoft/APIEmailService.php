@@ -1,4 +1,3 @@
-
 <?php
 class Infusionsoft_APIEmailService extends Infusionsoft_Service{
     public static function attachEmail($contactId, $fromName, $fromAddress, $toAddress, $ccAddresses, $bccAddresses, $contentType, $subject, $htmlBody, $textBody, $header, $receivedDate, $sentDate, $emailSentType, Infusionsoft_App $app = null){

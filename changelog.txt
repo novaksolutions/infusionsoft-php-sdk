@@ -8,4 +8,7 @@ Added StageMove and SavedFilter DataService objects.
 Added a few new examples.
 
 0.9.7
-Added a search and searchWithOrderby method to the data service that allows you to easily to wildcard searches when you query tables.
+Added a search and searchWithOrderby method to the data service that allows you to easily do wildcard searches when you query tables.
+
+0.9.8
+Corrected an issue where whitespace outside of php tags was causing the API to start header output.
