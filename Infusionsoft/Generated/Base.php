@@ -76,7 +76,7 @@ class Infusionsoft_Generated_Base{
 			}
 		}
 		else{
-			throw new Infusionsoft_Exception("Invalid Field Name: " + $name);
+			throw new Infusionsoft_Exception("Invalid Field Name: " . $name);
 			return '';
 		}
 	}
