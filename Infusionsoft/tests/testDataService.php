@@ -70,3 +70,9 @@ No Test Written Yet
 <pre>
 No Test Written Yet
 </pre>
+
+<h1>Testing getAllCustomFields</h1>
+
+<pre>
+    <?=print_r(Infusionsoft_DataService::getCustomFields(new Infusionsoft_Contact()), true)?>
+</pre>

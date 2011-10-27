@@ -202,4 +202,23 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 
 		return $out;	
 	}
+
+    public static function getCustomFields($object){
+        $tabs = Infusionsoft_DataService::query(new Infusionsoft_DataFormTab(), array('FormId' => $object->customFieldFormId));
+
+        $fields = array();
+
+        foreach($tabs as $tab){
+            $headers = Infusionsoft_DataService::query(new Infusionsoft_DataFormGroup(), array('TabId' => $tab->Id));
+            foreach($headers as $header){
+                $customFields = Infusionsoft_DataService::query(new Infusionsoft_DataFormField(), array('GroupId' => $header->Id));
+                foreach($customFields as $field){
+                    $field->Name = '_' . $field->Name;
+                    $fields[$field->Name] = array($field);
+                }
+            }
+        }
+
+        return $fields;
+    }
 }
