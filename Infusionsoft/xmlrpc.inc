@@ -2402,6 +2402,9 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			xml_set_character_data_handler($parser, 'xmlrpc_cd');
 			xml_set_default_handler($parser, 'xmlrpc_dh');
 
+            //fix for customers in-accessible data.
+            //$data = str_replace("&#11;", " ", $data);
+
 			// first error check: xml not well formed
 			if(!xml_parse($parser, $data, sizeof($data)))
 			{
@@ -2415,6 +2418,11 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					$errstr = sprintf('XML error: %s at line %d, column %d',
 						xml_error_string(xml_get_error_code($parser)),
 						xml_get_current_line_number($parser), xml_get_current_column_number($parser));
+                    try{
+                        $bad_return = fopen("bad_return.xml.php", "w");
+                        fwrite($bad_return, $data);
+                        fclose($bad_return);
+                    } catch(Exception $e){}
 				}
 				error_log($errstr);
 				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'], $GLOBALS['xmlrpcstr']['invalid_return'].' ('.$errstr.')');
