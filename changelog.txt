@@ -15,3 +15,8 @@ Corrected an issue where whitespace outside of php tags was causing the API to s
 
 0.9.9
 Added an export tool, as well as a contact tree view tool.
+
+0.9.10
+Added Invoice Items to the contact tree view tool.
+Added the JobId column to the Invoice Object
+Added the addCustomFields(...) method to the Job Object.  (Not sure why I missed it previously.)
