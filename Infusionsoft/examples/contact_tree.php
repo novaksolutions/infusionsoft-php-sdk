@@ -16,6 +16,7 @@ if (!empty($_GET['Id'])) {
         $order_items[$order->Id] = Infusionsoft_DataService::query(new Infusionsoft_OrderItem(), array('OrderId' => $order->Id));
         $invoices[$order->Id] = Infusionsoft_DataService::query(new Infusionsoft_Invoice(), array('JobId' => $order->Id));
         if (is_array($invoices[$order->Id]) && count($invoices[$order->Id]) > 0) {
+            $invoice_items[$order->Id] = Infusionsoft_DataService::query(new Infusionsoft_InvoiceItem(), array('InvoiceId' => $invoices[$order->Id][0]->Id));
             $invoice_payments[$order->Id] = Infusionsoft_DataService::query(new Infusionsoft_InvoicePayment(), array('InvoiceId' => $invoices[$order->Id][0]->Id));
             if(count($invoice_payments[$order->Id] > 0)){
                 foreach ($invoice_payments[$order->Id] as $invoice_payment) {
@@ -37,6 +38,10 @@ if (!empty($_GET['Id'])) {
         if(isset($invoices[$order->Id][0])){
             ?><h1>Invoice</h1><?
             dumpObject($invoices[$order->Id][0], 2);
+            ?><h1>Invoice Items</h1><?
+            foreach($invoice_items[$order->Id] as $invoice_item){
+                dumpObject($invoice_item, 3);
+            }
             foreach ($invoice_payments[$order->Id] as $invoice_payment) {
                 dumpObject($invoice_payment, 3);
                 dumpObject($invoice_payment_payments[$invoice_payment->Id], 4);
