@@ -20,3 +20,6 @@ Added an export tool, as well as a contact tree view tool.
 Added Invoice Items to the contact tree view tool.
 Added the JobId column to the Invoice Object
 Added the addCustomFields(...) method to the Job Object.  (Not sure why I missed it previously.)
+
+0.9.11
+Removed Job.InvoiceId, Job.InvoiceItemId, and RecurringOrderWithContact.Id
