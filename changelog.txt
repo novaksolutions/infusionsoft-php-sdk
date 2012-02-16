@@ -25,5 +25,9 @@ Added the addCustomFields(...) method to the Job Object.  (Not sure why I missed
 Removed Job.InvoiceId, Job.InvoiceItemId, and RecurringOrderWithContact.Id
 
 0.9.12
+Removed SubCategory From Product Table
 Added ProductCategory to the available tables.
 Added Infusionsoft_Util and Infusionsoft_RemoveFieldsCache this faciliatest the automatic removal of broken fields...
+
+0.9.13
+Removed SubCategory from CProgram table.
