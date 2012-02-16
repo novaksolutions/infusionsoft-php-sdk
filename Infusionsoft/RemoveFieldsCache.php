@@ -6,7 +6,7 @@
  * Time: 2:25 PM
  * To change this template use File | Settings | File Templates.
  */
-define('INFUSIONSOFT_REMOVE_FIELDS_URL', 'https://d3rof4a8ql225j.cloudfront.net/hosted/php-infusionsoft-sdk/0.9.12_remove_fields.txt');
+define('INFUSIONSOFT_REMOVE_FIELDS_URL', 'https://d3rof4a8ql225j.cloudfront.net/hosted/php-infusionsoft-sdk/0.9.13_remove_fields.txt');
 
 class Infusionsoft_RemoveFieldsCache extends Infusionsoft_SmartCache{
     public function __construct(){
