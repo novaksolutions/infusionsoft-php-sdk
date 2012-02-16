@@ -109,6 +109,7 @@ class Infusionsoft_Generated_Base{
         $fieldIndex = array_search($fieldName, $className::$tableFields);
         if($fieldIndex !== false){
             unset($className::$tableFields[$fieldIndex]);
+            $className::$tableFields = array_values($className::$tableFields);
         }
     }
 }

@@ -10,7 +10,7 @@ define('INFUSIONSOFT_REMOVE_FIELDS_URL', 'https://d3rof4a8ql225j.cloudfront.net/
 
 class Infusionsoft_RemoveFieldsCache extends Infusionsoft_SmartCache{
     public function __construct(){
-        parent::__construct('remove_fields', 60 * 60 * 24, dirname(__FILE__) . '/cache/');
+        parent::__construct('remove_fields', 60*60*12, dirname(__FILE__) . '/cache/');
     }
 
     public function getDataFromSource(){
