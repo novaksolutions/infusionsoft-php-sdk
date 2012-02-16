@@ -103,5 +103,13 @@ class Infusionsoft_Generated_Base{
 	public function toArray(){
 		return $this->data;
 	}
+
+    public function removeField($fieldName){
+        $className = get_class($this);
+        $fieldIndex = array_search($fieldName, $className::$tableFields);
+        if($fieldIndex !== false){
+            unset($className::$tableFields[$fieldIndex]);
+        }
+    }
 }
 ?>

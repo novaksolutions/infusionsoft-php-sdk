@@ -1,6 +1,6 @@
 <?php
 class Infusionsoft_Generated_CCharge extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'RefNum', 'ApprCode', 'Amt');
+    protected static $tableFields = array('Id', 'RefNum', 'ApprCode', 'Amt', 'CCId');
     
     
     public function __construct($id = null, $app = null){    	    	

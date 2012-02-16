@@ -115,7 +115,17 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (boolean) $bypassCommissions
         );
 
-        return parent::send($app, "InvoiceService.chargeInvoice", $params);
+        try{
+            $result = parent::send($app, "InvoiceService.chargeInvoice", $params);
+        } catch(Exception $e){
+            if($e->getMessage()=='Error process card.'){
+                throw new Exception("Error while charging card, most likely something wrong with the merchant account.  Please try placing a test charge through merchant account id: " . $merchantAccountId);
+            } else{
+                throw $e;
+            }
+        }
+
+        return $result;
     }
     
     public static function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId, Infusionsoft_App $app = null){
@@ -177,7 +187,15 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
 
         return parent::send($app, "InvoiceService.validateCreditCard", $params);
     }
-    
+
+    public static function validateCreditCardData(array $creditCardData, Infusionsoft_App $app = null){
+        $params = array(
+            $creditCardData
+        );
+
+        return parent::send($app, "InvoiceService.validateCreditCard", $params);
+    }
+
     public static function setInvoiceSyncStatus($id, $syncStatus, Infusionsoft_App $app = null){
         $params = array(
             (int) $id, 

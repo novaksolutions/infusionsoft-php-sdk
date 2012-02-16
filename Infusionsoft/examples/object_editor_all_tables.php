@@ -9,9 +9,12 @@
   7 => 'MtgLead',
   8 => 'Lead',
   9 => 'Stage',
+  47 => 'StageMove',
   10 => 'Status',
   11 => 'ProductInterest',
   12 => 'ProductInterestBundle',
+  46 => 'ProductCategoryAssign',
+  57 => 'ProductCategory',
   13 => 'CProgram',
   14 => 'Product',
   15 => 'CreditCard',
@@ -44,4 +47,6 @@
   42 => 'DataFormField',
   43 => 'Expense',
   44 => 'FileBox',
+  45 => 'SavedFilter',
+
 );

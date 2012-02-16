@@ -65,4 +65,13 @@ class Infusionsoft_SearchServiceBase extends Infusionsoft_Service {
 
         return parent::send($app, "SearchService.getDefaultQuickSearch", $params);
     }
+
+    public static function getSavedSearchIdFromName($savedSearchName){
+        $results = Infusionsoft_DataService::query(new Infusionsoft_SavedFilter(), array('FilterName' => $savedSearchName));
+        if(count($results) > 0){
+            return array_shift($results);
+        } else {
+            return false;
+        }
+    }
 }

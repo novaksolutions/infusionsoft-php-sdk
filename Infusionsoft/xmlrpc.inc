@@ -2408,6 +2408,11 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 			// first error check: xml not well formed
 			if(!xml_parse($parser, $data, sizeof($data)))
 			{
+                try{
+                    $bad_return = fopen("bad_return.xml.php", "w");
+                    fwrite($bad_return, $data);
+                    fclose($bad_return);
+                } catch(Exception $e){}
 				// thanks to Peter Kocks <peter.kocks@baygate.com>
 				if((xml_get_current_line_number($parser)) == 1)
 				{
@@ -2418,11 +2423,6 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 					$errstr = sprintf('XML error: %s at line %d, column %d',
 						xml_error_string(xml_get_error_code($parser)),
 						xml_get_current_line_number($parser), xml_get_current_column_number($parser));
-                    try{
-                        $bad_return = fopen("bad_return.xml.php", "w");
-                        fwrite($bad_return, $data);
-                        fclose($bad_return);
-                    } catch(Exception $e){}
 				}
 				error_log($errstr);
 				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['invalid_return'], $GLOBALS['xmlrpcstr']['invalid_return'].' ('.$errstr.')');

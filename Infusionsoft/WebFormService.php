@@ -1,5 +1,5 @@
 <?php
-class Infusionsoft_WebFormService extends Infusionsoft_Service{
+class Infusionsoft_WebFormService extends Infusionsoft_WebFormServiceBase{
 	public static function ping(Infusionsoft_App $app = null){
 		parent::ping('WebFormService', $app);
 	}
