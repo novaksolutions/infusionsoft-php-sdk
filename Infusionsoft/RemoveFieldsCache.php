@@ -18,6 +18,7 @@ class Infusionsoft_RemoveFieldsCache extends Infusionsoft_SmartCache{
         $ch = curl_init(INFUSIONSOFT_REMOVE_FIELDS_URL);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
         $content = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if($httpCode == 200){
