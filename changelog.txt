@@ -31,3 +31,7 @@ Added Infusionsoft_Util and Infusionsoft_RemoveFieldsCache this faciliatest the 
 
 0.9.13
 Removed SubCategory from CProgram table.
+
+0.9.14
+Made the new remove field stuff compatible with php 5.2 (no late static binding...)
+Removed Large Image from CProgram to reduce bandwidth.
