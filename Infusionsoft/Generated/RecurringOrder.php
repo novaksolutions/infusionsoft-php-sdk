@@ -20,4 +20,12 @@ class Infusionsoft_Generated_RecurringOrder extends Infusionsoft_Generated_Base{
             self::addCustomField($name);
         }
 	}
+
+    public function removeField($fieldName){
+        $fieldIndex = array_search($fieldName, self::$tableFields);
+        if($fieldIndex !== false){
+            unset(self::$tableFields[$fieldIndex]);
+            self::$tableFields = array_values(self::$tableFields);
+        }
+    }
 }

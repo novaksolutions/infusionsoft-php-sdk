@@ -9,4 +9,12 @@ class Infusionsoft_Generated_ProductCategory extends Infusionsoft_Generated_Base
     public function getFields(){
 		return self::$tableFields;	
 	}
+
+    public function removeField($fieldName){
+        $fieldIndex = array_search($fieldName, self::$tableFields);
+        if($fieldIndex !== false){
+            unset(self::$tableFields[$fieldIndex]);
+            self::$tableFields = array_values(self::$tableFields);
+        }
+    }
 }

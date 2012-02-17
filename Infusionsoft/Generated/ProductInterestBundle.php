@@ -14,4 +14,12 @@ class Infusionsoft_Generated_ProductInterestBundle extends Infusionsoft_Generate
 	public function addCustomField($name){
 		self::$tableFields[] = $name;
 	}
+
+    public function removeField($fieldName){
+        $fieldIndex = array_search($fieldName, self::$tableFields);
+        if($fieldIndex !== false){
+            unset(self::$tableFields[$fieldIndex]);
+            self::$tableFields = array_values(self::$tableFields);
+        }
+    }
 }
