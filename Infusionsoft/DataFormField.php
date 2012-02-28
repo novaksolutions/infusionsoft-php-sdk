@@ -8,20 +8,29 @@ class Infusionsoft_DataFormField extends Infusionsoft_Generated_DataFormField{
 
     public function getValues(){
         $out = array();
-        if($this->DataType == Infusionsoft_CustomFieldService::$DataType_Dropdown){
+        if($this->canHaveCustomValues()){
             $out = explode("\n", $this->Values);
             $out = array_filter($out, "Infusionsoft_DataFormField_isEmpty");
         } else {
-            throw new Infusionsoft_Exception($this->Label . ' is not a drop down custom field.');
+            throw new Infusionsoft_Exception($this->Label . ' cannot have values.');
         }
         return $out;
+    }
+
+    public function canHaveCustomValues()
+    {
+        return in_array($this->DataType, array(
+            Infusionsoft_CustomFieldService::$DataType_Dropdown,
+            Infusionsoft_CustomFieldService::$DataType_List
+            )
+        );
     }
 
     public function setValues(array $customFieldValues){
         if($this->DataType == Infusionsoft_CustomFieldService::$DataType_Dropdown){
             $this->Values = "\n" . implode("\n", $customFieldValues);
         } else {
-            throw new Infusionsoft_Exception($this->Label . ' is not a drop down custom field.');
+            throw new Infusionsoft_Exception($this->Label . ' cannot have values.');
         }
 
     }

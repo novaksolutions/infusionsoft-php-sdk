@@ -2,7 +2,7 @@
 	include('../infusionsoft.php');
 	include('object_editor_all_tables.php');	
 	include('../tests/testUtils.php');
-	if($_GET['object'] == ''){
+	if(empty($_GET['object'])){
 		renderLoadForm(); 
 	}
 	elseif(isset($_POST['Id'])){

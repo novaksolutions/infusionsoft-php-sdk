@@ -128,7 +128,7 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         return $result;
     }
     
-    public static function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId, Infusionsoft_App $app = null){
+    public static function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId = 0, $saleAffiliateId = 0, Infusionsoft_App $app = null){
         $params = array(
             (int) $contactId, 
             $description, 
