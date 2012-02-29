@@ -743,6 +743,7 @@ $cp1252_to_htmlent =
 		var $proxy_pass='';
 		var $proxy_authtype=1;
 		var $cookies=array();
+        var $dump_payloads;
 		/**
 		* List of http compression methods accepted by the client for responses.
 		* NB: PHP supports deflate, gzip compressions out of the box if compiled w. zlib
@@ -1357,6 +1358,9 @@ $cp1252_to_htmlent =
 
 			// Deflate request body and set appropriate request headers
 			$payload = $msg->payload;
+            if($this->dump_payloads){
+                $this->dump_payload($payload, $msg->methodname, 'request');
+            }
 			if(function_exists('gzdeflate') && ($this->request_compression == 'gzip' || $this->request_compression == 'deflate'))
 			{
 				if($this->request_compression == 'gzip')
@@ -1548,6 +1552,9 @@ $cp1252_to_htmlent =
 			}
 			else
 			{
+                if($this->dump_payloads){
+                    $this->dump_payload($result, $msg->methodname, 'response');
+                }
 				if(!$keepalive)
 				{
 					curl_close($curl);
@@ -1783,6 +1790,13 @@ $cp1252_to_htmlent =
 				return $response;
 			}
 		}
+
+        private function dump_payload($payload, $call, $request_response){
+            $file_name = dirname(__FILE__) . '/debug/' . $call . '_' . time() . '_' . $request_response . '.xml';
+            $file = fopen($file_name, "w");
+            fwrite($file, $payload);
+            fclose($file);
+        }
 	} // end class xmlrpc_client
 
 	class xmlrpcresp

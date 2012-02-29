@@ -17,6 +17,11 @@ class Infusionsoft_App{
 		$this->client->setSSLVerifyPeer(0);
 	}
 
+    public function enableDebug(){
+        $this->debug = true;
+        $this->client->dump_payloads = true;
+    }
+
 	public function getApiKey(){
 		return $this->apiKey;
 	}
@@ -43,10 +48,7 @@ class Infusionsoft_App{
         }
 
 		$call = new xmlrpcmsg($method, $encoded_arguments);
-		if($this->debug) var_dump(array_map('php_xmlrpc_encode', $args));
-		if($this->debug){echo 'Args:'; var_dump($args);}
 		$req = $this->client->send($call, 0, 'https');
-		if($this->debug) var_dump($req);		
 		if ($req->faultCode()){
 			$exception = new Infusionsoft_Exception($req->faultString(), $method, $args); 
 			$this->addException($exception);			
