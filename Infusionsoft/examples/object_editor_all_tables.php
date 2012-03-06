@@ -48,5 +48,6 @@
   43 => 'Expense',
   44 => 'FileBox',
   45 => 'SavedFilter',
+  48 => 'SubscriptionPlan',
 
 );

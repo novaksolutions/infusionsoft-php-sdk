@@ -1793,6 +1793,13 @@ $cp1252_to_htmlent =
 
         private function dump_payload($payload, $call, $request_response){
             $file_name = dirname(__FILE__) . '/debug/' . $call . '_' . time() . '_' . $request_response . '.xml';
+
+            $index = 1;
+            while(file_exists($file_name)){
+                $file_name = dirname(__FILE__) . '/debug/' . $call . '_' . time() . '.' . $index . '_' . $request_response . '.xml';
+                $index++;
+            }
+
             $file = fopen($file_name, "w");
             fwrite($file, $payload);
             fclose($file);
