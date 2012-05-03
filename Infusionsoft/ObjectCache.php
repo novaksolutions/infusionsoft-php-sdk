@@ -1,0 +1,37 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: Joey
+ * Date: 5/3/12
+ * Time: 1:31 PM
+ * To change this template use File | Settings | File Templates.
+ */
+class Infusionsoft_ObjectCache extends Infusionsoft_SmartCache{
+    var $object;
+    var $conditions;
+    var $limit;
+    var $page;
+    var $returnFields;
+    var $app_name;
+
+    public function __construct(Infusionsoft_Generated_Base $object, array $conditions = array(), $ttl = 300, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
+        $this->object = $object;
+        $this->conditions = $conditions;
+        $this->limit = $limit;
+        $this->page = $page;
+        $this->returnFields = $returnFields;
+        $this->app = $app;
+        $this->app_name = $app == null ? Infusionsoft_AppPool::getApp()->getHostname() : $app->getHostname();
+        parent::__construct('objects_' . $this->object->getTable() . '_' . $this->app_name . '_' . md5(
+            http_build_query($conditions) .
+            $this->limit .
+            $this->page .
+            ($returnFields ? http_build_query($returnFields) : '') .
+            $this->app_name
+        ) , 600,dirname(__FILE__) . '/cache/');
+    }
+
+    public function getDataFromSource(){
+        return Infusionsoft_DataService::query($this->object, $this->conditions, $this->limit, $this->page, $this->returnFields, $this->app);
+    }
+}

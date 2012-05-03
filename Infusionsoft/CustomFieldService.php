@@ -31,6 +31,26 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
     static $DataType_User = 22;
     static $DataType_UserListBox = 25;
 
+    public static function getCachedCustomFields(Infusionsoft_Generated_Base $object, $dataType = null, $ttl = 43200 /*12 Hours*/, Infusionsoft_App $app = null){
+        if(!property_exists($object, 'customFieldFormId')){
+            throw new Infusionsoft_Exception(get_class($object) . ' does not have Custom Fields.');
+        }
+
+        $dataFormField = new Infusionsoft_DataFormField();
+        if($object->getAppPoolAppKey() != null){
+            $dataFormField->setAppPoolAppKey($object->getAppPoolAppKey());
+        }
+
+        $conditions = array('FormId' => $object->customFieldFormId);
+        if($dataType != null){
+            $conditions['DataType'] = $dataType;
+        }
+        $cache = new Infusionsoft_ObjectCache($dataFormField, $conditions, $ttl);
+        $out = $cache->getData();
+
+        return $out;
+    }
+
 	public static function getCustomFields(Infusionsoft_Generated_Base $object, $dataType = null, Infusionsoft_App $app = null){
         if(!property_exists($object, 'customFieldFormId')){
             throw new Infusionsoft_Exception(get_class($object) . ' does not have Custom Fields.');
