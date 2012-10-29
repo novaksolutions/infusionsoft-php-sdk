@@ -17,6 +17,7 @@
 <ul>
 <li><a href="examples/object_editor.php">Object Editor</a></li>
 <li><a href="examples/contact_tree.php">View Contact Data Tree</a></li>
+<li><a href="examples/subscription_tree.php">View Subscription Order Tree</a></li>
 <li><a href="examples/exporter.php">Exporter</a></li>
 <li><a href="examples/leadscoring.php">Lead Scoring</a></li>
 <li><a href="examples/get_invoices_for_contact.php">List All Invoices For A Contact</a></li>
@@ -26,6 +27,7 @@
 <li>Utilities
 	<ul>
 		<li><a href="tests/qa_tests.php" target="_blank">Set App Info For Tests</a></li>
+		<li><a href="utilities/code_generator.php" target="_blank">Code Generator</a></li>
 	</ul>
 </li>
 

@@ -1,6 +1,6 @@
 <?php
 class Infusionsoft_Generated_OrderItem extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'OrderId', 'ProductId', 'ItemName', 'Qty', 'CPU', 'PPU', 'ItemDescription', 'ItemType', /* 'SubscriptionPlanId' */);
+    protected static $tableFields = array('Id', 'OrderId', 'ProductId', 'SubscriptionPlanId', 'ItemName', 'Qty', 'CPU', 'PPU', 'ItemDescription', 'ItemType', 'SubscriptionPlanId', 'Notes');
     
     
     public function __construct($id = null, $app = null){    	    	

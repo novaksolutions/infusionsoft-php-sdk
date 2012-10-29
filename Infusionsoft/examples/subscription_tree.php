@@ -3,14 +3,17 @@ include('../infusionsoft.php');
 include('object_editor_all_tables.php');
 include('../tests/testUtils.php');
 
-?>Depending upon the number of purchases, emails, tags, and follow-up sequences this contact has, this may take a while (even as long as 5 minutes).<br/><?
+?><br/><?
 
 renderLoadForm();
 
-if (!empty($_GET['Id'])) {
-    $contact = new Infusionsoft_Contact($_GET['Id']);
-    $contact->
-    $orders = Infusionsoft_DataService::query(new Infusionsoft_Job(), array('ContactId' => $contact->Id));
+if (!empty($_GET['OrderItemId'])) {
+    $order_item = new Infusionsoft_OrderItem($_GET['OrderItemId']);
+    $order = new Infusionsoft_Job($order_item->OrderId);
+    $subscription = new Infusionsoft_RecurringOrder($order->JobRecurringId);
+
+    $orders = Infusionsoft_DataService::queryWithOrderBy(new Infusionsoft_Job(), array('JobRecurringId' => $subscription->Id), 'StartDate');
+
     $order_items = array();
     $invoices = array();
     foreach ($orders as $order) {
@@ -26,6 +29,8 @@ if (!empty($_GET['Id'])) {
             }
         }
     }
+
+    $contact = new Infusionsoft_Contact($order->ContactId);
 
     ?><h1>Contact</h1><?
     dumpObject($contact);
@@ -89,7 +94,7 @@ function renderLoadForm()
 {
     ?>
     <form>
-        Contact Id: <input type="text" name="Id"/>
+        OrderItem Id: <input type="text" name="OrderItemId"/>
         <input type="submit"/>
     </form>
     <?php

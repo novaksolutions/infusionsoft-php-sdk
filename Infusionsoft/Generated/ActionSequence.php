@@ -1,6 +1,6 @@
 <?php
 class Infusionsoft_Generated_ActionSequence extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'TemplateName');
+    protected static $tableFields = array('Id', 'TemplateName', 'VisibleToTheseUsers');
     
     
     public function __construct($id = null, $app = null){    	    	

@@ -55,7 +55,7 @@ Clear App Info From Session So Tests Use the config.php file.<br/>
 		include('testConnectivity.php');
 	}
 ?>
-<a href="../index.html">&lt;- Back</a>
+<a href="../">&lt;- Back</a>
 
 </body>
 </html>

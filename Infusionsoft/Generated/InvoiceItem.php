@@ -1,6 +1,6 @@
 <?php
 class Infusionsoft_Generated_InvoiceItem extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'InvoiceId', 'InvoiceAmt', 'Discount', 'DateCreated', 'Description', 'CommissionStatus');
+    protected static $tableFields = array('Id', 'InvoiceId', 'OrderItemId', 'InvoiceAmt', 'Discount', 'DateCreated', 'Description', 'CommissionStatus');
     
     
     public function __construct($id = null, $app = null){    	    	

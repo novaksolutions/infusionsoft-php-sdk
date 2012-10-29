@@ -15,6 +15,12 @@ class Infusionsoft_Generated_Lead extends Infusionsoft_Generated_Base{
 		self::$tableFields[] = $name;
 	}
 
+    public function addCustomFields($fields){
+        foreach($fields as $name){
+            self::addCustomField($name);
+        }
+	}
+
     public function removeField($fieldName){
         $fieldIndex = array_search($fieldName, self::$tableFields);
         if($fieldIndex !== false){
