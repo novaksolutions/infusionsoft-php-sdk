@@ -21,15 +21,21 @@ class Infusionsoft_Generated_Base{
 		$this->loadFromObject($object);			
     	if($this->Id == ''){    		    		
     		throw new Infusionsoft_Exception("Could not load " . $this->table . " with id " . $id);
-    	}	
+    	}
+
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($this), 'DataObject.Loaded');
 	}
 	
 	public function save($app = null){
-		return Infusionsoft_DataService::save($this, $app);		
+		$result = Infusionsoft_DataService::save($this, $app);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($this, array('result' => $result)), 'DataObject.Saved');
+        return $result;
 	}
 
 	public function delete($app = null){
-		Infusionsoft_DataService::delete($this, $app);
+		$result = Infusionsoft_DataService::delete($this, $app);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($this, array('result' => $result)), 'DataObject.Deleted');
+        return $result;
 	}
 	
 	public function loadFromArray($data){		
