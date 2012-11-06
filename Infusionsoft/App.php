@@ -41,14 +41,20 @@ class Infusionsoft_App{
 		$this->exceptions[] = $e;
 	}
 
-	public function sendWithoutAddingKey($method, $args){
+	public function sendWithoutAddingKey($method, $args, $retry = false){
         $encoded_arguments = array();
         foreach($args as $argument){
             $encoded_arguments[] = php_xmlrpc_encode($argument, array('auto_dates'));
         }
 
 		$call = new xmlrpcmsg($method, $encoded_arguments);
-		$req = $this->client->send($call, 0, 'https');
+
+        $attempts = 0;
+        do{
+            $attempts++;
+            $req = $this->client->send($call, 0, 'https');
+        } while($retry && $req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] && $attempts < 3);
+
 		if ($req->faultCode()){
 			$exception = new Infusionsoft_Exception($req->faultString(), $method, $args); 
 			$this->addException($exception);			
@@ -57,8 +63,8 @@ class Infusionsoft_App{
 		}
 		return php_xmlrpc_decode($req->value());
 	}
-	public function send($method, $args){
+	public function send($method, $args, $retry = false){
 		array_unshift($args, $this->getApiKey());
-		return $this->sendWithoutAddingKey($method, $args);	
+		return $this->sendWithoutAddingKey($method, $args, $retry);
 	}
 }
