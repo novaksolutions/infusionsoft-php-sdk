@@ -27,7 +27,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			(int) $object->Id
 		);
 
-		$records = $app->send('DataService.delete', $params);		
+		$records = $app->send('DataService.delete', $params, true);
 	}
 	
 	public static function findByField($object, $field, $value, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){		
@@ -46,12 +46,12 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			$returnFields
 		);
 
-		$records = $app->send('DataService.findByField', $params);		
+		$records = $app->send('DataService.findByField', $params, true);
 		return self::_returnResults(get_class($object), $app->getHostName(), $records);
 	}
 	
 	public static function getAppointmentICal($appointmentId, Infusionsoft_App $app = null){	
-		$app = parent::getObjectOrDefaultAppIfNull($app, $object);					
+		$app = parent::getObjectOrDefaultAppIfNull($app);
 		
 		$params = array(
 		(int) $appointmentId);
@@ -68,7 +68,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		$moduleName,
 		$settingName);
 		
-		$out = $app->send('DataService.getAppSetting', $params);					
+		$out = $app->send('DataService.getAppSetting', $params, true);
 
 		return $out;	
 	}	
@@ -99,7 +99,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			$returnFields
 		);
 
-		$records = $app->send('DataService.load', $params);		
+		$records = $app->send('DataService.load', $params, true);
 		return self::_returnResult(get_class($object), $app->getHostName(), $records);
 	}
 	
@@ -118,7 +118,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			$returnFields
 		);
 
-		$records = $app->send('DataService.query', $params);		
+		$records = $app->send('DataService.query', $params, true);
 		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
 	}
 	
@@ -143,7 +143,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			(bool) $ascending
 		);
 
-		$records = $app->send('DataService.query', $params);		
+		$records = $app->send('DataService.query', $params, true);
 		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
 	}
 
@@ -179,7 +179,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			$object->getTable(),
 			(int) $object->Id,
 			$object->toArray());
-			$out = $app->send('DataService.update', $params);			
+			$out = $app->send('DataService.update', $params, true);
 		}
 		else{
 			$params = array(
@@ -193,12 +193,12 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 	}	
 
 	public static function updateCustomField($customFieldId, $arrayOfValues, Infusionsoft_App $app = null){
-		$app = parent::getObjectOrDefaultAppIfNull($app, $object);					
+		$app = parent::getObjectOrDefaultAppIfNull($app);
 		
 		$params = array(
 		(int) $customFieldId,
 		$arrayOfValues);
-		$out = $app->send('DataService.updateCustomField', $params);					
+		$out = $app->send('DataService.updateCustomField', $params, true);
 
 		return $out;	
 	}
