@@ -2,6 +2,10 @@
 <body>
 	
 <?php
+if($_SERVER['HTTP_HOST'] == 'sdk.novaksolutions.com'){
+    echo "Sorry, we've disabled this on our server for security...";
+    die();
+}
 class DataServiceTableFields {
 	public $fields = array();
 	public function parseApiFieldAccessXML($filePath){

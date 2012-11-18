@@ -1,5 +1,9 @@
 <?php
 if(isset($_POST['fileNamePattern'])){
+    if($_SERVER['HTTP_HOST'] == 'sdk.novaksolutions.com'){
+        echo "Sorry, we've disabled this on our server for security...";
+        die();
+    }
     echo "Generating Code...<br/>";
     require_once('../examples/object_editor_all_tables.php');
     foreach($all_tables as $table){

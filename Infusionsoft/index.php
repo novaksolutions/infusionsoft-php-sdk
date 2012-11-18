@@ -15,9 +15,11 @@
 </ul>
 <h1>Example Scripts (These will work once you create your config.php file)</h1>
 <ul>
+<li><a href="examples/list_objects.php">List Objects</a></li>
 <li><a href="examples/object_editor.php">Object Editor</a></li>
 <li><a href="examples/contact_tree.php">View Contact Data Tree</a></li>
 <li><a href="examples/subscription_tree.php">View Subscription Order Tree</a></li>
+<li><a href="examples/create_order.php">Add Subscription To Contact</a></li>
 <li><a href="examples/exporter.php">Exporter</a></li>
 <li><a href="examples/leadscoring.php">Lead Scoring</a></li>
 <li><a href="examples/get_invoices_for_contact.php">List All Invoices For A Contact</a></li>
@@ -30,9 +32,13 @@
 		<li><a href="utilities/code_generator.php" target="_blank">Code Generator</a></li>
 	</ul>
 </li>
-
+<li>
+    <ul>
+        <li></li>
+    </ul>
+</li>
 <li>Automatic Tests
-	<ul>		
+	<ul>
 		<li><a href="tests/testContactService.php">Test ContactService</a></li>
 		<li><a href="tests/testDataService.php">Test DataService</a></li>
 		<li><a href="tests/testWebFormService.php">Test WebFormService</a></li>
