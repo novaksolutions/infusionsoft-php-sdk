@@ -27,7 +27,7 @@ class Infusionsoft_Service{
                                    
         foreach ($records as $record){        	        
         	$object = new $className();        	
-            $object->loadFromArray($record);
+            $object->loadFromArray($record, true);
             $object->setAppPoolAppKey($appHostName);
             $return_records[] = $object;             
         }        
@@ -37,7 +37,7 @@ class Infusionsoft_Service{
 
     protected static function _returnResult($className, $appHostName, $records){    	    	
     	$object = new $className();    	        
-        $object->loadFromArray($records);
+        $object->loadFromArray($records, true);
         $object->setAppPoolAppKey($appHostName);        
         return $object;        	
     }
