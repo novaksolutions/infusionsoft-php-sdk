@@ -1,3 +1,7 @@
+<?php
+    include('../infusionsoft.php');
+    include('../tests/testUtils.php');
+?>
 <html>
 	<body>
 		<form method="post">					
@@ -6,11 +10,11 @@
 		</form>
 			
 	<?php
-		include('../infusionsoft.php');
-		
 		if(isset($_POST['ContactId'])){			
 			$invoices = getInvoicesForContact($_POST['ContactId']);
-			if(count($invoices) == 0) ?><br/>No Invoices Found<?php 
+			if(count($invoices) == 0){
+                ?><br/>No Invoices Found<?php
+            }
 			?><table><?php 			
 			foreach($invoices as $invoice){
 				?>

@@ -3,6 +3,10 @@
 	include('object_editor_all_tables.php');	
 	include('../tests/testUtils.php');
 	if(!empty($_GET['object'])){
+        if($_SERVER['HTTP_HOST'] == 'sdk.novaksolutions.com'){
+            echo "Sorry, we've disabled this on our server for security...";
+            die();
+        }
 		$class_name = "Infusionsoft_" . $_GET['object'];
 		$object = null;
 

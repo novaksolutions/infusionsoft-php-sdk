@@ -9,7 +9,6 @@ renderLoadForm();
 
 if (!empty($_GET['Id'])) {
     $contact = new Infusionsoft_Contact($_GET['Id']);
-    $contact->
     $orders = Infusionsoft_DataService::query(new Infusionsoft_Job(), array('ContactId' => $contact->Id));
     $order_items = array();
     $invoices = array();
