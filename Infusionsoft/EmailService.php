@@ -123,7 +123,7 @@ class Infusionsoft_EmailService extends Infusionsoft_Service{
             $permissionReason
         );
 
-        return parent::send($app, "APIEmailService.optIn", $params);
+        return parent::send($app, "APIEmailService.optIn", $params, null, true);
     }
     
     public static function optOut($email, $reason, Infusionsoft_App $app = null){

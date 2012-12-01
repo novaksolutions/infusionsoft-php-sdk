@@ -13,7 +13,7 @@ class Infusionsoft_Generated_SubscriptionPlan extends Infusionsoft_Generated_Bas
     static $Cycle_YEAR  = 1;
     static $Cycle_DAY   = 6;
 
-    protected static $tableFields = array('Id', 'ProductId', 'Cycle', 'Frequency', 'PreAuthorizeAmount', 'Prorate');
+    protected static $tableFields = array('Id', 'ProductId', 'Cycle', 'Frequency', 'PreAuthorizeAmount', 'Prorate', 'Active', 'PlanPrice');
 
     public function __construct($id = null, $app = null){    	    	
     	parent::__construct('SubscriptionPlan', $id, $app);

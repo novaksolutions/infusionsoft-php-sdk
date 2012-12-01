@@ -27,7 +27,7 @@ class Infusionsoft_Service{
                                    
         foreach ($records as $record){        	        
         	$object = new $className();        	
-            $object->loadFromArray($record);
+            $object->loadFromArray($record, true);
             $object->setAppPoolAppKey($appHostName);
             $return_records[] = $object;             
         }        
@@ -37,7 +37,7 @@ class Infusionsoft_Service{
 
     protected static function _returnResult($className, $appHostName, $records){    	    	
     	$object = new $className();    	        
-        $object->loadFromArray($records);
+        $object->loadFromArray($records, true);
         $object->setAppPoolAppKey($appHostName);        
         return $object;        	
     }
@@ -57,9 +57,9 @@ class Infusionsoft_Service{
     	return $app;
     }
     
-    protected static function send($app, $method, $params, $object = null){
+    protected static function send($app, $method, $params, $object = null, $retry = false){
     	$app = self::getObjectOrDefaultAppIfNull($app, $object);
-    	return $app->send($method, $params);
+    	return $app->send($method, $params, $retry);
     }
 
     public static function apiDate($dateStr){

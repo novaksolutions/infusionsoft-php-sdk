@@ -38,13 +38,18 @@ class Infusionsoft_Generated_Base{
         return $result;
 	}
 	
-	public function loadFromArray($data){		
-		foreach ($this->getFields() as $field){
-			$this->$field = NULL;
-			if ($data && is_array($data) && isset($data[$field])){								
-				$this->$field = $data[$field];					
-			}
-		}
+	public function loadFromArray($data, $fast = false){
+        if($fast){
+            $this->data = $data;
+        } else {
+            foreach ($this->getFields() as $field){
+                $this->$field = NULL;
+                if ($data && is_array($data) && isset($data[$field])){
+                    $this->$field = $data[$field];
+                }
+            }
+        }
+
 	}
 	
 	public function loadFromObject($object){
