@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property String Id
+ * @property String StatusName
+ * @property String StatusOrder
+ * @property String TargetNumDays
+ */
 class Infusionsoft_Generated_Status extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'StatusName', 'StatusOrder', 'TargetNumDays');
     

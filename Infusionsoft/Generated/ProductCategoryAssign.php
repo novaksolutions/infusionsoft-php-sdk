@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String ProductId
+ * @property String ProductCategoryId
+ */
 class Infusionsoft_Generated_ProductCategoryAssign extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ProductId', 'ProductCategoryId');
     

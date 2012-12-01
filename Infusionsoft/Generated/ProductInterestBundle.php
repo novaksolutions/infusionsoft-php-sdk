@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String BundleName
+ * @property String Description
+ */
 class Infusionsoft_Generated_ProductInterestBundle extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'BundleName', 'Description');
     

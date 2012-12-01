@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property String Id
+ * @property String FilterName
+ * @property String ReportStoredName
+ * @property String UserId
+ */
 class Infusionsoft_Generated_SavedFilter extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'FilterName', 'ReportStoredName', 'UserId');
     

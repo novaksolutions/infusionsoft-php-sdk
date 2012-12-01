@@ -1,4 +1,15 @@
 <?php
+/**
+ * @property String DataType
+ * @property String Id
+ * @property String FormId
+ * @property String GroupId
+ * @property String Name
+ * @property String Label
+ * @property String DefaultValue
+ * @property String Values
+ * @property String ListRows
+ */
 class Infusionsoft_Generated_DataFormField extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('DataType', 'Id', 'FormId', 'GroupId', 'Name', 'Label', 'DefaultValue', 'Values', 'ListRows');
     

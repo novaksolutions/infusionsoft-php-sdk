@@ -1,4 +1,13 @@
 <?php
+/**
+ * @property String Id
+ * @property String ObjectId
+ * @property String ObjType
+ * @property String ProductId
+ * @property String ProductType
+ * @property String Qty
+ * @property String DiscountPercent
+ */
 class Infusionsoft_Generated_ProductInterest extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ObjectId', 'ObjType', 'ProductId', 'ProductType', 'Qty', 'DiscountPercent');
     

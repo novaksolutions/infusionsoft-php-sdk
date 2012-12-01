@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String FormId
+ * @property String TabName
+ */
 class Infusionsoft_Generated_DataFormTab extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'FormId', 'TabName');
     

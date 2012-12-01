@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String CategoryName
+ * @property String CategoryDescription
+ */
 class Infusionsoft_Generated_ContactGroupCategory extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'CategoryName', 'CategoryDescription');
     

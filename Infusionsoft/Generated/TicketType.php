@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String CategoryId
+ * @property String Label
+ */
 class Infusionsoft_Generated_TicketType extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'CategoryId', 'Label');
     

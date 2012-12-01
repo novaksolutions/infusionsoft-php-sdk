@@ -1,4 +1,11 @@
 <?php
+/**
+ * @property String Id
+ * @property String CampaignId
+ * @property String TemplateId
+ * @property String StepStatus
+ * @property String StepTitle
+ */
 class Infusionsoft_Generated_CampaignStep extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'CampaignId', 'TemplateId', 'StepStatus', 'StepTitle');
     

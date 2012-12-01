@@ -1,4 +1,15 @@
 <?php
+/**
+ * @property String Id
+ * @property String RecurringId
+ * @property String InvoiceItemId
+ * @property String Status
+ * @property String AutoCharge
+ * @property String StartDate
+ * @property String EndDate
+ * @property String DateCreated
+ * @property String Description
+ */
 class Infusionsoft_Generated_JobRecurringInstance extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'RecurringId', 'InvoiceItemId', 'Status', 'AutoCharge', 'StartDate', 'EndDate', 'DateCreated', 'Description');
     

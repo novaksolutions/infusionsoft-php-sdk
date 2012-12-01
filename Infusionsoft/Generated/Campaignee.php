@@ -1,4 +1,11 @@
 <?php
+/**
+ * @property String CampaignId
+ * @property String Status
+ * @property String Campaign
+ * @property String ContactId
+ */
+
 class Infusionsoft_Generated_Campaignee extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('CampaignId', 'Status', 'Campaign', 'ContactId');
     

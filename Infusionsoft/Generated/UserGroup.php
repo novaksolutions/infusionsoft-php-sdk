@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String Name
+ * @property String OwnerId
+ */
 class Infusionsoft_Generated_UserGroup extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'Name', 'OwnerId');
     

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @property String Id
+ * @property String RefNum
+ * @property String ApprCode
+ * @property String Amt
+ * @property String CCId
+ */
 class Infusionsoft_Generated_CCharge extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'RefNum', 'ApprCode', 'Amt', 'CCId');
     

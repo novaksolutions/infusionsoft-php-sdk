@@ -1,4 +1,22 @@
 <?php
+/**
+ * @property String Id
+ * @property String ContactId
+ * @property String ParentId
+ * @property String LeadAmt
+ * @property String LeadPercent
+ * @property String SaleAmt
+ * @property String SalePercent
+ * @property String PayoutType
+ * @property String DefCommissionType
+ * @property String Status
+ * @property String AffName
+ * @property String Password
+ * @property String AffCode
+ * @property String NotifyLead
+ * @property String NotifySale
+ * @property String LeadCookieFor
+ */
 class Infusionsoft_Generated_Affiliate extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ContactId', 'ParentId', 'LeadAmt', 'LeadPercent', 'SaleAmt', 'SalePercent', 'PayoutType', 'DefCommissionType', 'Status', 'AffName', 'Password', 'AffCode', 'NotifyLead', 'NotifySale', 'LeadCookieFor');
     

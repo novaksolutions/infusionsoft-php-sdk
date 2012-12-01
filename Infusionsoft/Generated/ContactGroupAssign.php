@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property String GroupId
+ * @property String ContactGroup
+ * @property String DateCreated
+ * @property String ContactId
+ */
 class Infusionsoft_Generated_ContactGroupAssign extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('GroupId', 'ContactGroup', 'DateCreated', 'ContactId');
     

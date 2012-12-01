@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property String Id
+ * @property String CategoryDisplayName
+ * @property String CategoryOrder
+ * @property String ParentId
+ */
 class Infusionsoft_Generated_ProductCategory extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'CategoryDisplayName', 'CategoryOrder', 'ParentId');
     //Other field is CategoryImage

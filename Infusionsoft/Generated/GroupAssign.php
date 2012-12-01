@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property String Id
+ * @property String UserId
+ * @property String GroupId
+ * @property String Admin
+ */
 class Infusionsoft_Generated_GroupAssign extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'UserId', 'GroupId', 'Admin');
     

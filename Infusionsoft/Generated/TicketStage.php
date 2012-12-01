@@ -1,4 +1,8 @@
 <?php
+/**
+ * @property String Id
+ * @property String StageName
+ */
 class Infusionsoft_Generated_TicketStage extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'StageName');
     

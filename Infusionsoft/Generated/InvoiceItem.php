@@ -1,4 +1,14 @@
 <?php
+/**
+ * @property String Id
+ * @property String InvoiceId
+ * @property String OrderItemId
+ * @property String InvoiceAmt
+ * @property String Discount
+ * @property String DateCreated
+ * @property String Description
+ * @property String CommissionStatus
+ */
 class Infusionsoft_Generated_InvoiceItem extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'InvoiceId', 'OrderItemId', 'InvoiceAmt', 'Discount', 'DateCreated', 'Description', 'CommissionStatus');
     

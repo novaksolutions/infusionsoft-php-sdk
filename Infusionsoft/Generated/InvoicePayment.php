@@ -1,4 +1,13 @@
 <?php
+/**
+ * @property String Id
+ * @property String InvoiceId
+ * @property String Amt
+ * @property String PayDate
+ * @property String PayStatus
+ * @property String PaymentId
+ * @property String SkipCommission
+ */
 class Infusionsoft_Generated_InvoicePayment extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'InvoiceId', 'Amt', 'PayDate', 'PayStatus', 'PaymentId', 'SkipCommission');
     

@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property String Id
+ * @property String FileName
+ * @property String Extension
+ * @property String FileSize
+ * @property String ContactId
+ * @property String Public
+ */
 class Infusionsoft_Generated_FileBox extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'FileName', 'Extension', 'FileSize', 'ContactId', 'Public');
     

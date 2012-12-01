@@ -1,4 +1,32 @@
 <?php
+/**
+ * @property String Id
+ * @property String ContactId
+ * @property String OriginatingOrderId
+ * @property String ProgramId
+ * @property String SubscriptionPlanId
+ * @property String ProductId
+ * @property String StartDate
+ * @property String EndDate
+ * @property String LastBillDate
+ * @property String NextBillDate
+ * @property String PaidThruDate
+ * @property String BillingCycle
+ * @property String Frequency
+ * @property String BillingAmt
+ * @property String Status
+ * @property String ReasonStopped
+ * @property String AutoCharge
+ * @property String CC1
+ * @property String CC2
+ * @property String NumDaysBetweenRetry
+ * @property String MaxRetry
+ * @property String MerchantAccountId
+ * @property String AffiliateId
+ * @property String PromoCode
+ * @property String LeadAffiliateId
+ * @property String Qty
+ */
 class Infusionsoft_Generated_RecurringOrder extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ContactId', 'OriginatingOrderId', 'ProgramId', 'SubscriptionPlanId', 'ProductId', 'StartDate', 'EndDate', 'LastBillDate', 'NextBillDate', 'PaidThruDate', 'BillingCycle', 'Frequency', 'BillingAmt', 'Status', 'ReasonStopped', 'AutoCharge', 'CC1', 'CC2', 'NumDaysBetweenRetry', 'MaxRetry', 'MerchantAccountId', 'AffiliateId', 'PromoCode', 'LeadAffiliateId', 'Qty');
     

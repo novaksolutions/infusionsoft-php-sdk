@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property String Id
+ * @property String ContactId
+ * @property String ExpenseType
+ * @property String TypeId
+ * @property String ExpenseAmt
+ * @property String DateIncurred
+ */
 class Infusionsoft_Generated_Expense extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ContactId', 'ExpenseType', 'TypeId', 'ExpenseAmt', 'DateIncurred');
     

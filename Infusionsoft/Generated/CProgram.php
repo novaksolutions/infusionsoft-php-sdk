@@ -1,4 +1,19 @@
 <?php
+/**
+ * @property String Id
+ * @property String ProgramName
+ * @property String DefaultPrice
+ * @property String DefaultCycle
+ * @property String DefaultFrequency
+ * @property String Sku
+ * @property String ShortDescription
+ * @property String BillingType
+ * @property String Description
+ * @property String HideInStore
+ * @property String Status
+ * @property String Taxable
+ * @property String Family
+ */
 class Infusionsoft_Generated_CProgram extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ProgramName', 'DefaultPrice', 'DefaultCycle', 'DefaultFrequency', 'Sku', 'ShortDescription', 'BillingType', 'Description', 'HideInStore', 'Status', 'Taxable', 'Family');
     

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @property String Id
+ * @property String TemplateName
+ * @property String VisibleToTheseUsers
+ */
 class Infusionsoft_Generated_ActionSequence extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'TemplateName', 'VisibleToTheseUsers');
     

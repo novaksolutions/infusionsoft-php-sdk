@@ -1,4 +1,14 @@
 <?php
+/**
+ * @property String Id
+ * @property String InvoiceId
+ * @property String DateDue
+ * @property String AmtDue
+ * @property String Type
+ * @property String InitDate
+ * @property String StartDate
+ * @property String FirstPayAmt
+ */
 class Infusionsoft_Generated_PayPlan extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'InvoiceId', 'DateDue', 'AmtDue', 'Type', 'InitDate', 'StartDate', 'FirstPayAmt');
     

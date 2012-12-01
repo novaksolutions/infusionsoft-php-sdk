@@ -1,4 +1,12 @@
 <?php
+/**
+ * @property String Id
+ * @property String ProductId
+ * @property String Cycle
+ * @property String Frequency
+ * @property String PreAuthorizeAmount
+ * @property String Prorate
+ */
 class Infusionsoft_Generated_SubscriptionPlan extends Infusionsoft_Generated_Base{
     static $Cycle_WEEK  = 3;
     static $Cycle_MONTH = 2;

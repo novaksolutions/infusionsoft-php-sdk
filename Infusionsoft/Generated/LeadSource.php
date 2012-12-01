@@ -1,4 +1,13 @@
 <?php
+/**
+ * @property String Id
+ * @property String Name
+ * @property String Description
+ * @property String StartDate
+ * @property String EndDate
+ * @property String CostPerLead
+ * @property String Status
+ */
 class Infusionsoft_Generated_LeadSource extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'Name', 'Description', 'StartDate', 'EndDate', 'CostPerLead', 'Status');
     

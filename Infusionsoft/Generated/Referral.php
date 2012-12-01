@@ -1,4 +1,15 @@
 <?php
+/**
+ * @property String Id
+ * @property String ContactId
+ * @property String AffiliateId
+ * @property String DateSet
+ * @property String DateExpires
+ * @property String IPAddress
+ * @property String Source
+ * @property String Info
+ * @property String Type
+ */
 class Infusionsoft_Generated_Referral extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'ContactId', 'AffiliateId', 'DateSet', 'DateExpires', 'IPAddress', 'Source', 'Info', 'Type');
     

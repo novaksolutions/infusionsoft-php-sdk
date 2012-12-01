@@ -1,4 +1,10 @@
 <?php
+/**
+ * @property String Id
+ * @property String PieceType
+ * @property String PieceTitle
+ * @property String Categories
+ */
 class Infusionsoft_Generated_Template extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'PieceType', 'PieceTitle', 'Categories');
     
