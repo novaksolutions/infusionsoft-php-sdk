@@ -1792,6 +1792,10 @@ $cp1252_to_htmlent =
 		}
 
         private function dump_payload($payload, $call, $request_response){
+            if(!file_exists(dirname(__FILE__) . '/debug/')){
+                mkdir(dirname(__FILE__) . '/debug/');
+            }
+
             $file_name = dirname(__FILE__) . '/debug/' . $call . '_' . time() . '_' . $request_response . '.xml';
 
             $index = 1;
@@ -2425,7 +2429,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 
             // **BEGIN JORDAN NOVAK EDIT**
             // Sometimes customer data has these random characters in it, and it breaks the XML parsing
-            $data = str_replace(array("&#11;", "&#0;", "&gt;", "&#20;"), " ", $data);
+            $data = str_replace(array("&#11;", "&#0;", "&#20;"), " ", $data);
             // **END JORDAN NOVAK EDIT**
 
 
