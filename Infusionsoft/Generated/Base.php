@@ -17,7 +17,7 @@ class Infusionsoft_Generated_Base{
 	}	
 
 	public function load($id, $app = null){
-		$object = Infusionsoft_DataService::load($this, $id, $app);
+		$object = Infusionsoft_DataService::load($this, $id, false, $app);
 		$this->loadFromObject($object);			
     	if($this->Id == ''){    		    		
     		throw new Infusionsoft_Exception("Could not load " . $this->table . " with id " . $id);
