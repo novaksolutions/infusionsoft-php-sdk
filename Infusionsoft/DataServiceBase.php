@@ -60,7 +60,7 @@ class Infusionsoft_DataServiceBase extends Infusionsoft_Service{
             $values
         );
 
-        return parent::send($app, "DataService.update", $params);
+        return parent::send($app, "DataService.update", $params, null, true);
     }
     
     public static function getAppSetting($module, $setting, Infusionsoft_App $app = null){

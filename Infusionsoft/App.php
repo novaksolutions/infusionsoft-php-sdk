@@ -3,10 +3,13 @@ class Infusionsoft_App{
 	protected $hostname = '';
 	protected $apiKey = '';
 	protected $port;
+    protected $timeout = 0;
 	protected $debug = false;
 
 	protected $exceptions = array();
 	protected $client;
+
+    protected $totalHttpCalls = 0;
 
 	public function __construct($hostname, $apiKey, $port = 443){
 		$this->hostname = $hostname;
@@ -52,8 +55,10 @@ class Infusionsoft_App{
         $attempts = 0;
         do{
             $attempts++;
-            $req = $this->client->send($call, 0, 'https');
-        } while($retry && $req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] && $attempts < 3);
+            $req = $this->client->send($call, $this->timeout, 'https');
+        } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail']) && $attempts < 3);
+
+        $this->totalHttpCalls += $attempts;
 
 		if ($req->faultCode()){
 			$exception = new Infusionsoft_Exception($req->faultString(), $method, $args); 
@@ -67,4 +72,13 @@ class Infusionsoft_App{
 		array_unshift($args, $this->getApiKey());
 		return $this->sendWithoutAddingKey($method, $args, $retry);
 	}
+
+    public function getTotalHttpCalls(){
+        return $this->totalHttpCalls;
+    }
+
+
+    public function setTimeout($timeout) {
+        $this->timeout = $timeout;
+    }
 }
