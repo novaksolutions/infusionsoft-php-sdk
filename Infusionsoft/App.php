@@ -61,7 +61,7 @@ class Infusionsoft_App{
         $this->totalHttpCalls += $attempts;
 
 		if ($req->faultCode()){
-			$exception = new Infusionsoft_Exception($req->faultString(), $method, $args); 
+			$exception = new Infusionsoft_Exception($req->faultString() . "\nAttempted: $attempts time(s).", $method, $args);
 			$this->addException($exception);			
 			throw $exception; 
 			return FALSE;
