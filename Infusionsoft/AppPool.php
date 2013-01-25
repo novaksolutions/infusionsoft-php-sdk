@@ -27,4 +27,8 @@ class Infusionsoft_AppPool{
 		self::$apps[$appKey] = $app;
         return $app;
 	}
+
+    public static function clearApps(){
+        self::$apps = array();
+    }
 }
