@@ -6,6 +6,7 @@ class Infusionsoft_App{
 	public function __construct($hostname, $apiKey, $port = 443){
         $this->data = new Infusionsoft_AppData();
         $this->services['DataService'] = new Infusionsoft_LowLevelDataService($this->data);
+        $this->services['InvoiceService'] = new Infusionsoft_LowLevelInvoiceService($this->data);
 	}
 
     public function enableDebug(){

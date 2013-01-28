@@ -30,6 +30,12 @@ class Infusionsoft_LowLevelDataService extends Infusionsoft_LowLevelMockService{
         $item = array_shift($matchingArrays);
         return $item;
     }
+
+    public function query($args){
+        //Remove Api Key
+        array_shift($args);
+        return $this->data->query($args);
+    }
 }
 /**
  * Created by JetBrains PhpStorm.
