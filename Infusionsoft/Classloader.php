@@ -5,6 +5,10 @@ class Infusionsoft_Classloader{
 	protected $paths = array();
 
     public function __construct(){
+        if(defined("INFUSIONSOFT_SDK_TEST")){
+            $path = dirname(dirname(__FILE__)) . "/TestMocks/";
+            $this->paths[] = $path;
+        }
         $path = dirname(dirname(__FILE__)) . "/";
 		$this->paths[] = $path;
 	}
