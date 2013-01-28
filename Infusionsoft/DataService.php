@@ -1,6 +1,6 @@
 <?php
 class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
-	public static function ping(Infusionsoft_App $app = null){
+	public static function ping($serviceName, Infusionsoft_App $app = null){
 		return parent::ping('DataService', $app);						
 	}
 	
