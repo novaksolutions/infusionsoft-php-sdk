@@ -54,9 +54,15 @@ class Infusionsoft_App{
 
         $attempts = 0;
         do{
+            if ($attempts > 0){
+                if (class_exists('CakeLog')){
+                    CakeLog::write('notice', "Attempt #$attempts failed in Infusionsoft call. FaultCode: {$req->faultCode()} FaultString: {$req->faultString}");
+                }
+                sleep(5);
+            }
             $attempts++;
             $req = $this->client->send($call, $this->timeout, 'https');
-        } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail']) && $attempts < 3);
+        } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false) && $attempts < 4);
 
         $this->totalHttpCalls += $attempts;
 
