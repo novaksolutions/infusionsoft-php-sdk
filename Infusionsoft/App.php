@@ -56,7 +56,7 @@ class Infusionsoft_App{
         do{
             if ($attempts > 0){
                 if (class_exists('CakeLog')){
-                    CakeLog::write('notice', "Attempt #$attempts failed in Infusionsoft call. FaultCode: " . $req->faultCode() . " FaultString: " . $req->faultString);
+                    CakeLog::write('notice', "Attempt #$attempts failed in Infusionsoft call. FaultCode: " . $req->faultCode() . " FaultString: " . $req->faultString());
                 }
                 sleep(5);
             }
