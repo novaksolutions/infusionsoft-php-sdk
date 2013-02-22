@@ -50,7 +50,9 @@ class Infusionsoft_Generated_CreditCard extends Infusionsoft_Generated_Base{
 	}
 	
 	public function addCustomField($name){
-		self::$tableFields[] = $name;
+        if (!array_key_exists($name, self::$tableFields)){
+            self::$tableFields[] = $name;
+        }
 	}
 
     public function removeField($fieldName){

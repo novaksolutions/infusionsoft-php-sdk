@@ -7,7 +7,7 @@
  * @property String CCId
  */
 class Infusionsoft_Generated_CCharge extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'RefNum', 'ApprCode', 'Amt', 'CCId');
+    protected static $tableFields = array('Id', 'CCId', 'PaymentId', 'MerchantId', 'OrderNum', 'RefNum', 'ApprCode', 'Amt');
     
     
     public function __construct($id = null, $app = null){    	    	
