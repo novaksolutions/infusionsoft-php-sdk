@@ -1,7 +1,7 @@
 <?php
 class Infusionsoft_SmartCache{
     private $ttl = 120;
-    private $name = '';
+    protected $name = '';
     private $dir = '';
 
     public function __construct($name, $ttl = 300, $dir = 'cache'){
