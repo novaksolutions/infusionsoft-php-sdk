@@ -97,7 +97,7 @@ class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
             $mergeContext
         );
 
-        return parent::send($app, "APIEmailService.updateEmailTemplate", $params);
+        return parent::send($app, "APIEmailService.updateEmailTemplate", $params, null, true);
     }
     
     public static function getEmailTemplate($templateId, Infusionsoft_App $app = null){
@@ -105,7 +105,7 @@ class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
             (int) $templateId
         );
 
-        return parent::send($app, "APIEmailService.getEmailTemplate", $params);
+        return parent::send($app, "APIEmailService.getEmailTemplate", $params, null, true);
     }
     
     public static function getAvailableMergeFields($mergeContext, Infusionsoft_App $app = null){
@@ -113,7 +113,7 @@ class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
             $mergeContext
         );
 
-        return parent::send($app, "APIEmailService.getAvailableMergeFields", $params);
+        return parent::send($app, "APIEmailService.getAvailableMergeFields", $params, null, true);
     }
     
     public static function optIn($email, $permissionReason, Infusionsoft_App $app = null){
@@ -122,7 +122,7 @@ class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
             $permissionReason
         );
 
-        return parent::send($app, "APIEmailService.optIn", $params);
+        return parent::send($app, "APIEmailService.optIn", $params, null, true);
     }
     
     public static function optOut($email, $reason, Infusionsoft_App $app = null){
@@ -131,7 +131,7 @@ class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
             $reason
         );
 
-        return parent::send($app, "APIEmailService.optOut", $params);
+        return parent::send($app, "APIEmailService.optOut", $params, null, true);
     }
     
     public static function getOptStatus($email, Infusionsoft_App $app = null){
@@ -139,7 +139,7 @@ class Infusionsoft_APIEmailServiceBase extends Infusionsoft_Service{
             $email
         );
 
-        return parent::send($app, "APIEmailService.getOptStatus", $params);
+        return parent::send($app, "APIEmailService.getOptStatus", $params, null, true);
     }
     
 }
