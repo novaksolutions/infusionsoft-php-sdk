@@ -10,6 +10,7 @@ class Infusionsoft_App{
 	protected $client;
 
     protected $totalHttpCalls = 0;
+    protected $Logger;
 
 	public function __construct($hostname, $apiKey, $port = 443){
 		$this->hostname = $hostname;
@@ -19,6 +20,14 @@ class Infusionsoft_App{
 		$this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
 		$this->client->setSSLVerifyPeer(0);
 	}
+
+    public function logger(Infusionsoft_Logger $object){
+        if (method_exists($object, 'log')){
+            $this->Logger = $object;
+        } else {
+            throw new Exception('Required method "log" not found in object passed to App::statisticsLogger)');
+        }
+    }
 
     public function enableDebug(){
         $this->debug = true;
@@ -65,6 +74,17 @@ class Infusionsoft_App{
         } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false) && $attempts < 4);
 
         $this->totalHttpCalls += $attempts;
+
+        if (is_object($this->Logger)){
+            $this->Logger->log(array(
+                'time' => date('Y-m-d H:i:s'),
+                'method' => $method,
+                'args' => $args,
+                'attempts' => $attempts,
+                'result' => $req->faultCode() ? 'Failed' : 'Successful',
+                'error_message' => $req->faultCode() ? $req->faultString() : null,
+            ));
+        }
 
 		if ($req->faultCode()){
 			$exception = new Infusionsoft_Exception($req->faultString() . "\nAttempted: $attempts time(s).", $method, $args);
