@@ -12,6 +12,7 @@ interface Infusionsoft_Logger {
     /*
      * $data array contains the following:
      *  'time' (Y-m-d H:i:s)
+     *  'duration' (int - duration of request in seconds)
      *  'method' (string - API call sent)
      *  'args' (array)
      *  'attempts' (int)

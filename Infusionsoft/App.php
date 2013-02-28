@@ -62,6 +62,7 @@ class Infusionsoft_App{
 		$call = new xmlrpcmsg($method, $encoded_arguments);
 
         $attempts = 0;
+        $start = time();
         do{
             if ($attempts > 0){
                 if (class_exists('CakeLog')){
@@ -78,6 +79,7 @@ class Infusionsoft_App{
         if (is_object($this->Logger)){
             $this->Logger->log(array(
                 'time' => date('Y-m-d H:i:s'),
+                'duration' => time() - $start,
                 'method' => $method,
                 'args' => $args,
                 'attempts' => $attempts,
