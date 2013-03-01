@@ -75,7 +75,11 @@ class Infusionsoft_App{
         } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false) && $attempts < 4);
 
         $this->totalHttpCalls += $attempts;
-        $result = php_xmlrpc_decode($req->value());
+        if (!$req->faultCode()){
+            $result = php_xmlrpc_decode($req->value());
+        } else {
+            $result = array();
+        }
 
         if (is_object($this->Logger)){
             $this->Logger->log(array(
