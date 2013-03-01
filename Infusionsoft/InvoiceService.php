@@ -1,11 +1,9 @@
 <?php
 class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
-    public static function chargeInvoiceArbitraryAmount($invoiceId, $cardId, $amount, $merchantAccountId){
-    //Go fetch the invoice and get the contact id...
-        $invoice = new Infusionsoft_Invoice($invoiceId);
+    public static function chargeInvoiceArbitraryAmount($contactId, $invoiceId, $cardId, $amount, $merchantAccountId){
 
     //Create a new order (InvoiceService.blankOrder...
-        $dummyInvoiceId = Infusionsoft_InvoiceService::createBlankOrder($invoice->ContactId, "API invoice :" . $amount, date('Ymd\TH:i:s'));
+        $dummyInvoiceId = Infusionsoft_InvoiceService::createBlankOrder($contactId, "API invoice :" . $amount, date('Ymd\TH:i:s'));
 
     //Add an order item that is the correct amount you want to charge...
         Infusionsoft_InvoiceService::addOrderItem($invoiceId, 0, 3, $amount, 1, "API order", "");
