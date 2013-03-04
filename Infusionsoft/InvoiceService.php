@@ -12,12 +12,17 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
         $dummyOrder->OrderStatus = "Pending";
         $dummyOrder->save();
     //Try to charge the invoice
-        $result = Infusionsoft_InvoiceService::chargeInvoice($dummyInvoiceId, "API payment", $cardId, $merchantAccountId, false);
+        try {
+            $result = Infusionsoft_InvoiceService::chargeInvoice($dummyInvoiceId, "API payment", $cardId, $merchantAccountId, false);
+        } catch(Exception $e) {
+            Infusionsoft_InvoiceService::deleteInvoice($dummyInvoiceId);
+            throw new Exception("failed to charge partial payment");
+        }
     //Update order status "_ChargeStatus" to "Failed", or "Succeeded"
 
-        if($result) {
+        if($result['Successful']) {
             //add a credit to the order
-            Infusionsoft_InvoiceService::addManualPayment($invoiceId, -$amount, date('Ymd\TH:i:s'), "Credit Card", "API partial payment", false);
+            Infusionsoft_InvoiceService::addManualPayment($invoiceId, $amount, date('Ymd\TH:i:s'), "Credit Card", "API partial payment", false);
             $dummyOrder->OrderStatus = "Successful";
             $dummyOrder->save();
 
