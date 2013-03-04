@@ -3,12 +3,13 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
     public static function chargeInvoiceArbitraryAmount($contactId, $invoiceId, $cardId, $amount, $merchantAccountId){
 
     //Create a new order (InvoiceService.blankOrder...
-        $dummyInvoiceId = Infusionsoft_InvoiceService::createBlankOrder($contactId, "API invoice :" . $amount, date('Ymd\TH:i:s'));
+        $dummyInvoiceId = Infusionsoft_InvoiceService::createBlankOrder($contactId, "API Arbitrary Payment Invoice: " . $amount, date('Ymd\TH:i:s'));
 
     //Add an order item that is the correct amount you want to charge...
         Infusionsoft_InvoiceService::addOrderItem($dummyInvoiceId, 0, 3, $amount, 1, "API order", "");
     //Set orders custom field "_ChargeStatus" to "Pending"
-        $dummyOrder = new Infusionsoft_Job(Infusionsoft_InvoiceService::getOrderId($dummyInvoiceId));
+        $invoice = new Infusionsoft_Invoice($dummyInvoiceId);
+        $dummyOrder = new Infusionsoft_Job($invoice->JobId);
         $dummyOrder->OrderStatus = "Pending";
         $dummyOrder->save();
     //Try to charge the invoice
