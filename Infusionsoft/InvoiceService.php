@@ -6,7 +6,7 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
         $dummyInvoiceId = Infusionsoft_InvoiceService::createBlankOrder($contactId, "API invoice :" . $amount, date('Ymd\TH:i:s'));
 
     //Add an order item that is the correct amount you want to charge...
-        Infusionsoft_InvoiceService::addOrderItem($invoiceId, 0, 3, $amount, 1, "API order", "");
+        Infusionsoft_InvoiceService::addOrderItem($dummyInvoiceId, 0, 3, $amount, 1, "API order", "");
     //Set orders custom field "_ChargeStatus" to "Pending"
         $dummyOrder = new Infusionsoft_Job(Infusionsoft_InvoiceService::getOrderId($dummyInvoiceId));
         $dummyOrder->OrderStatus = "Pending";
