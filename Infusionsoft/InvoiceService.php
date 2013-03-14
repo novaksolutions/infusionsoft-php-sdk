@@ -17,7 +17,7 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
             $result = Infusionsoft_InvoiceService::chargeInvoice($dummyInvoiceId, "API payment", $cardId, $merchantAccountId, false);
         } catch(Exception $e) {
             Infusionsoft_InvoiceService::deleteInvoice($dummyInvoiceId);
-            throw new Exception("failed to charge partial payment");
+            throw new Exception("Failed to charge partial payment. Infusionsoft says: " . $e->getMessage());
         }
     //Update order status "_ChargeStatus" to "Failed", or "Succeeded"
 
