@@ -60,7 +60,7 @@ class Infusionsoft_ContactServiceBase extends Infusionsoft_Service{
             (int) $groupId
         );
 
-        return parent::send($app, "ContactService.addToGroup", $params);
+        return parent::send($app, "ContactService.addToGroup", $params, null, true);
     }
     
     public static function getAppSetting($hash, $module, $param, Infusionsoft_App $app = null){
