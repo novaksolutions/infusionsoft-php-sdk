@@ -259,6 +259,7 @@ $cp1252_to_htmlent =
 	*/
 	function xmlrpc_encode_entitites($data, $src_encoding='', $dest_encoding='')
 	{
+        $data = str_replace(array("&#11;", "&#0;", "&#20;", "’", "“"), "", $data);
 		if ($src_encoding == '')
 		{
 			// lame, but we know no better...
