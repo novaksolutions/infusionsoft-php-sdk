@@ -18,7 +18,7 @@
  * @property String CreatedBy
  */
 class Infusionsoft_Generated_Lead extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'OpportunityTitle', 'ContactID', 'AffiliateId', 'UserID', 'StageID', 'StatusID', 'Leadsource', 'Objection', 'ProjectedRevenueLow', 'ProjectedRevenueHigh', 'OpportunityNotes', 'DateCreated', 'LastUpdated', 'LastUpdatedBy', 'CreatedBy');
+    protected static $tableFields = array('Id', 'OpportunityTitle', 'ContactID', 'AffiliateId', 'UserID', 'StageID', 'StatusID', 'Leadsource', 'Objection', 'ProjectedRevenueLow', 'ProjectedRevenueHigh', 'OpportunityNotes', 'DateCreated', 'LastUpdated', 'LastUpdatedBy', 'CreatedBy', 'EstimatedCloseDate', 'NextActionDate', 'NextActionNotes');
     
     
     public function __construct($id = null, $app = null){    	    	
