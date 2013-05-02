@@ -17,8 +17,13 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
             //find all Orders with a matching JobRecurringId and put them in this array, sorted by date.
             $matchingOrders = Infusionsoft_DataService::queryWithOrderBy(new Infusionsoft_Job(), array('JobRecurringId' => $recurringOrderId),'DateCreated');
 
-            $earliestMatchingOrder = array_shift($matchingOrders);
-            return $earliestMatchingOrder->Id;
+            if (!empty($matchingOrders)){
+                $earliestMatchingOrder = array_shift($matchingOrders);
+                return $earliestMatchingOrder->Id;
+            } else {
+                return false;
+            }
+
         }
     }
 }
