@@ -26,4 +26,23 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
 
         }
     }
+
+    public static function getSubscriptionFromOrder($orderId){
+        try{
+            $order = new Infusionsoft_Job($orderId);
+            if (!empty($order->JobRecurringId)){
+                return new Infusionsoft_RecurringOrder($order->JobRecurringId);
+            } else {
+                $subscription = Infusionsoft_DataService::query(new Infusionsoft_RecurringOrder(), array('OriginatingOrderId' => $orderId));
+                if (!empty($subscription)){
+                    return $subscription[0];
+                } else {
+                    return false;
+                }
+            }
+        } catch (Exception $e){
+            CakeLog::write('error', 'getSusbscriptionIdForOrder failed to get the Order! orderId: ' . $orderId);
+            return false;
+        }
+    }
 }
