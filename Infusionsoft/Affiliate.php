@@ -5,10 +5,12 @@ class Infusionsoft_Affiliate extends Infusionsoft_Generated_Affiliate{
     	parent::__construct($id, $app);    	    	
     }
 
+    /*
     public function getCommissions($startDate, $endDate) {
         $commissionData = Infusionsoft_APIAffiliateService::affCommissions($this->Id, $startDate, $endDate);
 
         foreach ($commissionData)
     }
+    */
 }
 
