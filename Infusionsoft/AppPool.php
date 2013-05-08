@@ -5,8 +5,12 @@ class Infusionsoft_AppPool{
 	public function __construct(){
 			
 	}
-	
-	public static function getApp($appHostname = ''){		
+
+    /**
+     * @param string $appHostname
+     * @return Infusionsoft_App
+     */
+    public static function getApp($appHostname = ''){
 		$appKey = strtolower($appHostname);
 		if($appKey == '') $appKey = 'default';				
 		if(array_key_exists($appKey, self::$apps)){

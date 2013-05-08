@@ -24,7 +24,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		
 		$params = array(
 			$object->getTable(),
-			(int) $object->Id
+			(int) $id
 		);
 
 		$records = $app->send('DataService.delete', $params, true);
@@ -176,15 +176,17 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		
 		if($object->Id > 0){			
 			$params = array(
-			$object->getTable(),
-			(int) $object->Id,
-			$object->toArray());
+                $object->getTable(),
+                (int) $object->Id,
+                $object->toArray()
+            );
 			$out = $app->send('DataService.update', $params, true);
 		}
 		else{
 			$params = array(
-			$object->getTable(),
-			$object->toArray());
+                $object->getTable(),
+                $object->toArray()
+            );
 			$object->Id = $app->send('DataService.add', $params);
 			$out = $object->Id; 
 		}
