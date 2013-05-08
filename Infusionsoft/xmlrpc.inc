@@ -256,6 +256,13 @@
 	*/
 	function xmlrpc_encode_entitites($data, $src_encoding='', $dest_encoding='')
 	{
+        /* Jordan Novak edit
+        * clean out invalid characters before sending
+        */
+        $data = str_replace(array("&#11;", "&#0;", "&#20;", "’", "“"), "", $data);
+        /*
+         * End Jordan Novak edit
+         */
 		if ($src_encoding == '')
 		{
 			// lame, but we know no better...
@@ -2604,6 +2611,12 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 
 			xml_set_character_data_handler($parser, 'xmlrpc_cd');
 			xml_set_default_handler($parser, 'xmlrpc_dh');
+
+            // **BEGIN JORDAN NOVAK EDIT**
+            // Sometimes customer data has these random characters in it, and it breaks the XML parsing
+            $data = str_replace(array("&#11;", "&#0;", "&#20;", "&#19;"), " ", $data);
+            // **END JORDAN NOVAK EDIT**
+
 
 			// first error check: xml not well formed
 			if(!xml_parse($parser, $data, count($data)))
