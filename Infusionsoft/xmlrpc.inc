@@ -2614,7 +2614,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 
             // **BEGIN JORDAN NOVAK EDIT**
             // Sometimes customer data has these random characters in it, and it breaks the XML parsing
-            $data = str_replace(array("&#11;", "&#0;", "&#20;", "&#19;"), " ", $data);
+            $data = str_replace(array("&#11;", "&#0;", "&#20;", "&#19;", "&#8;"), " ", $data);
             // **END JORDAN NOVAK EDIT**
 
 
@@ -2633,7 +2633,7 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 //				}
 //				else
 //				{
-					$errstr = sprintf('XML error: %s at line %d, column %d, byte %d, text in context:%s',
+					$errstr = sprintf('XML error: %s at line %d, column %d, byte %d, text in context: %s',
 						xml_error_string(xml_get_error_code($parser)),
 						xml_get_current_line_number($parser), xml_get_current_column_number($parser), xml_get_current_byte_index($parser),
                         substr($data, (xml_get_current_byte_index($parser) - 10), 20)
