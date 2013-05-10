@@ -61,14 +61,25 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
         //parse $idString
         $idArray = explode('/', $idString);
         $affiliateId = $idArray[0];
-        $dateString = $idArray[1];
+        $invoiceId = $idArray[1];
+
+        $dateString = $idArray[2];
         $date = new DateTime($dateString);
         $date->modify('+1 second');
         $dateAndOneSecondString = $date->format('Ymd\TH:i:s');
-        $index = $idArray[2];
+
+        $index = $idArray[3];
         $commissions = Infusionsoft_APIAffiliateService::affCommissions($affiliateId, $dateString, $dateAndOneSecondString, $app);
-        if ($index >= 0 && $index < count($commissions) )
-            $this->data = $commissions[$index];
+
+        $commissionsInvoice = array(); //commissions with matching invoice Id
+        foreach ($commissions as $commission){
+            if ($commission['InvoiceId'] == $invoiceId){
+                $commissionsInvoice[] = $commission;
+            }
+        }
+
+        if ($index >= 0 && $index < count($commissionsInvoice) )
+            $this->data = $commissionsInvoice[$index];
         else
             throw new Infusionsoft_Exception("Invalid commission Id");
     }
