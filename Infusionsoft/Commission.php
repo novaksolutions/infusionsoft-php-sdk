@@ -23,8 +23,12 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
         "SaleAffId"
     );
 
-    public function __construct($id = null, $app = null){
-        parent::__construct('Affiliate', $id, $app);
+    //Commissions don't actually have ids in Infusionsoft, so $idString is i of the form $affId/$date/$index
+    public function __construct($idString = null, $app = null){
+        $this->table = 'Commission';
+        if ($idString != null) {
+            $this->load($idString, $app);
+        }
     }
 
     public function getFields(){
@@ -47,6 +51,26 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
             unset(self::$tableFields[$fieldIndex]);
             self::$tableFields = array_values(self::$tableFields);
         }
+    }
+
+    public function save() {
+        throw new Infusionsoft_Exception("Commissions cannot be saved");
+    }
+
+    public function load($idString, $app = null) {
+        //parse $idString
+        $idArray = explode('/', $idString);
+        $affiliateId = $idArray[0];
+        $dateString = $idArray[1];
+        $date = new DateTime($dateString);
+        $date->modify('+1 second');
+        $dateAndOneSecondString = $date->format('Ymd\TH:i:s');
+        $index = $idArray[2];
+        $commissions = Infusionsoft_APIAffiliateService::affCommissions($affiliateId, $dateString, $dateAndOneSecondString, $app);
+        if ($index >= 0 && $index < count($commissions) )
+            $this->data = $commissions[$index];
+        else
+            throw new Infusionsoft_Exception("Invalid commission Id");
     }
 
 }
