@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Infusionsoft_Commission extends Infusiosoft_Generated_Base {
+class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
 
     protected static $tableFields = array(
         "ContactLastName",
