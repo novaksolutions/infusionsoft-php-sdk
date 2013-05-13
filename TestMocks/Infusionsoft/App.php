@@ -7,7 +7,16 @@ class Infusionsoft_App{
         $this->data = new Infusionsoft_AppData();
         $this->services['DataService'] = new Infusionsoft_LowLevelDataService($this->data);
         $this->services['InvoiceService'] = new Infusionsoft_LowLevelInvoiceService($this->data);
+        $this->services['APIAffiliateService'] = new Infusionsoft_LowLevelAPIAffiliateService($this->data);
 	}
+
+    public function getService($name){
+        if(isset($this->services[$name])){
+            return $this->services[$name];
+        } else {
+            throw new Exception("Service $name not loaded in mock App.");
+        }
+    }
 
     public function enableDebug(){
 
