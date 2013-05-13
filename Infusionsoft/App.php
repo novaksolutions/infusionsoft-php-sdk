@@ -66,7 +66,8 @@ class Infusionsoft_App{
         do{
             if ($attempts > 0){
                 if (class_exists('CakeLog') && $attempts > 1){
-                    CakeLog::write('notice', "Attempt #$attempts failed in Infusionsoft call. FaultCode: " . $req->faultCode() . " FaultString: " . $req->faultString());
+                    $lastAttemptFaultCode = $req->faultCode();
+                    $lastAttemptFaultString = $req->faultString();
                 }
                 sleep(5);
             }
@@ -99,6 +100,9 @@ class Infusionsoft_App{
 			throw $exception; 
 			return FALSE;
 		}
+        if ($attempts > 2){
+            CakeLog::write('notice', "Infusionsoft call required $attempts calls to receive a successful response. Method: $method FaultCode: $lastAttemptFaultCode FaultString: $lastAttemptFaultString");
+        }
 		return $result;
 	}
 	public function send($method, $args, $retry = false){
