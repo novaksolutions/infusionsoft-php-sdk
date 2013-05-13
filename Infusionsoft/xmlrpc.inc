@@ -259,7 +259,7 @@
         /* Jordan Novak edit
         * clean out invalid characters before sending
         */
-        $data = str_replace(array("&#11;", "&#0;", "&#20;", "’", "“"), "", $data);
+        $data = str_replace(array("&#11;", "&#0;", "&#20;", "’", "“",  "”"), "", $data);
         /*
          * End Jordan Novak edit
          */
