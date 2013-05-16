@@ -62,6 +62,7 @@ class Infusionsoft_Service{
     	return $app->send($method, $params, $retry);
     }
 
+    // Takes a string, parses it and returns a representing the same date/time in XMLRPC's date format
     public static function apiDate($dateStr){
         $dArray = date_parse($dateStr);
         if ($dArray['error_count'] < 1) {
@@ -76,4 +77,8 @@ class Infusionsoft_Service{
             die("The above errors prevented the application from executing properly.");
         }
     }
+
+    // PHP date representation of the XMLRPC date format, for use with other conversions.
+
+    const apiDateFormat = 'Ymd\TH:i:s';
 }
