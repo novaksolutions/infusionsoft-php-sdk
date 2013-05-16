@@ -10,6 +10,7 @@
 class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
 
     protected static $tableFields = array(
+        "AffiliateId",
         "ContactLastName",
         "SoldByLastName",
         "Description",
