@@ -10,6 +10,7 @@
 class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
 
     protected static $tableFields = array(
+        "AffiliateId",
         "ContactLastName",
         "SoldByLastName",
         "Description",
@@ -62,24 +63,26 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
         $idArray = explode('/', $idString);
         $affiliateId = $idArray[0];
         $invoiceId = $idArray[1];
-
         $dateString = $idArray[2];
-        $date = new DateTime($dateString);
+        $index = $idArray[3];
+
+        $date = DateTime::createFromFormat(Infusionsoft_Service::apiDateFormat, $dateString);
+        $dateString = $date->format(Infusionsoft_Service::apiDateFormat);
         $date->modify('+1 second');
         $dateAndOneSecondString = $date->format('Ymd\TH:i:s');
 
-        $index = $idArray[3];
+        //This is the base method that returns a data array
         $commissions = Infusionsoft_APIAffiliateService::affCommissions($affiliateId, $dateString, $dateAndOneSecondString, $app);
 
         $commissionsInvoice = array(); //commissions with matching invoice Id
-        foreach ($commissions as $commission){
-            if ($commission['InvoiceId'] == $invoiceId){
+        foreach ($commissions as $commission) {
+            if ($commission->InvoiceId == $invoiceId){
                 $commissionsInvoice[] = $commission;
             }
         }
 
         if ($index >= 0 && $index < count($commissionsInvoice) )
-            $this->data = $commissionsInvoice[$index];
+            $this->data = $commissionsInvoice[$index]->toArray();
         else
             throw new Infusionsoft_Exception("Invalid commission Id");
     }
