@@ -11,7 +11,7 @@
 class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
     //'DateEarned' is the only field for which ordering is supported.
     //If month is 0, all commissions for the current month will be returned
-    public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $month = 0, Infusionsoft_App $app = null){
+    public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $month = 0, $returnFields = false, Infusionsoft_App $app = null){
         //Calculate beginning of this month
         $startDate = new DateTime(date('Y-m-01')); //first day of this month
         $startDate = date_sub($startDate, new DateInterval('P'.$month.'M')); //$month months before the start of this month
@@ -31,7 +31,7 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
                 array('Id' => '%'),
                 1000,
                 $page,
-                'Id',
+                array('Id'),
                 $app
             );
             $page += 1;
