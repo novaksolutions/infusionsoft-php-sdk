@@ -10,6 +10,9 @@
 
 class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
     static $first_run = false;
+    static $done = false;
+    static $first_order_date = null;
+    static $earliest_month_to_query = null;
     //'DateEarned' is the only field for which ordering is supported.
     //If month is 0, all commissions for the current month will be returned
     public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $month = 0, $returnFields = false, Infusionsoft_App $app = null){
@@ -23,6 +26,14 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
         $endDate = date_add($endDate, new DateInterval('P1M')); // one month later
         $endDate = $endDate->format(Infusionsoft_Service::apiDateFormat);
 
+        if (self::$first_run === true && !empty(self::$first_order_date) && strtotime($startDate) < strtotime(self::$first_order_date)){
+            self::$done = true;
+        }
+        if (!empty(self::$earliest_month_to_query)){
+            if (strtotime($startDate) < strtotime(self::$earliest_month_to_query)){
+                self::$done = true;
+            }
+        }
         //get an array of all affiliates
         $affiliates = array();
         $page = 0;
@@ -38,10 +49,12 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
             $page += 1;
             $affiliates = array_merge($affiliates, $affiliatesPage);
         } while (sizeof($affiliatesPage) >= 1000);
-        if (self::$first_run == true){
+        if (self::$first_run === true && self::$first_order_date === null){
             $firstOrder = Infusionsoft_DataService::queryWithOrderBy(new Infusionsoft_Job(), array('Id' => '%'), 'Id', true, 1);
             if (!empty($firstOrder)){
-                $startDate = $firstOrder[0]->DateCreated;
+                self::$first_order_date = $firstOrder[0]->DateCreated;
+            } else {
+                self::$first_order_date = false;
             }
         }
 
