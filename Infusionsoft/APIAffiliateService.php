@@ -6,6 +6,8 @@ class Infusionsoft_APIAffiliateService extends Infusionsoft_APIAffiliateServiceB
 
         $commissions = array();
         foreach ($commissionData as $index => $commissionDatum) {
+            //The API service doesn't return AffId, but it is part of the object
+            $commissionDatum['Id'] = $affiliateId.'/'.$commissionDatum['InvoiceId'].'/'.$commissionDatum['DateEarned'].'/'.$index;
             $commissionDatum['AffiliateId'] = $affiliateId;
 
             $commission = new Infusionsoft_Commission();

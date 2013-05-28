@@ -105,7 +105,7 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
             throw new Infusionsoft_Exception("Invalid commission Id");
     }
 
-    public function loadFromArray($data){
+    /*public function loadFromArray($data){
         if (!array_key_exists('AffiliateId', $data) || !array_key_exists('InvoiceId', $data) || !array_key_exists('DateEarned', $data)){
             throw new Exception('Lacking necessary fields to create UniqueID for Commissions Object.');
         }
@@ -116,5 +116,5 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
                 $this->$field = $data[$field];
             }
         }
-    }
+    }*/
 }
