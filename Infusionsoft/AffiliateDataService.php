@@ -9,6 +9,7 @@
 
 
 class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
+    static $first_run = false;
     //'DateEarned' is the only field for which ordering is supported.
     //If month is 0, all commissions for the current month will be returned
     public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $month = 0, $returnFields = false, Infusionsoft_App $app = null){
@@ -17,7 +18,7 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
         $startDate = date_sub($startDate, new DateInterval('P'.$month.'M')); //$month months before the start of this month
         $startDate = $startDate->format(Infusionsoft_Service::apiDateFormat); //format as string
 
-        $endDate = new DateTime(date('Y-M-01')); //first of this month
+        $endDate = new DateTime(date('Y-m-01')); //first of this month
         $endDate = date_sub($endDate, new DateInterval('P'. $month . 'M')); //same as$startDate
         $endDate = date_add($endDate, new DateInterval('P1M')); // one month later
         $endDate = $endDate->format(Infusionsoft_Service::apiDateFormat);
@@ -37,6 +38,12 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
             $page += 1;
             $affiliates = array_merge($affiliates, $affiliatesPage);
         } while (sizeof($affiliatesPage) >= 1000);
+        if (self::$first_run == true){
+            $firstOrder = Infusionsoft_DataService::queryWithOrderBy(new Infusionsoft_Job(), array('Id' => '%'), 'Id', true, 1);
+            if (!empty($firstOrder)){
+                $startDate = $firstOrder[0]->DateCreated;
+            }
+        }
 
         //Now get all of the commissions from each one
         $commissions = array();
