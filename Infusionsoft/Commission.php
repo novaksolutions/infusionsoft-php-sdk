@@ -23,7 +23,7 @@
 class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
 
     protected static $tableFields = array(
-        "Id",
+        "Id", //This is non-numeric
         "AffiliateId",
         "ContactLastName",
         "SoldByLastName",
@@ -77,6 +77,7 @@ class Infusionsoft_Commission extends Infusionsoft_Generated_Base {
 
     public function load($idString, $app = null) {
         //parse $idString
+        $this->Id = $idString;
         $idArray = explode('/', $idString);
         $affiliateId = $idArray[0];
         $invoiceId = $idArray[1];
