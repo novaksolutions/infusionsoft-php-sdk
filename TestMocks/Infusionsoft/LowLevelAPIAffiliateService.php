@@ -1,11 +1,14 @@
 <?php
 
 
-class Infusionsoft_APIAffiliateService extends Infusionsoft_APIAffiliateServiceBase{
-    static $data;
+class Infusionsoft_LowLevelAPIAffiliateService extends Infusionsoft_LowLevelMockService{
 
-    public static function setData($data){
-        Infusionsoft_APIAffiliateService::$data = $data;
+    public function __construct(){
+
+    }
+
+    public function setData($data){
+        $this->data = $data;
     }
 
     public static function affPayouts($affiliateId, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null){
@@ -18,8 +21,17 @@ class Infusionsoft_APIAffiliateService extends Infusionsoft_APIAffiliateServiceB
         return parent::send($app, "APIAffiliateService.affPayouts", $params);
     }
 
-    public static function affCommissions($affiliateId, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null){
-        return Infusionsoft_APIAffiliateService::$data;
+    public function affCommissions($args){
+        array_shift($args);
+        list($affiliateId, $filterStartDate, $filterEndDate) = $args;
+
+        $matchingCommissions = array();
+        foreach($this->data as $commission){
+            if($commission['AffiliateId'] == $affiliateId && strtotime($commission['DateEarned']) >= strtotime($filterStartDate) && strtotime($commission['DateEarned']) < strtotime($filterEndDate)){
+                $matchingCommissions[] = $commission;
+            }
+        }
+        return $matchingCommissions;
     }
 
     public static function affClawbacks($affiliateId, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null){

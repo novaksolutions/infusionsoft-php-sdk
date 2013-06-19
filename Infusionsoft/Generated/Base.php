@@ -33,8 +33,13 @@ class Infusionsoft_Generated_Base{
 	}
 
 	public function delete($app = null){
-		$result = Infusionsoft_DataService::delete($this, $this->Id, $app);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($this, array('result' => $result)), 'DataObject.Deleted');
+        if($this->Id > 0){
+            $result = Infusionsoft_DataService::delete($this, $this->Id, $app);
+            Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($this, array('result' => $result)), 'DataObject.Deleted');
+        } else {
+            throw new Infusionsoft_Exception("Trying to delete a blank contact");
+        }
+
         return $result;
 	}
 	
