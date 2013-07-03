@@ -60,45 +60,12 @@ class Infusionsoft_OrderService extends Infusionsoft_OrderServiceBase {
      * @return bool|Infusionsoft_RecurringOrder The newly created RecurringOrder object, or false if there was a problem.
      */
     public static function rescheduleRecurringOrderWithDelete($orderId, $newStartDate, $nextBillDate = null) {
-        // Attempt to load the order
-        $order = Infusionsoft_DataService::query(new Infusionsoft_RecurringOrder(), array('Id' => $orderId));
-        $order = array_shift($order);
-        if (count($order) == 0) {
-            return false;
-        }
-        // Create a new recurring order based on existing data
-        $newOrder = new Infusionsoft_RecurringOrder();
-        foreach ($order->getFields() as $field) {
-            $newOrder->{$field} = $order->{$field};
-        }
-        // We will look for properly named custom fields to automatically update references
-        if (in_array('_OriginalSubscriptionId', $order->getFields())) {
-            $newOrder->_OriginalSubscriptionId = $order->Id;
-        }
-        $startDate = date('Ymd\TH:i:s', strtotime($newStartDate));
-        $nextBillDate = date('Ymd\TH:i:s', strtotime(($nextBillDate == null) ? $newStartDate : $nextBillDate)); // Use an optional next bill date, otherwise use the start date
-        $newOrder->Id = null;
-        $newOrder->StartDate = $startDate;
-        $newOrder->Status = 'Active';
-        $newOrder->ReasonStopped = null;
-        $newOrder->save();
-        // The new subscription has been saved.  Make API call to change next bill date
-        try {
-            Infusionsoft_InvoiceService::updateJobRecurringNextBillDate($newOrder->Id, $nextBillDate);
-        } catch (Exception $e) {
-            CakeLog::write('error', "Problem updating next billing date on subscription.  Id: {$newOrder->Id}, Date: {$startDate}, Error: ".$e->getMessage());
-        }
-        // Attempt to create invoices for the subscription
-        try {
-            Infusionsoft_InvoiceService::createInvoiceForRecurring($newOrder->Id);
-        } catch (Exception $e) {
-            CakeLog::write('error', "Problem creating invoices for new subscription. Id: {$newOrder->Id}, Error: ".$e->getMessage());
-        }
+        $newOrder = self::rescheduleRecurringOrder($orderId, $newStartDate, $nextBillDate);
         // Make API call to delete the old subscription, THIS REMOVES ALL INVOICES AND ORDERS AS WELL!
         try {
-            Infusionsoft_InvoiceService::deleteSubscription($order->Id);
+            Infusionsoft_InvoiceService::deleteSubscription($orderId);
         } catch (Exception $e) {
-            CakeLog::write('error', "Problem deleting existing subscription.  Id: {$order->Id}, Error: ".$e->getMessage());
+            CakeLog::write('error', "Problem deleting existing subscription.  Id: {$orderId}, Error: ".$e->getMessage());
         }
         return $newOrder;
     }
