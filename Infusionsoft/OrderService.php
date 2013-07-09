@@ -24,14 +24,15 @@ class Infusionsoft_OrderService extends Infusionsoft_OrderServiceBase {
         $newOrder->Id = null;
         $newOrder->StartDate = $startDate;
         $newOrder->Status = 'Active';
-        $newOrder->ReasonStopped = '';
+        $newOrder->ReasonStopped = 'This order will stop billing on the billing end date.';
+
         // We will look for properly named custom fields to automatically update references
         if (in_array('_OriginalSubscriptionId', $order->getFields())) {
-            $newOrder->_OriginalSubscriptionId = $order->Id;
+            $newOrder->_OriginalSubscriptionId = strval($order->Id);
         }
         $newOrder->save(); // Wanted to limit to one save operation.  Id is required for next custom field.
         if (in_array('_NewSubscriptionId', $order->getFields())) {
-            $order->_NewSubscriptionId = $newOrder->Id;
+            $order->_NewSubscriptionId = strval($newOrder->Id);
         }
         // The new subscription has been saved.  Make API call to change next bill date
         try {
