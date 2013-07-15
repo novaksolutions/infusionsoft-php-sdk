@@ -18,4 +18,24 @@ class Infusionsoft_APIAffiliateService extends Infusionsoft_APIAffiliateServiceB
 
         return $commissions;
     }
+
+    public static function affClawbacks($affiliateId, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null) {
+        $clawbacksData =  parent::affClawbacks($affiliateId, $filterStartDate, $filterEndDate, $app);
+
+        $clawbacks = array();
+        foreach ($clawbacksData as $index => $clawbackDatum) {
+            //The API service doesn't return AffId, but it is part of the object
+            $clawbackDatum['Id'] = $affiliateId.'/'.$clawbackDatum['InvoiceId'].'/'.$clawbackDatum['DateEarned'].'/'.$index;
+            $clawbackDatum['AffiliateId'] = $affiliateId;
+
+            $clawback = new Infusionsoft_Clawback();
+            $clawback->loadFromArray($clawbackDatum);
+
+            $clawbacks[] = $clawback;
+        }
+
+        return $clawbacks;
+    }
+    
+    
 }

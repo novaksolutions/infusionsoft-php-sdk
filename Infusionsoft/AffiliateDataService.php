@@ -18,10 +18,10 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
     //If month is 0, all commissions for the current month will be returned
     public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $month = 0, $returnFields = false, Infusionsoft_App $app = null){
         //Calculate beginning of this month
-        $startDate = date('Y-m-01', strtotime(" - $month months"));
+        $startDate = date('Y-m-01 00:00:00', strtotime(" - $month months"));
         $startDate = date(Infusionsoft_Service::apiDateFormat, strtotime($startDate));
 
-        $endDate = date('Y-m-d', strtotime($startDate . ' + 1 month - 1 day'));
+        $endDate = date('Y-m-d 23:59:59', strtotime($startDate . ' + 1 month - 1 day'));
         $endDate = date(Infusionsoft_Service::apiDateFormat, strtotime($endDate));
 
         if (self::$first_run === true && !empty(self::$first_order_date) && strtotime($startDate) < strtotime(self::$first_order_date)){
@@ -60,14 +60,21 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
         }
 
         //Now get all of the commissions from each one
-        $commissions = array();
+        $objects = array();
         foreach ($affiliates as $affiliate) {
-            $commissions = array_merge(
-                $commissions,
-                Infusionsoft_APIAffiliateService::affCommissions($affiliate->Id, $startDate, $endDate, $app)
-            );
+            if (get_class($object) == 'Infusionsoft_Commissions'){
+                $objects = array_merge(
+                    $objects,
+                    Infusionsoft_APIAffiliateService::affCommissions($affiliate->Id, $startDate, $endDate, $app)
+                );
+            } elseif (get_class($object) == 'Infusionsoft_Clawback'){
+                $objects = array_merge(
+                    $objects,
+                    Infusionsoft_APIAffiliateService::affClawbacks($affiliate->Id, $startDate, $endDate, $app)
+                );
+            }
         }
 
-        return $commissions;
+        return $objects;
     }
 }
