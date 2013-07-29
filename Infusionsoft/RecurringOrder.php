@@ -27,6 +27,18 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
         }
     }
 
+    public static function getLastOrderId ($recurringOrderId) {
+        //find all Orders with a matching JobRecurringId and put them in this array, sorted by date.
+        $matchingOrders = Infusionsoft_DataService::queryWithOrderBy(new Infusionsoft_Job(), array('JobRecurringId' => $recurringOrderId),'DateCreated', false);
+
+        if (!empty($matchingOrders)){
+            $latestMatchingOrder = array_shift($matchingOrders);
+            return $latestMatchingOrder->Id;
+        } else {
+            return false;
+        }
+    }
+
     public static function getSubscriptionFromOrder($orderId){
         try{
             $order = new Infusionsoft_Job($orderId);
