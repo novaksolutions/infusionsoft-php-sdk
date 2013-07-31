@@ -1,11 +1,13 @@
 <?php
 /**
- * @property String Id
- * @property String ProductId
+ * @property int Id
+ * @property int ProductId
  * @property String Cycle
- * @property String Frequency
- * @property String PreAuthorizeAmount
- * @property String Prorate
+ * @property int Frequency
+ * @property float PreAuthorizeAmount
+ * @property boolean Prorate
+ * @property boolean Active
+ * @property float PlanPrice
  */
 class Infusionsoft_Generated_SubscriptionPlan extends Infusionsoft_Generated_Base{
     static $Cycle_WEEK  = 3;
