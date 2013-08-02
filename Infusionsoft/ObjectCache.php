@@ -45,4 +45,18 @@ class Infusionsoft_ObjectCache extends Infusionsoft_SmartCache{
 
         return false;
     }
+
+    public function addObjectToCache(Infusionsoft_Generated_Base $object) {
+        // Get the cache data and add our new object
+        $data = $this->getData();
+        $data[] = $object;
+        // Attempt to delete the cache
+        try {
+            $this->expireCache();
+        } catch (Exception $e) {
+            CakeLog::write('warning', "Problem expiring object cache during addObjectToCache, Error: ".$e->getMessage());
+        }
+        // Recache our new data
+        $this->cacheData($data);
+    }
 }
