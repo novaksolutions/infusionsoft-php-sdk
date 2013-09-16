@@ -9,6 +9,7 @@
 
 class Infusionsoft_AppData {
     protected $tables = array();
+    protected $contactApiGoalsAchieved = array();
 
     public function query($params){
         list($table, $limit, $page, $queryData, $returnFields) = $params;
@@ -61,9 +62,25 @@ class Infusionsoft_AppData {
         }
     }
 
+    public function achieveGoal($integrationName, $goalName, $contactId){
+        if(!isset($this->contactApiGoalsAchieved[$contactId])){
+            $this->contactApiGoalsAchieved[$contactId] = array();
+        }
+
+        $this->contactApiGoalsAchieved[$contactId][] = "$integrationName/$goalName";
+    }
+
+    public function getAchievedGoals($contactId){
+        if(!isset($this->contactApiGoalsAchieved[$contactId])){
+            $this->contactApiGoalsAchieved[$contactId] = array();
+        }
+
+        return $this->contactApiGoalsAchieved[$contactId];
+    }
+
     private function createTableIfNotExists($tableName){
         if(!isset($this->tables[$tableName])){
-            $tables[$tableName] = array();
+            $this->tables[$tableName] = array();
         }
     }
 
