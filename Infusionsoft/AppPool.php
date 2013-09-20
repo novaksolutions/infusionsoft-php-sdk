@@ -20,8 +20,13 @@ class Infusionsoft_AppPool{
 			return null;
 		}
 	}
-	
-	public static function addApp($app, $appKey = null){		
+
+    /**
+     * @param $app
+     * @param null $appKey
+     * @return Infusionsoft_App
+     */
+    public static function addApp(Infusionsoft_App $app, $appKey = null){
 		if(count(self::$apps) == 0){
 			self::$apps['default'] = $app;				
 		}		
