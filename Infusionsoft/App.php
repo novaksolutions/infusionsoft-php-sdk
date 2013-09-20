@@ -119,7 +119,7 @@ class Infusionsoft_App{
         $this->timeout = $timeout;
     }
 
-    public function formatDate($dateStr) {
+    public static function formatDate($dateStr) {
         $dArray=date_parse($dateStr);
         if ($dArray['error_count']<1) {
             $tStamp =
