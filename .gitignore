@@ -1,4 +1,5 @@
 .idea
+Infusionsoft/config.php
 Infusionsoft/cache
 Infusionsoft/debug
 Infusionsoft/exports/*
