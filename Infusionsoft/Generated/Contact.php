@@ -116,4 +116,20 @@ class Infusionsoft_Generated_Contact extends Infusionsoft_Generated_Base{
             self::$tableFields = array_values(self::$tableFields);
         }
     }
+
+    public function removeReadOnlyFields(){
+        $readOnlyFields = array(
+            'CreatedBy',
+            'DateCreated',
+            'Groups',
+            'Id',
+            'LastUpdated',
+            'LastUpdatedBy',
+            'Validated',
+        );
+        foreach ($readOnlyFields as $field){
+            self::removeField($field);
+        }
+
+    }
 }
