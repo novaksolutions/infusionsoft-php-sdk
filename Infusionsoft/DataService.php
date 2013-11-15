@@ -119,7 +119,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		);
 
 		$records = $app->send('DataService.query', $params, true);
-		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
+		return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
 	}
 	
 	public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
@@ -144,7 +144,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		);
 
 		$records = $app->send('DataService.query', $params, true);
-		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
+		return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
 	}
 
 	public static function search($object, $searchData, $queryData = array(), $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){

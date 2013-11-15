@@ -25,6 +25,9 @@ class Infusionsoft_OrderService extends Infusionsoft_OrderServiceBase {
         $newOrder->StartDate = $startDate;
         $newOrder->Status = 'Active';
         $newOrder->ReasonStopped = 'This order will stop billing on the billing end date.';
+        $newOrder->LastBillDate = '';
+        $newOrder->EndDate = '';
+        $newOrder->PaidThruDate = '';
 
         // We will look for properly named custom fields to automatically update references
         if (in_array('_OriginalSubscriptionId', $order->getFields())) {

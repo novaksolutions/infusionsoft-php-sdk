@@ -14,7 +14,7 @@ class Infusionsoft_Service{
 		return $out;
 	}
 	
-	protected static function _returnResults($className, $appHostName, $records){				
+	protected static function _returnResults($className, $appHostName, $records, $returnFields = false){
         if(!$records){
             return array();
         }        
@@ -25,7 +25,10 @@ class Infusionsoft_Service{
 		
         $return_records = array();
                                    
-        foreach ($records as $record){        	        
+        foreach ($records as $record){
+            if ($returnFields != false){
+                $record = array_merge(array_fill_keys($returnFields, null), $record);
+            }
         	$object = new $className();        	
             $object->loadFromArray($record, true);
             $object->setAppPoolAppKey($appHostName);
