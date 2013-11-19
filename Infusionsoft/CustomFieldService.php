@@ -90,8 +90,8 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
 	}
 
     public static $customFieldDataTypeList = array(
-        1 => 'PhoneNumber',
-        2 => 'SocialSecurityNumber',
+        1 => 'Phone',
+        2 => 'SSN',
         3 => 'Currency',
         4 => 'Percent',
         5 => 'State',
@@ -100,18 +100,19 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
         8 => 'Month',
         9 => 'DayOfWeek',
         10 => 'Name',
-        11 => 'DecimalNumber',
-        12 => 'WholeNumber',
+        11 => 'Decimal', // Not working
+        12 => 'Number',
         13 => 'Date',
         14 => 'DateTime',
         15 => 'Text',
         16 => 'TextArea',
-        17 => 'ListBox',
+        17 => 'List Box', // Not Working
         18 => 'Website',
         19 => 'Email',
         20 => 'Radio',
         21 => 'Select',
         22 => 'User',
-        23 => 'Drilldown'
+        23 => 'Drilldown',
+        25 => 'UserBox' // Not Working
     );
 }
