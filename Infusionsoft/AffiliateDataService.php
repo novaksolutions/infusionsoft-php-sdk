@@ -62,7 +62,7 @@ class Infusionsoft_AffiliateDataService extends Infusionsoft_Service {
         //Now get all of the commissions from each one
         $objects = array();
         foreach ($affiliates as $affiliate) {
-            if (get_class($object) == 'Infusionsoft_Commissions'){
+            if (get_class($object) == 'Infusionsoft_Commission'){
                 $objects = array_merge(
                     $objects,
                     Infusionsoft_APIAffiliateService::affCommissions($affiliate->Id, $startDate, $endDate, $app)

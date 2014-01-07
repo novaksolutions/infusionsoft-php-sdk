@@ -4,7 +4,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		return parent::ping('DataService', $app);						
 	}
 	
-	public static function addCustomField(Infusionsoft_Generated_Base &$object, $displayName, $dataType, $groupId, $id, Infusionsoft_App $app = null){
+	public static function addCustomField(Infusionsoft_Generated_Base &$object, $displayName, $dataType, $groupId, Infusionsoft_App $app = null){
 		$app = parent::getObjectOrDefaultAppIfNull($app, $object);
 		
 		$params = array(
@@ -12,7 +12,6 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 			$displayName,
 			$dataType,
 			(int) $groupId,
-			(int) $object->Id
 		);
 
 		$customFieldId = $app->send('DataService.addCustomField', $params);
@@ -119,7 +118,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		);
 
 		$records = $app->send('DataService.query', $params, true);
-		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
+		return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
 	}
 	
 	public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
@@ -144,7 +143,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase{
 		);
 
 		$records = $app->send('DataService.query', $params, true);
-		return self::_returnResults(get_class($object), $app->getHostName(), $records);		
+		return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
 	}
 
 	public static function search($object, $searchData, $queryData = array(), $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
