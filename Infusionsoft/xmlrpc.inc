@@ -3797,5 +3797,3 @@ xmlrpc_encode_entitites($this->errstr, $GLOBALS['xmlrpc_internalencoding'], $cha
 				return false;
 		}
 	}
-
-?>
