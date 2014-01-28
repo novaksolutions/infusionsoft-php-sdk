@@ -1,21 +1,15 @@
 <?php
 
-$inf = new Infusionsoft();
+// Include the SDK
+require_once('Infusionsoft/infusionsoft.php');
 
-//Plain load of a contact
-$data = $inf->Data('Contact');
-$data->load(9377);
-$data->LastName = 'Test';
-$data->save();
+// Create a new contact object
+$contact = new Infusionsoft_Contact();
 
+// Set the contact fields
+$contact->FirstName = 'Jacob';
+$contact->LastName = 'Allred';
+$contact->Email = 'jacob@novaksolutions.com';
 
-//Looping through
-$data = $inf->Data('Contact');
-
-
-foreach($data->query(array('LastName'=>'Test')) as $contact)
-{
-	$contact->LastName = 'Gales';
-	$contact->save();
-}
-
+// Save the contact to Infusionsoft
+$contact->save();
