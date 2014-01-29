@@ -11,6 +11,9 @@ class Infusionsoft_AppData {
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
 
+    public function clearAll(){
+        $this->tables = array();
+    }
     public function query($params){
         list($table, $limit, $page, $queryData, $returnFields) = $params;
         $this->createTableIfNotExists($table);
