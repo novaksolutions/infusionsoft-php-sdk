@@ -62,4 +62,8 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $subscription->save();
         return true;
     }
+
+    public function createInvoiceForRecurring($args){
+        
+    }
 }
