@@ -48,10 +48,12 @@ class Infusionsoft_AppData {
         $this->createTableIfNotExists($table);
         foreach($this->tables[$table] as $index => &$row){
             if(isset($row['Id']) & $row['Id'] == $id){
-                $row = array_merge($row, $data);
-                break;
+                $this->tables[$table][$index] = array_merge($row, $data);
+                return true;
             }
         }
+        $this->tables[$table][] = $data;
+        return true;
     }
 
     public function delete($params){
