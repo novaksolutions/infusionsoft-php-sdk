@@ -1,9 +1,11 @@
 <?php
+/**
+ * Class Infusionsoft_AppPool
+ */
 class Infusionsoft_AppPool{
 	static protected $apps = array();
 	
 	public function __construct(){
-			
 	}
 
     /**
@@ -15,8 +17,7 @@ class Infusionsoft_AppPool{
 		if($appKey == '') $appKey = 'default';				
 		if(array_key_exists($appKey, self::$apps)){
 			return self::$apps[$appKey];	
-		}		
-		else{
+		} else{
 			return null;
 		}
 	}
@@ -39,5 +40,20 @@ class Infusionsoft_AppPool{
 
     public static function clearApps(){
         self::$apps = array();
+    }
+
+    /**
+     * Add an Infusionsoft_App to the app pool (If necessary) and set it as the default app.
+     * @param Infusionsoft_App $app
+     * @param null $appKey
+     * @return Infusionsoft_App The Infusionsoft_App added as the default
+     */
+    public static function setDefaultApp(Infusionsoft_App $app, $appKey = null) {
+        $existingApp = self::getApp($app->getHostname());
+        $app = ($existingApp == null) ? self::addApp($app, $appKey) : $existingApp;
+        if (self::$apps['default'] != $app) {
+            self::$apps['default'] = $app;
+        }
+        return self::$apps['default'];
     }
 }
