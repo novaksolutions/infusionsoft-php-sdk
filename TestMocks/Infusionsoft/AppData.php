@@ -39,8 +39,16 @@ class Infusionsoft_AppData {
         $this->tables[$table][] = $data;
         end($this->tables[$table]);
         $index = key($this->tables[$table]);
-        $this->tables[$table][$index]['Id'] = $index + 1;
-        return $index + 1;
+        foreach ($this->tables[$table] as $index => $record){
+            if (isset($record['Id']) && (!isset($maxId) || $record['Id'] > $maxId)){
+                $maxId = $record['Id'];
+            }
+        }
+        if (empty($maxId)){
+            $maxId = 1;
+        }
+        $this->tables[$table][$index]['Id'] = $maxId + 1;
+        return $maxId + 1;
     }
 
     public function update($params){
