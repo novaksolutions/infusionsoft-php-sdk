@@ -53,4 +53,13 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
 
         return $invoice->Id;
     }
+
+    public function updateJobRecurringNextBillDate($args){
+        array_shift($args);
+        list($subscriptionId, $nextBillDate) = $args;
+        $subscription = new Infusionsoft_RecurringOrder($subscriptionId);
+        $subscription->NextBillDate = $nextBillDate;
+        $subscription->save();
+        return true;
+    }
 }
