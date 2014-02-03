@@ -1,7 +1,7 @@
 
 <form>
-            fileId: <input type="text" name="fileId" value="<?php if(isset($_REQUEST['fileId'])) echo $_REQUEST['fileId']; ?>"><br/>
-            fileName: <input type="text" name="fileName" value="<?php if(isset($_REQUEST['fileName'])) echo $_REQUEST['fileName']; ?>"><br/>
+            fileId: <input type="text" name="fileId" value="<?php if(isset($_REQUEST['fileId'])) echo htmlspecialchars($_REQUEST['fileId']); ?>"><br/>
+            fileName: <input type="text" name="fileName" value="<?php if(isset($_REQUEST['fileName'])) echo htmlspecialchars($_REQUEST['fileName']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

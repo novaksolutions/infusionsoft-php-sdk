@@ -1,6 +1,6 @@
 
 <form>
-            affiliateIds: <input type="text" name="affiliateIds" value="<?php if(isset($_REQUEST['affiliateIds'])) echo $_REQUEST['affiliateIds']; ?>"><br/>
+            affiliateIds: <input type="text" name="affiliateIds" value="<?php if(isset($_REQUEST['affiliateIds'])) echo htmlspecialchars($_REQUEST['affiliateIds']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

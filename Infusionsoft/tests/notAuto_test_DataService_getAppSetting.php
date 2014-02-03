@@ -1,7 +1,7 @@
 
 <form>
-            module: <input type="text" name="module" value="<?php if(isset($_REQUEST['module'])) echo $_REQUEST['module']; ?>"><br/>
-            setting: <input type="text" name="setting" value="<?php if(isset($_REQUEST['setting'])) echo $_REQUEST['setting']; ?>"><br/>
+            module: <input type="text" name="module" value="<?php if(isset($_REQUEST['module'])) echo htmlspecialchars($_REQUEST['module']); ?>"><br/>
+            setting: <input type="text" name="setting" value="<?php if(isset($_REQUEST['setting'])) echo htmlspecialchars($_REQUEST['setting']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

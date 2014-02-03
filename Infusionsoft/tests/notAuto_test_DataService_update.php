@@ -1,8 +1,8 @@
 
 <form>
-            table: <input type="text" name="table" value="<?php if(isset($_REQUEST['table'])) echo $_REQUEST['table']; ?>"><br/>
-            id: <input type="text" name="id" value="<?php if(isset($_REQUEST['id'])) echo $_REQUEST['id']; ?>"><br/>
-            values: <input type="text" name="values" value="<?php if(isset($_REQUEST['values'])) echo $_REQUEST['values']; ?>"><br/>
+            table: <input type="text" name="table" value="<?php if(isset($_REQUEST['table'])) echo htmlspecialchars($_REQUEST['table']); ?>"><br/>
+            id: <input type="text" name="id" value="<?php if(isset($_REQUEST['id'])) echo htmlspecialchars($_REQUEST['id']); ?>"><br/>
+            values: <input type="text" name="values" value="<?php if(isset($_REQUEST['values'])) echo htmlspecialchars($_REQUEST['values']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

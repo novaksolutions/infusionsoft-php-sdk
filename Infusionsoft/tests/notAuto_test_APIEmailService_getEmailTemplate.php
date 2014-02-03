@@ -1,6 +1,6 @@
 
 <form>
-            templateId: <input type="text" name="templateId" value="<?php if(isset($_REQUEST['templateId'])) echo $_REQUEST['templateId']; ?>"><br/>
+            templateId: <input type="text" name="templateId" value="<?php if(isset($_REQUEST['templateId'])) echo htmlspecialchars($_REQUEST['templateId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

@@ -1,6 +1,6 @@
 
 <form>
-            webformId: <input type="text" name="webformId" value="<?php if(isset($_REQUEST['webformId'])) echo $_REQUEST['webformId']; ?>"><br/>
+            webformId: <input type="text" name="webformId" value="<?php if(isset($_REQUEST['webformId'])) echo htmlspecialchars($_REQUEST['webformId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

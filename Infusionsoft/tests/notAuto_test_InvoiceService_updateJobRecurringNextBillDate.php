@@ -1,7 +1,7 @@
 
 <form>
-            jobRecurringId: <input type="text" name="jobRecurringId" value="<?php if(isset($_REQUEST['jobRecurringId'])) echo $_REQUEST['jobRecurringId']; ?>"><br/>
-            newNextBillDate: <input type="text" name="newNextBillDate" value="<?php if(isset($_REQUEST['newNextBillDate'])) echo $_REQUEST['newNextBillDate']; ?>"><br/>
+            jobRecurringId: <input type="text" name="jobRecurringId" value="<?php if(isset($_REQUEST['jobRecurringId'])) echo htmlspecialchars($_REQUEST['jobRecurringId']); ?>"><br/>
+            newNextBillDate: <input type="text" name="newNextBillDate" value="<?php if(isset($_REQUEST['newNextBillDate'])) echo htmlspecialchars($_REQUEST['newNextBillDate']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

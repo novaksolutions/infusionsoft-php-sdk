@@ -1,6 +1,6 @@
 
 <form>
-            orderId: <input type="text" name="orderId" value="<?php if(isset($_REQUEST['orderId'])) echo $_REQUEST['orderId']; ?>"><br/>
+            orderId: <input type="text" name="orderId" value="<?php if(isset($_REQUEST['orderId'])) echo htmlspecialchars($_REQUEST['orderId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

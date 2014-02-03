@@ -1,6 +1,6 @@
 
 <form>
-            campaignId: <input type="text" name="campaignId" value="<?php if(isset($_REQUEST['campaignId'])) echo $_REQUEST['campaignId']; ?>"><br/>
+            campaignId: <input type="text" name="campaignId" value="<?php if(isset($_REQUEST['campaignId'])) echo htmlspecialchars($_REQUEST['campaignId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

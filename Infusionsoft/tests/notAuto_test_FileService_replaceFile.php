@@ -1,7 +1,7 @@
 
 <form>
-            fileId: <input type="text" name="fileId" value="<?php if(isset($_REQUEST['fileId'])) echo $_REQUEST['fileId']; ?>"><br/>
-            base64encoded: <input type="text" name="base64encoded" value="<?php if(isset($_REQUEST['base64encoded'])) echo $_REQUEST['base64encoded']; ?>"><br/>
+            fileId: <input type="text" name="fileId" value="<?php if(isset($_REQUEST['fileId'])) echo htmlspecialchars($_REQUEST['fileId']); ?>"><br/>
+            base64encoded: <input type="text" name="base64encoded" value="<?php if(isset($_REQUEST['base64encoded'])) echo htmlspecialchars($_REQUEST['base64encoded']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>
