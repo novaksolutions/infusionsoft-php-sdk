@@ -79,4 +79,47 @@ class Infusionsoft_WebFormService extends Infusionsoft_WebFormServiceBase
 
         return $snippet;
     }
+
+    /**
+     * Get the web form's hosted URL.
+     *
+     * Instead of having to use the HTML code, you can get the URL to the 
+     * Infusionsoft hosted version of the web form.
+     *
+     * @author Jacob Allred <jacob@novaksolutions.com>
+     *
+     * @param int $webFormId The ID from Infusionsoft_WebFormService::getMap.
+     * @param Infusionsoft_App $app
+     * @return string URL of hosted web form
+     */
+    public static function getHostedURL($webFormId, Infusionsoft_App $app = null)
+    {
+        $app = parent::getObjectOrDefaultAppIfNull($app);
+
+        /*
+         * The API doesn't provide a method of getting the hosted URL.
+         * Instead, we are going to get the HTML, find the form GUID, and create
+         * the hosted URL on our own.
+         */
+
+        // Get the HTML
+        $html = Infusionsoft_WebFormService::getHTML($webFormId, $app);
+
+        // Create our search string
+        $search = $app->getHostname() . '/app/form/process/';
+
+        // Find the start and stop position of the form GUID
+        $start = strpos($html, $search) + strlen($search);
+        $stop = strpos(substr($html, $start), '"');
+
+        // Pull out the GUID
+        $guid = substr($html, $start, $stop);
+
+        // Put together the hosted URL
+        $url = 'https://';
+        $url .= $app->getHostname();
+        $url .= '/app/form/' . $guid;
+
+        return $url;
+    }
 }
