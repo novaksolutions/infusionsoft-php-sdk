@@ -11,6 +11,9 @@ class Infusionsoft_AppData {
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
 
+    public function clearAll(){
+        $this->tables = array();
+    }
     public function query($params){
         list($table, $limit, $page, $queryData, $returnFields) = $params;
         $this->createTableIfNotExists($table);
@@ -36,8 +39,16 @@ class Infusionsoft_AppData {
         $this->tables[$table][] = $data;
         end($this->tables[$table]);
         $index = key($this->tables[$table]);
-        $this->tables[$table][$index]['Id'] = $index + 1;
-        return $index + 1;
+        foreach ($this->tables[$table] as $index => $record){
+            if (isset($record['Id']) && (!isset($maxId) || $record['Id'] > $maxId)){
+                $maxId = $record['Id'];
+            }
+        }
+        if (empty($maxId)){
+            $maxId = 1;
+        }
+        $this->tables[$table][$index]['Id'] = $maxId + 1;
+        return $maxId + 1;
     }
 
     public function update($params){
@@ -45,10 +56,12 @@ class Infusionsoft_AppData {
         $this->createTableIfNotExists($table);
         foreach($this->tables[$table] as $index => &$row){
             if(isset($row['Id']) & $row['Id'] == $id){
-                $row = array_merge($row, $data);
-                break;
+                $this->tables[$table][$index] = array_merge($row, $data);
+                return true;
             }
         }
+        $this->tables[$table][] = $data;
+        return true;
     }
 
     public function delete($params){

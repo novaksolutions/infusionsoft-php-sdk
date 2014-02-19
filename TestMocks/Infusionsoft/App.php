@@ -68,8 +68,23 @@ class Infusionsoft_App{
         return 0;
     }
 
-
     public function setTimeout($timeout) {
 
+    }
+
+    public static function formatDate($dateStr) {
+        $dArray=date_parse($dateStr);
+        if ($dArray['error_count']<1) {
+            $tStamp =
+                mktime($dArray['hour'],$dArray['minute'],$dArray['second'],$dArray['month'],
+                    $dArray['day'],$dArray['year']);
+            return date('Ymd\TH:i:s',$tStamp);
+        } else {
+            $message = '';
+            foreach ($dArray['errors'] as $err) {
+                $message .= "ERROR: " . $err . "\n";
+            }
+            throw new Infusionsoft_Exception($message);
+        }
     }
 }
