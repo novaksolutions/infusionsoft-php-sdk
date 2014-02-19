@@ -48,3 +48,11 @@ See `example.php` for a very basic usage example. Additional examples can be fou
 If you'd like to use the SDK inside of WordPress or with a WordPress plugin, please use the [Infusionsoft SDK](https://github.com/novaksolutions/infusionsoft-sdk-for-wordpress) plugin. It is listed in the [WordPress.org plugin directory](http://wordpress.org/plugins/infusionsoft-sdk/) so you can easily install it to any WordPress blog. We regularly update this plugin whenever the SDK is updated so you'll always get the latest bug fixes and new features.
 
 Using the Infusionsoft SDK plugin will allow your plugin or custom code to work alongside other plugins that use the *Infusionsoft PHP SDK*.
+
+## License
+
+The *Infusionsoft PHP SDK* is licensed under the MIT License. It is simple and easy to understand and it places almost no restrictions on what you can do with the SDK.
+
+You are free to use the *Infusionsoft PHP SDK* in any other project (even commercial projects) as long as the copyright header is left intact.
+
+Details of this license are included in the MIT-LICENSE.txt file, and must be included in all copies of the SDK.
