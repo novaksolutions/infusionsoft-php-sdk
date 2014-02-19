@@ -16,7 +16,7 @@
 We keep the `master` branch production ready. To install, simply clone the SDK into a convenient folder. For example:
 
 ```sh
-git clone git@github.com:joeynovak/infusionsoft-php-sdk.git
+git clone git@github.com:novaksolutions/infusionsoft-php-sdk.git
 ```
 
 You'll also need to copy `Infusionsoft/config.sample.php` to `Infusionsoft/config.php`. Edit this file and add your app name and API key.
