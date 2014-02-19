@@ -25,6 +25,8 @@ You'll also need to copy `Infusionsoft/config.sample.php` to `Infusionsoft/confi
 
 To help you get started, we've created a screencast that will walk you through using the SDK to create a contact in your Infusionsoft app. You can find the video on YouTube: [Using the Novak Solutions SDK with the Infusionsoft API](http://youtu.be/I4NvbIKrE1E).
 
+You can also find a bunch of real-world code samples in our GitHub wiki on the [Examples](https://github.com/novaksolutions/infusionsoft-php-sdk/wiki/Examples) page.
+
 Your project will need to include `Infusionsoft/infusionsoft.php`, a bootstrapper that automatically loads any classes that are needed. For example:
 
 ```php
