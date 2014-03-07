@@ -9,13 +9,13 @@ require_once('Classloader.php');
  * that work around bugs in the Infusionsoft API.
  */
 if(!function_exists('xmlrpc_encode_entitites') && !class_exists('xmlrpcresp')) {
-    require_once(__DIR__ . '/xmlrpc.inc');
+    require_once(dirname(__FILE__) . '/xmlrpc.inc');
 }
 
 $classLoader = new Infusionsoft_Classloader();
 spl_autoload_register(array(&$classLoader, "loadClass"));
 
 // Load config file if it exists. You can use the SDK without a config file.
-if(file_exists(__DIR__ . '/config.php')){
-    require(__DIR__ . '/config.php');
+if(file_exists(dirname(__FILE__) . '/config.php')){
+    require(dirname(__FILE__) . '/config.php');
 }
