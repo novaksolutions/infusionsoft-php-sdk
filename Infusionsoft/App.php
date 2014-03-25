@@ -20,6 +20,7 @@ class Infusionsoft_App{
 		$this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
 		$this->client->setSSLVerifyPeer(true);
         $this->client->setCaCertificate(dirname(__FILE__) . '/infusionsoft.pem');
+        $this->client->request_charset_encoding = "UTF-8";
 	}
 
     public function logger(Infusionsoft_Logger $object){
