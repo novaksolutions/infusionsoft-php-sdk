@@ -53,4 +53,34 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
 
         return $invoice->Id;
     }
+
+    public function addManualPayment($args) {
+        //Remove Api Key
+        array_shift($args);
+        list($invoiceId, $payAmt, $payDate, $payType, $payNote) = $args;
+
+        $invoice = new Infusionsoft_Invoice($invoiceId);
+        $contactId = $invoice->ContactId;
+
+        $payment = new Infusionsoft_Payment();
+        $payment->PayAmt  = $payAmt;
+        $payment->PayType = $payType;
+        $payment->PayDate = $payDate;
+        $payment->PayNote = $payNote;
+        $payment->ContactId = $contactId;
+        $payment->InvoiceId = $invoiceId;
+        $payment->save();
+
+        $invoicePayment = new Infusionsoft_InvoicePayment();
+        $invoicePayment->InvoiceId = $invoiceId;
+        $invoicePayment->PaymentId = $payment->Id;
+        $invoicePayment->Amt = $payAmt;
+        $invoicePayment->PayDate = $payDate;
+        $invoicePayment->save();
+
+        $invoice->TotalPaid = floatval($invoice->TotalPaid) + $payAmt;
+        $invoice->save();
+
+        return $payment->Id;
+    }
 }
