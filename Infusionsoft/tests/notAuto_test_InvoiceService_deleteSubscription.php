@@ -1,6 +1,6 @@
 
 <form>
-            subscriptionId: <input type="text" name="subscriptionId" value="<?php if(isset($_REQUEST['subscriptionId'])) echo $_REQUEST['subscriptionId']; ?>"><br/>
+            subscriptionId: <input type="text" name="subscriptionId" value="<?php if(isset($_REQUEST['subscriptionId'])) echo htmlspecialchars($_REQUEST['subscriptionId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

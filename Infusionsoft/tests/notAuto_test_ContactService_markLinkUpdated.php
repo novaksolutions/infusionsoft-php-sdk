@@ -1,6 +1,6 @@
 
 <form>
-            locateMapId: <input type="text" name="locateMapId" value="<?php if(isset($_REQUEST['locateMapId'])) echo $_REQUEST['locateMapId']; ?>"><br/>
+            locateMapId: <input type="text" name="locateMapId" value="<?php if(isset($_REQUEST['locateMapId'])) echo htmlspecialchars($_REQUEST['locateMapId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

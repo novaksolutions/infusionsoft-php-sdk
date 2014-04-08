@@ -1,8 +1,8 @@
 
 <form>
-            remoteApp: <input type="text" name="remoteApp" value="<?php if(isset($_REQUEST['remoteApp'])) echo $_REQUEST['remoteApp']; ?>"><br/>
-            remoteId: <input type="text" name="remoteId" value="<?php if(isset($_REQUEST['remoteId'])) echo $_REQUEST['remoteId']; ?>"><br/>
-            localId: <input type="text" name="localId" value="<?php if(isset($_REQUEST['localId'])) echo $_REQUEST['localId']; ?>"><br/>
+            remoteApp: <input type="text" name="remoteApp" value="<?php if(isset($_REQUEST['remoteApp'])) echo htmlspecialchars($_REQUEST['remoteApp']); ?>"><br/>
+            remoteId: <input type="text" name="remoteId" value="<?php if(isset($_REQUEST['remoteId'])) echo htmlspecialchars($_REQUEST['remoteId']); ?>"><br/>
+            localId: <input type="text" name="localId" value="<?php if(isset($_REQUEST['localId'])) echo htmlspecialchars($_REQUEST['localId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

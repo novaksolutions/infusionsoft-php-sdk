@@ -1,6 +1,6 @@
 
 <form>
-            fullyQualifiedClassName: <input type="text" name="fullyQualifiedClassName" value="<?php if(isset($_REQUEST['fullyQualifiedClassName'])) echo $_REQUEST['fullyQualifiedClassName']; ?>"><br/>
+            fullyQualifiedClassName: <input type="text" name="fullyQualifiedClassName" value="<?php if(isset($_REQUEST['fullyQualifiedClassName'])) echo htmlspecialchars($_REQUEST['fullyQualifiedClassName']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

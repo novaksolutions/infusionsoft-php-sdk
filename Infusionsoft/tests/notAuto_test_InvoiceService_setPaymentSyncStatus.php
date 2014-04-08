@@ -1,7 +1,7 @@
 
 <form>
-            id: <input type="text" name="id" value="<?php if(isset($_REQUEST['id'])) echo $_REQUEST['id']; ?>"><br/>
-            syncStatus: <input type="text" name="syncStatus" value="<?php if(isset($_REQUEST['syncStatus'])) echo $_REQUEST['syncStatus']; ?>"><br/>
+            id: <input type="text" name="id" value="<?php if(isset($_REQUEST['id'])) echo htmlspecialchars($_REQUEST['id']); ?>"><br/>
+            syncStatus: <input type="text" name="syncStatus" value="<?php if(isset($_REQUEST['syncStatus'])) echo htmlspecialchars($_REQUEST['syncStatus']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

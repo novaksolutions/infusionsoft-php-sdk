@@ -1,7 +1,7 @@
 
 <form>
-            email: <input type="text" name="email" value="<?php if(isset($_REQUEST['email'])) echo $_REQUEST['email']; ?>"><br/>
-            reason: <input type="text" name="reason" value="<?php if(isset($_REQUEST['reason'])) echo $_REQUEST['reason']; ?>"><br/>
+            email: <input type="text" name="email" value="<?php if(isset($_REQUEST['email'])) echo htmlspecialchars($_REQUEST['email']); ?>"><br/>
+            reason: <input type="text" name="reason" value="<?php if(isset($_REQUEST['reason'])) echo htmlspecialchars($_REQUEST['reason']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

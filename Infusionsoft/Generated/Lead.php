@@ -46,4 +46,8 @@ class Infusionsoft_Generated_Lead extends Infusionsoft_Generated_Base{
             self::$tableFields = array_values(self::$tableFields);
         }
     }
+
+    public function fieldExists($field){
+        return (array_search($field, self::$tableFields) !== false);
+    }
 }

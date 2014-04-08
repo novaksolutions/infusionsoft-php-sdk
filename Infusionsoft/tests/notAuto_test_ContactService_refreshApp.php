@@ -1,6 +1,6 @@
 
 <form>
-        hash: <input type="text" name="hash" value="<?php if(isset($_REQUEST['hash'])) echo $_REQUEST['hash']; ?>"><br/>
+        hash: <input type="text" name="hash" value="<?php if(isset($_REQUEST['hash'])) echo htmlspecialchars($_REQUEST['hash']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

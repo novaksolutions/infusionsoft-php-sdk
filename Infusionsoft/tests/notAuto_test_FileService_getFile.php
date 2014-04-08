@@ -1,6 +1,6 @@
 
 <form>
-            fileId: <input type="text" name="fileId" value="<?php if(isset($_REQUEST['fileId'])) echo $_REQUEST['fileId']; ?>"><br/>
+            fileId: <input type="text" name="fileId" value="<?php if(isset($_REQUEST['fileId'])) echo htmlspecialchars($_REQUEST['fileId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

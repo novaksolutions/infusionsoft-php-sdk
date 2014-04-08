@@ -1,7 +1,7 @@
 
 <form>
-            contactId: <input type="text" name="contactId" value="<?php if(isset($_REQUEST['contactId'])) echo $_REQUEST['contactId']; ?>"><br/>
-            campaignStepId: <input type="text" name="campaignStepId" value="<?php if(isset($_REQUEST['campaignStepId'])) echo $_REQUEST['campaignStepId']; ?>"><br/>
+            contactId: <input type="text" name="contactId" value="<?php if(isset($_REQUEST['contactId'])) echo htmlspecialchars($_REQUEST['contactId']); ?>"><br/>
+            campaignStepId: <input type="text" name="campaignStepId" value="<?php if(isset($_REQUEST['campaignStepId'])) echo htmlspecialchars($_REQUEST['campaignStepId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

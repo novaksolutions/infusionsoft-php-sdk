@@ -1,6 +1,6 @@
 
 <form>
-            recurringOrderId: <input type="text" name="recurringOrderId" value="<?php if(isset($_REQUEST['recurringOrderId'])) echo $_REQUEST['recurringOrderId']; ?>"><br/>
+            recurringOrderId: <input type="text" name="recurringOrderId" value="<?php if(isset($_REQUEST['recurringOrderId'])) echo htmlspecialchars($_REQUEST['recurringOrderId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

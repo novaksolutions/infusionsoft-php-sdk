@@ -1,7 +1,7 @@
 
 <form>
-            customFieldId: <input type="text" name="customFieldId" value="<?php if(isset($_REQUEST['customFieldId'])) echo $_REQUEST['customFieldId']; ?>"><br/>
-            values: <input type="text" name="values" value="<?php if(isset($_REQUEST['values'])) echo $_REQUEST['values']; ?>"><br/>
+            customFieldId: <input type="text" name="customFieldId" value="<?php if(isset($_REQUEST['customFieldId'])) echo htmlspecialchars($_REQUEST['customFieldId']); ?>"><br/>
+            values: <input type="text" name="values" value="<?php if(isset($_REQUEST['values'])) echo htmlspecialchars($_REQUEST['values']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

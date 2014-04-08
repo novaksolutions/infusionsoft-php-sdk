@@ -1,6 +1,6 @@
 
 <form>
-            mergeContext: <input type="text" name="mergeContext" value="<?php if(isset($_REQUEST['mergeContext'])) echo $_REQUEST['mergeContext']; ?>"><br/>
+            mergeContext: <input type="text" name="mergeContext" value="<?php if(isset($_REQUEST['mergeContext'])) echo htmlspecialchars($_REQUEST['mergeContext']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

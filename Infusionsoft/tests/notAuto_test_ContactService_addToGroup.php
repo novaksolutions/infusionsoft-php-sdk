@@ -1,7 +1,7 @@
 
 <form>
-            contactId: <input type="text" name="contactId" value="<?php if(isset($_REQUEST['contactId'])) echo $_REQUEST['contactId']; ?>"><br/>
-            groupId: <input type="text" name="groupId" value="<?php if(isset($_REQUEST['groupId'])) echo $_REQUEST['groupId']; ?>"><br/>
+            contactId: <input type="text" name="contactId" value="<?php if(isset($_REQUEST['contactId'])) echo htmlspecialchars($_REQUEST['contactId']); ?>"><br/>
+            groupId: <input type="text" name="groupId" value="<?php if(isset($_REQUEST['groupId'])) echo htmlspecialchars($_REQUEST['groupId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

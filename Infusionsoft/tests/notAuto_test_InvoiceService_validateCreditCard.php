@@ -1,6 +1,6 @@
 
 <form>
-            creditCard: <input type="text" name="creditCard" value="<?php if(isset($_REQUEST['creditCard'])) echo $_REQUEST['creditCard']; ?>"><br/>
+            creditCard: <input type="text" name="creditCard" value="<?php if(isset($_REQUEST['creditCard'])) echo htmlspecialchars($_REQUEST['creditCard']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

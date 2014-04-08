@@ -26,14 +26,16 @@ class Infusionsoft_OrderService extends Infusionsoft_OrderServiceBase {
         $newOrder->Status = 'Active';
         $newOrder->ReasonStopped = 'This order will stop billing on the billing end date.';
         $newOrder->LastBillDate = '';
-        $newOrder->EndDate = '';
         $newOrder->PaidThruDate = '';
+        //NextBillDate is set farther down
 
         // We will look for properly named custom fields to automatically update references
         if (in_array('_OriginalSubscriptionId', $order->getFields())) {
             $newOrder->_OriginalSubscriptionId = strval($order->Id);
         }
+
         $newOrder->save(); // Wanted to limit to one save operation.  Id is required for next custom field.
+
         if (in_array('_NewSubscriptionId', $order->getFields())) {
             $order->_NewSubscriptionId = strval($newOrder->Id);
         }
@@ -53,7 +55,7 @@ class Infusionsoft_OrderService extends Infusionsoft_OrderServiceBase {
         $order->Status = 'Inactive';
         $order->ReasonStopped = "Subscription updated on ".date('m/d/Y')." to new subscription. ID: {$newOrder->Id}";
         $order->save();
-        return $newOrder;
+        return new Infusionsoft_RecurringOrder($newOrder->Id);
     }
 
     /**

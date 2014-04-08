@@ -1,6 +1,6 @@
 
 <form>
-            stepId: <input type="text" name="stepId" value="<?php if(isset($_REQUEST['stepId'])) echo $_REQUEST['stepId']; ?>"><br/>
+            stepId: <input type="text" name="stepId" value="<?php if(isset($_REQUEST['stepId'])) echo htmlspecialchars($_REQUEST['stepId']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>

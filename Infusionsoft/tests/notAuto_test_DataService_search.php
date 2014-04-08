@@ -1,13 +1,13 @@
 
 <form>
-            table: <input type="text" name="table" value="<?php if(isset($_REQUEST['table'])) echo $_REQUEST['table']; ?>"><br/>
-            limit: <input type="text" name="limit" value="<?php if(isset($_REQUEST['limit'])) echo $_REQUEST['limit']; ?>"><br/>
-            page: <input type="text" name="page" value="<?php if(isset($_REQUEST['page'])) echo $_REQUEST['page']; ?>"><br/>
-            searchFieldName:<input type="text" name="searchFieldName" value="<?php if(isset($_REQUEST['searchFieldName'])) echo $_REQUEST['searchFieldName']; ?>"><br/>
-            searchFieldData:<input type="text" name="searchFieldData" value="<?php if(isset($_REQUEST['searchFieldData'])) echo $_REQUEST['searchFieldData']; ?>"><br/>
-            queryFieldName: <input type="text" name="queryFieldName" value="<?php if(isset($_REQUEST['queryFieldName'])) echo $_REQUEST['queryFieldName']; ?>"><br/>
-            queryFieldData: <input type="text" name="queryFieldData" value="<?php if(isset($_REQUEST['queryFieldData'])) echo $_REQUEST['queryFieldData']; ?>"><br/>
-            selectedFields: <input type="text" name="selectedFields" value="<?php if(isset($_REQUEST['selectedFields'])) echo $_REQUEST['selectedFields']; ?>"><br/>
+            table: <input type="text" name="table" value="<?php if(isset($_REQUEST['table'])) echo htmlspecialchars($_REQUEST['table']); ?>"><br/>
+            limit: <input type="text" name="limit" value="<?php if(isset($_REQUEST['limit'])) echo htmlspecialchars($_REQUEST['limit']); ?>"><br/>
+            page: <input type="text" name="page" value="<?php if(isset($_REQUEST['page'])) echo htmlspecialchars($_REQUEST['page']); ?>"><br/>
+            searchFieldName:<input type="text" name="searchFieldName" value="<?php if(isset($_REQUEST['searchFieldName'])) echo htmlspecialchars($_REQUEST['searchFieldName']); ?>"><br/>
+            searchFieldData:<input type="text" name="searchFieldData" value="<?php if(isset($_REQUEST['searchFieldData'])) echo htmlspecialchars($_REQUEST['searchFieldData']); ?>"><br/>
+            queryFieldName: <input type="text" name="queryFieldName" value="<?php if(isset($_REQUEST['queryFieldName'])) echo htmlspecialchars($_REQUEST['queryFieldName']); ?>"><br/>
+            queryFieldData: <input type="text" name="queryFieldData" value="<?php if(isset($_REQUEST['queryFieldData'])) echo htmlspecialchars($_REQUEST['queryFieldData']); ?>"><br/>
+            selectedFields: <input type="text" name="selectedFields" value="<?php if(isset($_REQUEST['selectedFields'])) echo htmlspecialchars($_REQUEST['selectedFields']); ?>"><br/>
     <input type="submit">
 <input type="hidden" name="go">
 </form>
