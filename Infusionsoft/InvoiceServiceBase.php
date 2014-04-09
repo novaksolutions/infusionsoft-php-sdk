@@ -222,13 +222,6 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         return parent::send($app, "InvoiceService.getPluginStatus", $params);
     }
     
-    public static function getAllShippingOptions(Infusionsoft_App $app = null){
-        $params = array(
-        );
-
-        return parent::send($app, "InvoiceService.getAllShippingOptions", $params);
-    }
-    
     public static function getPayments($invoiceId, Infusionsoft_App $app = null){
         $params = array(
             (int) $invoiceId

@@ -8,6 +8,6 @@ include('../infusionsoft.php');
 include('testUtils.php');
 
 if(isset($_REQUEST['go'])){
-	$out = Infusionsoft_InvoiceService::getAllShippingOptions();
+	$out = Infusionsoft_ShippingService::getAllShippingOptions();
 	var_dump($out);
 }
