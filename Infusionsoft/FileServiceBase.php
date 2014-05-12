@@ -18,11 +18,19 @@ class Infusionsoft_FileServiceBase extends Infusionsoft_Service{
     }
     
     public static function uploadFile($contactId, $fileName, $base64encoded, Infusionsoft_App $app = null){
-        $params = array(
-            (int) $contactId, 
-            $fileName, 
-            $base64encoded
-        );
+        // If contactId is null, do not include it in the params
+        if ($contactId === null) {
+            $params = array(
+                $fileName,
+                $base64encoded
+            );
+        } else {
+            $params = array(
+                (int) $contactId,
+                $fileName,
+                $base64encoded
+            );
+        }
 
         return parent::send($app, "FileService.uploadFile", $params);
     }
