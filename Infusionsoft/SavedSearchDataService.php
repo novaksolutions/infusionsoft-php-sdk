@@ -14,12 +14,12 @@ class Infusionsoft_SavedSearchDataService extends Infusionsoft_Service {
 
         $Settings = ClassRegistry::init("Settings.Setting");
         $savedSearchId = $Settings->getValue(get_class($object) . '.SavedSearchId');
-        if($savedSearchId == ''){
+        if($savedSearchId <= 0){
             throw new Exception("Saved Search Id For Object: " . get_class($object) . ' not set in settings, please set the setting: ' . get_class($object) . '.SavedSearchId' . ' to the saved search id');
         }
 
         $userId = $Settings->getValue('SavedSearchUserId');
-        if($userId == ''){
+        if($userId <= 0){
             throw new Exception("Saved Search UserId not set, please set the setting: " . 'SavedSearchUserId' . ' to a valid Infusionsoft UserId.');
         }
 
