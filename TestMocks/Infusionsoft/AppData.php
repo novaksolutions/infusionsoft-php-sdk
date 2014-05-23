@@ -27,6 +27,11 @@ class Infusionsoft_AppData {
                 }
             }
             if($include){
+                foreach ($row as $field => $value){
+                    if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/", $value)){
+                        $row[$field] = Infusionsoft_App::formatDate($value);
+                    }
+                }
                 $results[] = $row;
             }
         }
@@ -36,6 +41,11 @@ class Infusionsoft_AppData {
     public function add($params){
         list($table, $data) = $params;
         $this->createTableIfNotExists($table);
+        foreach ($data as $field => $value){
+            if (preg_match("/^[0-9]{8}T/", $value)){
+                $data[$field] = date('Y-m-d H:i:s', strtotime($value));
+            }
+        }
         $this->tables[$table][] = $data;
         end($this->tables[$table]);
         $index = key($this->tables[$table]);
@@ -54,6 +64,11 @@ class Infusionsoft_AppData {
     public function update($params){
         list($table, $id, $data) = $params;
         $this->createTableIfNotExists($table);
+        foreach ($data as $field => $value){
+            if (preg_match("/^[0-9]{8}T/", $value)){
+                $data[$field] = date('Y-m-d H:i:s', strtotime($value));
+            }
+        }
         foreach($this->tables[$table] as $index => &$row){
             if(isset($row['Id']) & $row['Id'] == $id){
                 $this->tables[$table][$index] = array_merge($row, $data);
