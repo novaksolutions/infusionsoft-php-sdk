@@ -9,6 +9,7 @@ class Infusionsoft_App{
         $this->services['InvoiceService'] = new Infusionsoft_LowLevelInvoiceService($this->data);
         $this->services['APIAffiliateService'] = new Infusionsoft_LowLevelAPIAffiliateService($this->data);
         $this->services['FunnelService'] = new Infusionsoft_LowLevelFunnelService($this->data);
+        $this->services['ContactService'] = new Infusionsoft_LowLevelContactService($this->data);
 	}
 
     public function getService($name){
