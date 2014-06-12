@@ -97,4 +97,25 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
     public function createInvoiceForRecurring($args){
 
     }
+
+    public function deleteInvoice($args){
+        array_shift($args);
+        list($invoiceId) = $args;
+
+        $invoice = new Infusionsoft_Invoice($invoiceId);
+        $invoice->delete();
+
+        $order = new Infusionsoft_Job($invoice->JobId);
+        $order->delete();
+
+        $orderItems = Infusionsoft_DataService::query(new Infusionsoft_OrderItem(), array('OrderId' => $order->Id));
+        foreach($orderItems as $orderItem){
+            $orderItem->delete();
+        }
+
+        $invoiceItems = Infusionsoft_DataService::query(new Infusionsoft_InvoiceItem(), array('InvoiceId' => $invoiceId));
+        foreach($invoiceItems as $invoiceItem){
+            $invoiceItem->delete();
+        }
+    }
 }
