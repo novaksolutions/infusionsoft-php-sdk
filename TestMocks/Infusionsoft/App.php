@@ -1,7 +1,10 @@
 <?php
 class Infusionsoft_App{
-    var $data;
-    var $services = array();
+    public $data;
+    public $services = array();
+    public $hostName = '';
+    public $apiKey = '';
+    public $port = 443;
 
 	public function __construct($hostname, $apiKey, $port = 443){
         $this->data = new Infusionsoft_AppData();
@@ -9,6 +12,11 @@ class Infusionsoft_App{
         $this->services['InvoiceService'] = new Infusionsoft_LowLevelInvoiceService($this->data);
         $this->services['APIAffiliateService'] = new Infusionsoft_LowLevelAPIAffiliateService($this->data);
         $this->services['FunnelService'] = new Infusionsoft_LowLevelFunnelService($this->data);
+        $this->services['ContactService'] = new Infusionsoft_LowLevelContactService($this->data);
+
+        $this->hostName = $hostname;
+        $this->apiKey = $apiKey;
+        $this->port = $port;
 	}
 
     public function getService($name){
