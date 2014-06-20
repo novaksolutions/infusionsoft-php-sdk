@@ -29,6 +29,9 @@ class Infusionsoft_SavedSearchDataService extends Infusionsoft_Service {
             /**
              * @var Infusionsoft_Generated_Base $dataObject
              */
+            if(isset($row['Follow-UpSequence'])){
+                $row['FollowUpSequence'] = $row['Follow-UpSequence'];
+            }
             $dataObject = new $className();
             $dataObject->loadFromArray($row, true);
             $results[] = $dataObject;
