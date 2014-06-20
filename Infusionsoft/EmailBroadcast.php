@@ -45,6 +45,6 @@ class Infusionsoft_EmailBroadcast  extends Infusionsoft_Generated_Base {
 
     public function loadFromArray($data){
         parent::loadFromArray($data, true);
-        $this->Id = $data['EmailBroadcastId'];
+        $this->Id = $data['MailBatchId'];
     }
 } 

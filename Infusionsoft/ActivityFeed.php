@@ -19,7 +19,13 @@ class Infusionsoft_ActivityFeed  extends Infusionsoft_Generated_Base {
         "Lastname",
         "Phone",
         "Fax",
-        "Type"
+        "Type",
+        "NSLinkClicked",
+        "NSBatchId",
+        "NSEmailSentId",
+        "NSLinkClicked",
+        "NSEmailTitle",
+        "NSPostProcessed"
     );
 
     public function __construct($idString = null, $app = null){
