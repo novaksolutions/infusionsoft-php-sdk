@@ -222,20 +222,12 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
 
     public static function getCustomFields($object, $app = null)
     {
-        $tabs = Infusionsoft_DataService::query(new Infusionsoft_DataFormTab(), array('FormId' => $object->customFieldFormId), 1000, 0, false, $app);
-
-        $fields = array();
-
-        foreach($tabs as $tab){
-            $headers = Infusionsoft_DataService::query(new Infusionsoft_DataFormGroup(), array('TabId' => $tab->Id), 1000, 0, false, $app);
-            foreach($headers as $header){
-                $customFields = Infusionsoft_DataService::query(new Infusionsoft_DataFormField(), array('GroupId' => $header->Id), 1000, 0, false, $app);
-                foreach($customFields as $field){
-                    $field->Name = '_' . $field->Name;
-                    $fields[$field->Name] = array($field);
-                }
-            }
+        $fields = Infusionsoft_DataService::query(new Infusionsoft_DataFormField(), array('FormId' => $object->customFieldFormId), 1000, 0, false, $app);
+        $returnData = array();
+        foreach ($fields as $field){
+            $returnData[$field->Name] = array($field);
         }
+        $fields = $returnData;
 
         return $fields;
     }
