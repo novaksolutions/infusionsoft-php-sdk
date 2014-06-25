@@ -225,6 +225,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         $fields = Infusionsoft_DataService::query(new Infusionsoft_DataFormField(), array('FormId' => $object->customFieldFormId), 1000, 0, false, $app);
         $returnData = array();
         foreach ($fields as $field){
+            $field->Name = '_' . $field->Name;
             $returnData[$field->Name] = array($field);
         }
         $fields = $returnData;
