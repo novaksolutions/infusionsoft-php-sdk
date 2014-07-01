@@ -10,6 +10,7 @@
 class Infusionsoft_AppData {
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
+    protected $emailOptStatus = array();
 
     public function clearAll(){
         $this->tables = array();
@@ -104,6 +105,14 @@ class Infusionsoft_AppData {
         }
 
         return $this->contactApiGoalsAchieved[$contactId];
+    }
+
+    public function optInEmail($email, $reason){
+        $this->emailOptStatus[$email] = true;
+    }
+
+    public function optOutEmail($email, $reason){
+        $this->emailOptStatus[$email] = false;
     }
 
     private function createTableIfNotExists($tableName){

@@ -28,9 +28,17 @@ class Infusionsoft_LowLevelAPIEmailService extends Infusionsoft_LowLevelMockServ
     public function optIn($args){
         //Remove Api Key
         array_shift($args);
-        throw new Exception("Not yet Implmented");
-//        return $this->data->update($args);
+        list($email, $reason) = $args;
+        return $this->data->optInEmail($email, $reason);
     }
+
+    public function optOut($args){
+        //Remove Api Key
+        array_shift($args);
+        list($email, $reason) = $args;
+        return $this->data->optOutEmail($email, $reason);
+    }
+
     public function sendEmail($args){
         //Remove Api Key
         array_shift($args);

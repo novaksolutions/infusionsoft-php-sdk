@@ -11,6 +11,7 @@ class Infusionsoft_App{
         $this->services['DataService'] = new Infusionsoft_LowLevelDataService($this->data);
         $this->services['InvoiceService'] = new Infusionsoft_LowLevelInvoiceService($this->data);
         $this->services['APIAffiliateService'] = new Infusionsoft_LowLevelAPIAffiliateService($this->data);
+        $this->services['APIEmailService'] = new Infusionsoft_LowLevelAPIEmailService($this->data);
         $this->services['FunnelService'] = new Infusionsoft_LowLevelFunnelService($this->data);
         $this->services['ContactService'] = new Infusionsoft_LowLevelContactService($this->data);
 
