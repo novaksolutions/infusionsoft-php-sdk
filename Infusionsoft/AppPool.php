@@ -34,7 +34,7 @@ class Infusionsoft_AppPool{
 		if($appKey == null){
 			$appKey = $app->getHostname();
 		}		
-		self::$apps[$appKey] = $app;
+		self::$apps[strtolower($appKey)] = $app;
         return $app;
 	}
 
