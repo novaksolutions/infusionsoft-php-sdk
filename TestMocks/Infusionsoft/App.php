@@ -37,7 +37,7 @@ class Infusionsoft_App{
 	}
 
 	public function getHostname(){
-		return "";
+        return $this->hostName;
 	}
 
 	public function getPort(){
