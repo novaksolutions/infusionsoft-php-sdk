@@ -62,8 +62,12 @@ class Infusionsoft_AppData {
         return $maxId + 1;
     }
 
-    public function update($params){
+    public function update($params, $ignoreReadOnly = false){
         list($table, $id, $data) = $params;
+        if(!$ignoreReadOnly && $table == 'Contact' && isset($data['Groups'])){
+            unset($data['Groups']);
+        }
+
         $this->createTableIfNotExists($table);
         foreach ($data as $field => $value){
             if (preg_match("/^[0-9]{8}T/", $value)){
