@@ -19,6 +19,11 @@ class Infusionsoft_LowLevelContactService extends Infusionsoft_LowLevelMockServi
         $contactId = array_shift($args);
         $groupId = array_shift($args);
         $this->data->add(array('ContactGroupAssign', array('GroupId' => $groupId, 'ContactId' => $contactId)));
+        $contact = $this->data->getObjectById('Contact', $contactId);
+        $groups = explode(",", isset($contact['Groups']) ? $contact['Groups'] : '');
+        $groups[] = $groupId;
+        $contact['Groups'] = implode(",", $groups);
+        $this->data->update(array('Contact', $contact['Id'], $contact), true);
     }
 
     public function findByEmail($args){
