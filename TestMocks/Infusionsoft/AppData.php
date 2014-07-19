@@ -23,7 +23,10 @@ class Infusionsoft_AppData {
         foreach($this->tables[$table] as $row){
             $include = true;
             foreach($queryData as $fieldName => $fieldValue){
-                if(!isset($row[$fieldName]) || !$this->emulateMySqlLike($fieldValue, $row[$fieldName])){
+                if(
+                    (!isset($row[$fieldName]) || !$this->emulateMySqlLike($fieldValue, $row[$fieldName]))&&
+                    !(!isset($row[$fieldName]) && $fieldValue == '~null~')
+                ){
                    $include = false;
                 }
             }
