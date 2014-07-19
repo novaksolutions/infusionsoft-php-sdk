@@ -64,7 +64,13 @@ class Infusionsoft_SmartCache{
     }
 
     public function cacheData($data){
-        $fh = fopen($this->dir . "/" . $this->name . '.cache', 'w+');
+        $file = $this->dir . "/" . $this->name . '.cache';
+
+        $fh = fopen($file, 'w+');
+
+        if($fh === false) {
+            throw new Exception ("Failed to open " . $file);
+        }
 
 	    $expiration = time() + $this->ttl;
 	    $data['expiration'] = $expiration;
