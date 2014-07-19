@@ -150,4 +150,8 @@ class Infusionsoft_AppData {
 
         return preg_match($pattern, $value);
     }
+
+    public function getObjectById($tableName, $id){
+        return array_shift($this->query(array($tableName, 1,0,array('Id' => $id), array())));
+    }
 }
