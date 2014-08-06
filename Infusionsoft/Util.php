@@ -25,4 +25,64 @@ class Infusionsoft_Util
 
         }
     }
+
+    public function contactSearch($search){
+        $contacts = array();
+        if(strpos($search, " ") !== false){
+            $searchParts = explode(" ", $search);
+            $criteria = array('FirstName' => $searchParts[0], 'LastName' => $searchParts[1]);
+            $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+            if(count($contacts) == 0){
+                $criteria['LastName'] = $searchParts[1] . '%';
+                $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+            }
+            if(count($contacts) == 0){
+                $criteria['FirstName'] = $searchParts[0] . '%';
+                $criteria['LastName'] = $searchParts[1];
+                $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+            }
+            if(count($contacts) == 0){
+                $criteria['FirstName'] = $searchParts[0] . '%';
+                $criteria['LastName'] = $searchParts[1] . '%';
+                $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+            }
+        }
+
+        //Search By Email
+        if(strpos($search, '@') !== false){
+            $criteria = array('Email' => $search);
+            $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+            if(count($contacts) == 0){
+                $criteria['Email'] = $search . '%';
+                $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+            }
+        }
+
+
+        if(strpos($search, "-") !== false && strpos($search, '@') == false){
+            $criteria = array();
+            $criteria['Phone1'] = '%' . $search . '%';
+            $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+        }
+
+        if(count($contacts) == 0){
+            $criteria = array();
+            $criteria['FirstName'] = $search;
+            $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+        }
+
+        if(count($contacts) == 0){
+            $criteria = array();
+            $criteria['LastName'] = $search;
+            $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+        }
+
+        if(count($contacts) == 0){
+            $criteria = array();
+            $criteria['FirstName'] = $search . '%';
+            $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
+        }
+
+        return $contacts;
+    }
 }
