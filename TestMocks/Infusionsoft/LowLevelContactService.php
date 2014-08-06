@@ -22,6 +22,7 @@ class Infusionsoft_LowLevelContactService extends Infusionsoft_LowLevelMockServi
         $contact = $this->data->getObjectById('Contact', $contactId);
         $groups = explode(",", isset($contact['Groups']) ? $contact['Groups'] : '');
         $groups[] = $groupId;
+        $groups = array_filter(array_unique($groups));
         $contact['Groups'] = implode(",", $groups);
         $this->data->update(array('Contact', $contact['Id'], $contact), true);
     }

@@ -67,7 +67,7 @@ class Infusionsoft_AppData {
 
     public function update($params, $ignoreReadOnly = false){
         list($table, $id, $data) = $params;
-        if(!$ignoreReadOnly && $table == 'Contact' && isset($data['Groups'])){
+        if(!$ignoreReadOnly && $table == 'Contact' && array_key_exists('Groups', $data)){
             unset($data['Groups']);
         }
 
