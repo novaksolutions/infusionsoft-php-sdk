@@ -27,6 +27,22 @@ class Infusionsoft_LowLevelContactService extends Infusionsoft_LowLevelMockServi
         $this->data->update(array('Contact', $contact['Id'], $contact), true);
     }
 
+    public function removeFromGroup($args){
+        array_shift($args);
+        $contactId = array_shift($args);
+        $groupId = array_shift($args);
+        $this->data->delete(array('ContactGroupAssign', array('GroupId' => $groupId, 'ContactId' => $contactId)));
+        $contact = $this->data->getObjectById('Contact', $contactId);
+        $groups = explode(",", isset($contact['Groups']) ? $contact['Groups'] : '');
+        $index = array_search($groupId, $groups);
+        if ($index !== false){
+            unset($groups[$index]);
+        }
+        $groups = array_filter(array_unique($groups));
+        $contact['Groups'] = implode(",", $groups);
+        $this->data->update(array('Contact', $contact['Id'], $contact), true);
+    }
+
     public function findByEmail($args){
         array_shift($args);
         throw new Exception("Not yet Implmented");
@@ -58,12 +74,6 @@ class Infusionsoft_LowLevelContactService extends Infusionsoft_LowLevelMockServi
     }
 
     public function removeFromCampaign($args){
-        array_shift($args);
-        throw new Exception("Not yet Implmented");
-        //return $this->data->update($args);
-    }
-
-    public function removeFromGroup($args){
         array_shift($args);
         throw new Exception("Not yet Implmented");
         //return $this->data->update($args);
