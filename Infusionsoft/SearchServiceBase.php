@@ -48,7 +48,7 @@ class Infusionsoft_SearchServiceBase extends Infusionsoft_Service {
 
     public static function quickSearch($quickSearchType, $userId, $searchData, $page, $returnLimit, Infusionsoft_App $app = null){
         $params = array(
-            (int) $quickSearchType,
+            (string) $quickSearchType,
             (int) $userId,
             (string) $searchData,
             (int) $page,
