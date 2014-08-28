@@ -11,7 +11,7 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
 
         $orderItem = new Infusionsoft_OrderItem();
         $orderItem->CPU = $product->ProductPrice;
-        $orderItem->PPU = $product->ProductPrice;
+        $orderItem->PPU = $price;
         $orderItem->Qty = $quantity;
         $orderItem->ItemDescription = $description;
         $orderItem->Notes = $notes;
@@ -96,6 +96,33 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
 
     public function createInvoiceForRecurring($args){
 
+    }
+
+    public function addRecurringOrder($args){
+        array_shift($args);
+        list(
+            $contactId,
+            $allowDuplicate,
+            $cProgramId,
+            $qty,
+            $price,
+            $allowTax,
+            $merchantAccountId,
+            $creditCardId,
+            $affiliateId,
+            $daysTillCharge
+        ) = $args;
+
+        $recurringOrder = new Infusionsoft_RecurringOrder();
+        $recurringOrder->ContactId = $contactId;
+        $recurringOrder->ProgramId = $cProgramId;
+        $recurringOrder->Qty = $qty;
+        $recurringOrder->BillingAmt = $price;
+        $recurringOrder->MerchantAccountId = $merchantAccountId;
+        $recurringOrder->CC1 = $creditCardId;
+        $recurringOrder->NextBillDate = date('Y-m-d H:i:s', strtotime("-$daysTillCharge days"));
+        $recurringOrder->AffiliateId = $affiliateId;
+        $recurringOrder->save();
     }
 
     public function deleteInvoice($args){
