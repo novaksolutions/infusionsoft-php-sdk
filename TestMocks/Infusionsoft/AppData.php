@@ -59,10 +59,11 @@ class Infusionsoft_AppData {
             }
         }
         if (empty($maxId)){
-            $maxId = 1;
+            $maxId = 0;
         }
-        $this->tables[$table][$index]['Id'] = $maxId + 1;
-        return $maxId + 1;
+        $newId = $maxId + 1;
+        $this->tables[$table][$index]['Id'] = $newId;
+        return $newId;
     }
 
     public function update($params, $ignoreReadOnly = false){
