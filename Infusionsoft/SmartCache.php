@@ -3,10 +3,11 @@ class Infusionsoft_SmartCache{
     protected $ttl = 120;
     protected $name = '';
     protected $dir = '';
+    static protected $staticExternalCacheClass = null;
 
     public function __construct($name, $ttl = 300, $dir = 'cache'){
         if (strpos($dir, '/') !== 0 && strpos($dir, ':') !== 1){
-            $dir = APP . 'Vendor' . DS . 'php-infusionsoft-sdk' . DS . 'Infusionsoft' . DS . $dir;
+            $dir = APP . 'Vendor' . DS . 'php-infusionsoft-sdk' . DS . 'InfusionsoftSdk.Infusionsoft' . DS . $dir;
         }
         $this->ttl = $ttl;
         $this->dir = $dir;
@@ -24,12 +25,21 @@ class Infusionsoft_SmartCache{
         return $data;
     }
 
+    public static function setExternalCacheClassName($className){
+        self::$staticExternalCacheClass = $className;
+    }
+
     public function getCacheFileName(){
         return $this->dir . '/' . $this->name . '.cache';
     }
 
     public function expireCache(){
-        unlink($this->getCacheFileName());
+        if(self::$staticExternalCacheClass == null){
+            unlink($this->getCacheFileName());
+        } else {
+            $staticClass = self::$staticExternalCacheClass;
+            $staticClass::delete($this->getCacheFileName());
+        }
     }
 
     public function getDataFromSource(){
@@ -56,26 +66,35 @@ class Infusionsoft_SmartCache{
 
     public function getDataFromCache(){
         $data = false;
-        if(file_exists($this->getCacheFileName())){
-            $serialized_data = file_get_contents($this->getCacheFileName());
-            $data = unserialize($serialized_data);
+        if(self::$staticExternalCacheClass == null){
+            if(file_exists($this->getCacheFileName())){
+                $serialized_data = file_get_contents($this->getCacheFileName());
+            }
+        } else {
+            $staticClass = self::$staticExternalCacheClass;
+            $serialized_data = $staticClass::read($this->getCacheFileName());
         }
+        $data = unserialize($serialized_data);
         return $data;
     }
 
     public function cacheData($data){
-        $file = $this->dir . "/" . $this->name . '.cache';
-
-        $fh = fopen($file, 'w+');
-
-        if($fh === false) {
-            throw new Exception ("Failed to open " . $file);
-        }
+        $file = $this->getCacheFileName();
 
 	    $expiration = time() + $this->ttl;
 	    $data['expiration'] = $expiration;
+        $serializedData = serialize($data);
 
-	    fwrite($fh, serialize($data));
-	    fclose($fh);
+        if(self::$staticExternalCacheClass == null){
+            $fh = fopen($file, 'w+');
+            if($fh === false) {
+                throw new Exception ("Failed to open " . $file);
+            }
+            fwrite($fh, $serializedData);
+            fclose($fh);
+        } else {
+            $staticClass = self::$staticExternalCacheClass;
+            $staticClass::write($this->getCacheFileName(), $serializedData);
+        }
     }
 }
