@@ -7,7 +7,7 @@ class Infusionsoft_SmartCache{
 
     public function __construct($name, $ttl = 300, $dir = 'cache'){
         if (strpos($dir, '/') !== 0 && strpos($dir, ':') !== 1){
-            $dir = APP . 'Vendor' . DS . 'php-infusionsoft-sdk' . DS . 'Infusionsoft.Infusionsoft' . DS . $dir;
+            $dir = APP . 'Plugin/Infusionsoft/Vendor' . DS . 'php-infusionsoft-sdk' . DS . 'Infusionsoft' . DS . $dir;
         }
         $this->ttl = $ttl;
         $this->dir = $dir;
