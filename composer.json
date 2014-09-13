@@ -1,5 +1,5 @@
 {
-    "name": "novaksolutions/php-sdk",
+    "name": "novaksolutions/infusionsoft-php-sdk",
     "description": "A better Infusionsoft SDK for PHP",
     "keywords": ["api", "infusionsoft", "marketing", "infusionsoft-api", "infusion", "php-infusionsoft-api"],
     "version": "v2014-09-11",
