@@ -4,11 +4,11 @@
     "keywords": ["api", "infusionsoft", "marketing", "infusionsoft-api", "infusion", "php-infusionsoft-api"],
     "version": "v2014-09-11",
     "license": "MIT",
-    "homepage": "http://novaksolutions.com",
+    "homepage": "https://novaksolutions.com",
     "authors": [
         {
             "name": "Novak Solutions",
-            "homepage": "http://novaksolutions.com"
+            "homepage": "https://novaksolutions.com"
         }
     ],
     "require": {
