@@ -1,12 +1,12 @@
 <?php
 /**
- * @property String Id
- * @property String IsDefault
+ * @property Integer Id
+ * @property Integer IsDefault
  * @property String Label
  * @property String Name
- * @property String OptionIndex
- * @property String PriceAdjustment
- * @property String ProductOptionId
+ * @property Integer OptionIndex
+ * @property Double PriceAdjustment
+ * @property Integer ProductOptionId
  * @property String Sku
  */
 class Infusionsoft_Generated_ProductOptionValue extends Infusionsoft_Generated_Base{

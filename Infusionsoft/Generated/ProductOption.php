@@ -1,18 +1,18 @@
 <?php
 /**
- * @property String Id
- * @property String ProductId
- * @property String AllowSpaces
+ * @property Integer Id
+ * @property Integer ProductId
+ * @property Integer AllowSpaces
  * @property String CanContain
- * @property String CanEndWith
+ * @property Integer CanEndWith
  * @property String CanStartWith
- * @property String IsRequired
+ * @property Integer IsRequired
  * @property String Label
- * @property String MaxChars
- * @property String MinChars
+ * @property Integer MaxChars
+ * @property Integer MinChars
  * @property String Name
  * @property String OptionType
- * @property String Order
+ * @property Integer Order
  * @property String TextMessage
  */
 class Infusionsoft_Generated_ProductOption extends Infusionsoft_Generated_Base{
