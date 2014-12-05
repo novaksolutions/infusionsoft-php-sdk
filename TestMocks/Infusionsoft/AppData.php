@@ -1,20 +1,25 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: joey
  * Date: 1/28/13
  * Time: 2:44 AM
  * To change this template use File | Settings | File Templates.
+
  */
 
 class Infusionsoft_AppData {
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
     protected $emailOptStatus = array();
+    public $fileBoxData = array();
 
     public function clearAll(){
         $this->tables = array();
+        $this->fileBoxData = array();
     }
+
     public function query($params){
         list($table, $limit, $page, $queryData, $returnFields) = $params;
         $this->createTableIfNotExists($table);
@@ -84,6 +89,7 @@ class Infusionsoft_AppData {
                 return true;
             }
         }
+
         $this->tables[$table][] = $data;
         return true;
     }
