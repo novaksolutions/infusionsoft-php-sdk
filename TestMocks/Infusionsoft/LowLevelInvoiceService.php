@@ -43,7 +43,9 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $order = new Infusionsoft_Job();
         $order->OrderType = 1;
         $order->ContactId = $contactId;
-        $order->save();
+        $app = Infusionsoft_AppPool::getApp('');
+        $order->Id = $app->data->add(array($order->getTable(), $order->toArray()));
+
 
         $invoice = new Infusionsoft_Invoice();
         $invoice->ContactId = $contactId;

@@ -153,11 +153,10 @@ class Infusionsoft_ContactServiceBase extends Infusionsoft_Service{
         return parent::send($app, "ContactService.resumeCampaignForContact", $params);
     }
     
-    public static function runActionSequence($contactId, $actionSequenceId, $params, Infusionsoft_App $app = null){
+    public static function runActionSequence($contactId, $actionSequenceId, Infusionsoft_App $app = null){
         $params = array(
             (int) $contactId, 
-            (int) $actionSequenceId, 
-            $params
+            (int) $actionSequenceId 
         );
 
         return parent::send($app, "ContactService.runActionSequence", $params);
