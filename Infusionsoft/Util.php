@@ -49,7 +49,7 @@ class Infusionsoft_Util
         }
 
         //Search By Email
-        if(strpos($search, '@') !== false){
+        if(strpos($search, '@') !== false || count($contacts) == 0){
             $criteria = array('Email' => $search);
             $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
             if(count($contacts) == 0){
@@ -59,7 +59,7 @@ class Infusionsoft_Util
         }
 
 
-        if(strpos($search, "-") !== false && strpos($search, '@') == false){
+        if((strpos($search, "-") !== false && strpos($search, '@') == false) || count($contacts) == 0){
             $criteria = array();
             $criteria['Phone1'] = '%' . $search . '%';
             $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
