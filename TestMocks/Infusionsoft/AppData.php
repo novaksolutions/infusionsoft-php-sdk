@@ -53,6 +53,8 @@ class Infusionsoft_AppData {
         foreach ($data as $field => $value){
             if (preg_match("/^[0-9]{8}T/", $value)){
                 $data[$field] = date('Y-m-d H:i:s', strtotime($value));
+            } else {
+                $data[$field] = htmlspecialchars($data[$field]);
             }
         }
         $this->tables[$table][] = $data;
@@ -81,6 +83,8 @@ class Infusionsoft_AppData {
         foreach ($data as $field => $value){
             if (preg_match("/^[0-9]{8}T/", $value)){
                 $data[$field] = date('Y-m-d H:i:s', strtotime($value));
+            } else {
+                $data[$field] = htmlspecialchars($data[$field]);
             }
         }
         foreach($this->tables[$table] as $index => &$row){
