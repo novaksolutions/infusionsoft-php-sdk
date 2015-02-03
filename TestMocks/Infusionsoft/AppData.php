@@ -158,13 +158,13 @@ class Infusionsoft_AppData {
             } elseif ($part == '*') {
                 $pattern[$key] = '.*';
             } else {
-                $pattern[$key] = preg_quote($part);
+                $pattern[$key] = preg_quote($part, '/');
             }
         }
 
         $pattern = implode('', $pattern);
 
-        $pattern = '/^'.$pattern.'$/';
+        $pattern = '/'.$pattern.'/s';
 
         return preg_match($pattern, $value);
     }
