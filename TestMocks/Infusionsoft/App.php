@@ -14,6 +14,7 @@ class Infusionsoft_App{
         $this->services['APIEmailService'] = new Infusionsoft_LowLevelAPIEmailService($this->data);
         $this->services['FunnelService'] = new Infusionsoft_LowLevelFunnelService($this->data);
         $this->services['ContactService'] = new Infusionsoft_LowLevelContactService($this->data);
+        $this->services['FileService'] = new Infusionsoft_LowLevelFileService($this->data);
 
         $this->hostName = $hostname;
         $this->apiKey = $apiKey;

@@ -36,6 +36,23 @@ class Infusionsoft_LowLevelDataService extends Infusionsoft_LowLevelMockService{
         array_shift($args);
         return $this->data->query($args);
     }
+
+    /**
+     * @param $username
+     * @param $password
+     * There is no Users table we can check against, so it looks for Contacts with the "_User" field set to true
+     */
+    public function authenticateUser($args){
+        array_shift($args);
+        list($username, $password) = $args;
+        $contacts = $this->data->query(array('Contact', 1000, 0, array('_User' => '1'), null));
+        foreach ($contacts as $contact){
+            if ($contact['Email'] == $username && md5($contact['Password']) == $password){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 /**
  * Created by JetBrains PhpStorm.

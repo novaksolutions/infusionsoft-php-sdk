@@ -1,20 +1,25 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: joey
  * Date: 1/28/13
  * Time: 2:44 AM
  * To change this template use File | Settings | File Templates.
+
  */
 
 class Infusionsoft_AppData {
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
     protected $emailOptStatus = array();
+    public $fileBoxData = array();
 
     public function clearAll(){
         $this->tables = array();
+        $this->fileBoxData = array();
     }
+
     public function query($params){
         list($table, $limit, $page, $queryData, $returnFields) = $params;
         $this->createTableIfNotExists($table);
@@ -48,6 +53,8 @@ class Infusionsoft_AppData {
         foreach ($data as $field => $value){
             if (preg_match("/^[0-9]{8}T/", $value)){
                 $data[$field] = date('Y-m-d H:i:s', strtotime($value));
+            } else {
+                $data[$field] = htmlspecialchars($data[$field]);
             }
         }
         $this->tables[$table][] = $data;
@@ -76,6 +83,8 @@ class Infusionsoft_AppData {
         foreach ($data as $field => $value){
             if (preg_match("/^[0-9]{8}T/", $value)){
                 $data[$field] = date('Y-m-d H:i:s', strtotime($value));
+            } else {
+                $data[$field] = htmlspecialchars($data[$field]);
             }
         }
         foreach($this->tables[$table] as $index => &$row){
@@ -84,6 +93,7 @@ class Infusionsoft_AppData {
                 return true;
             }
         }
+
         $this->tables[$table][] = $data;
         return true;
     }
@@ -148,13 +158,13 @@ class Infusionsoft_AppData {
             } elseif ($part == '*') {
                 $pattern[$key] = '.*';
             } else {
-                $pattern[$key] = preg_quote($part);
+                $pattern[$key] = preg_quote($part, '/');
             }
         }
 
         $pattern = implode('', $pattern);
 
-        $pattern = '/^'.$pattern.'$/';
+        $pattern = '/'.$pattern.'/s';
 
         return preg_match($pattern, $value);
     }

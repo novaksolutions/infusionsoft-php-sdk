@@ -65,6 +65,7 @@ class Infusionsoft_App{
 
         $attempts = 0;
         $start = time();
+        $req = null;
         do{
             if ($attempts > 0){
                 if (class_exists('CakeLog') && $attempts > 1){
