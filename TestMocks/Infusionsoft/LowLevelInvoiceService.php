@@ -86,6 +86,45 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         return $payment->Id;
     }
 
+    public function chargeInvoice($args) {
+        //Remove Api Key
+        array_shift($args);
+        list($invoiceId, $notes, $creditCardId, $merchantAccountId, $bypassCommissions) = $args;
+
+        $invoice = new Infusionsoft_Invoice($invoiceId);
+        $contactId = $invoice->ContactId;
+
+        $payment = new Infusionsoft_Payment();
+        $payment->PayAmt  = $invoice->TotalDue;
+        $payment->PayType = 'Credit Card';
+        $payment->PayDate = date('YmdTH:i:s', strtotime('now'));
+        $payment->PayNote = $notes;
+        $payment->ContactId = $contactId;
+        $payment->InvoiceId = $invoiceId;
+        $payment->save();
+
+        $cCharge = new Infusionsoft_CCharge();
+        $cCharge->Amt = $invoice->TotalDue;
+        $cCharge->ApprCode = 123456;
+        $cCharge->CCId = $creditCardId;
+        $cCharge->MerchantId = $merchantAccountId;
+        $cCharge->OrderNum = $invoice->JobId;
+        $cCharge->PaymentId = $payment->Id;
+        $cCharge->save();
+
+        $invoicePayment = new Infusionsoft_InvoicePayment();
+        $invoicePayment->InvoiceId = $invoiceId;
+        $invoicePayment->PaymentId = $payment->Id;
+        $invoicePayment->Amt = $invoice->TotalDue;
+        $invoicePayment->PayDate = date('YmdTH:i:s', strtotime('now'));
+        $invoicePayment->save();
+
+        $invoice->TotalPaid = floatval($invoice->TotalPaid);
+        $invoice->save();
+
+        return $payment->Id;
+    }
+
 
     public function updateJobRecurringNextBillDate($args){
         array_shift($args);
