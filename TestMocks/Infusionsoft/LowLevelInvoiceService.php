@@ -33,7 +33,7 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $invoice->TotalDue = floatval($invoice->TotalDue) + $total;
         $invoice->save();
 
-        return $orderItem->Id;
+        return true;
     }
 
     public function createBlankOrder($args){
