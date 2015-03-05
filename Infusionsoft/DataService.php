@@ -132,6 +132,19 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
     }
 
+    public static function count($object, $queryData, Infusionsoft_App $app = null)
+    {
+        $app = parent::getObjectOrDefaultAppIfNull($app, $object);
+
+        $params = array(
+            $object->getTable(),
+            $queryData
+        );
+
+        $count = $app->send('DataService.count', $params, true);
+        return $count;
+    }
+
     public static function queryWithOrderBy($object, $queryData, $orderByField, $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null)
     {
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
