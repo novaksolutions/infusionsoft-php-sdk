@@ -186,4 +186,19 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
             $invoiceItem->delete();
         }
     }
+
+    public function addPaymentPlan($args) {
+        array_shift($args);
+        list($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry,
+$maxRetry, $initialPmtAmt, $initialPmtDate, $planStartDate, $numberOfPmts, $daysBetweenPmts) = $args;
+
+        $payPlan = new Infusionsoft_PayPlan();
+        $payPlan->AmtDue = $initialPmtAmt;
+        $payPlan->DateDue = $initialPmtDate;
+        $payPlan->FirstPayAmt = $initialPmtAmt;
+        $payPlan->InitDate = $initialPmtDate;
+        $payPlan->InvoiceId = $invoiceId;
+        $payPlan->StartDate = $planStartDate;
+        $payPlan->save();
+    }
 }
