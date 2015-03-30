@@ -6,7 +6,7 @@ class Infusionsoft_OAuth2Token implements Infusionsoft_IToken
 	/**
 	 * @var string
 	 */
-	protected $tokens = array();
+	public $tokens = array();
 
 	public function __construct(array $data)
 	{
@@ -39,19 +39,27 @@ class Infusionsoft_OAuth2Token implements Infusionsoft_IToken
 	}
 
 	/* (non-PHPdoc)
-	 * @see Infusionsoft_IToken::getAccessToken()
-	 */
-	public function getAccessToken()
-	{
-		return $this->tokens[self::TOKEN_ACCESS];
-	}
-
-	/* (non-PHPdoc)
 	 * @see Infusionsoft_IToken::setRefreshToken()
 	 */
 	public function setRefreshToken($token)
 	{
 		$this->tokens[self::TOKEN_REFRESH] = $token;
+	}
+
+	/* (non-PHPdoc)
+	 * @see Infusionsoft_IToken::setTokenExpirationTime()
+	 */
+	public function setTokenExpirationTime($expirationTime)
+	{
+		$this->tokens[self::TOKEN_EXPIRATION_TIME] = time() + $expirationTime;
+	}
+
+	/* (non-PHPdoc)
+	 * @see Infusionsoft_IToken::getAccessToken()
+	 */
+	public function getAccessToken()
+	{
+		return $this->tokens[self::TOKEN_ACCESS];
 	}
 
 	/* (non-PHPdoc)
@@ -63,19 +71,11 @@ class Infusionsoft_OAuth2Token implements Infusionsoft_IToken
 	}
 
 	/* (non-PHPdoc)
-	 * @see Infusionsoft_IToken::setTokenExpirationTime()
-	 */
-	public function setTokenExpirationTime($expirationTime)
-	{
-		$this->token[self::TOKEN_EXPIRATION_TIME] = time() + $expirationTime;
-	}
-
-	/* (non-PHPdoc)
 	 * @see Infusionsoft_IToken::getTokenExpirationTime()
 	 */
 	public function getTokenExpirationTime()
 	{
-		return $this->token[self::TOKEN_EXPIRATION_TIME];
+		return $this->tokens[self::TOKEN_EXPIRATION_TIME];
 	}
 
 	/* (non-PHPdoc)
@@ -84,7 +84,7 @@ class Infusionsoft_OAuth2Token implements Infusionsoft_IToken
 	public function setTokenCargo(array $cargo)
 	{
 		foreach ( $cargo as $key => $value ) {
-			$this->token[self::TOKEN_CARGO][$key] = $value;
+			$this->tokens[self::TOKEN_CARGO][$key] = $value;
 		}
 	}
 
@@ -94,7 +94,7 @@ class Infusionsoft_OAuth2Token implements Infusionsoft_IToken
 	public function getTokenCargo()
 	{
 		$r0 = array();
-		foreach ( $this->token[self::TOKEN_CARGO] as $key => $value ) {
+		foreach ( $this->tokens[self::TOKEN_CARGO] as $key => $value ) {
 			$r0[$key] = $value;
 		}
 		return $r0;

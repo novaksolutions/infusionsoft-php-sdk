@@ -1,0 +1,14 @@
+<phpunit>
+	<php>
+		<const name="ApiKey" value="ee75de5375fc65c3ec5c03c37c10e7da" />
+		<const name="AppId" value="sd108" />
+	</php>
+	<logging>
+		<log type="coverage-text" target="php://stdout" showOnlySummary="false" showUncoveredFiles="false" />
+	</logging>
+	<filter>
+		<blacklist>
+			<directory suffix=".php">vendor/</directory>
+		</blacklist>
+	</filter>
+</phpunit>
