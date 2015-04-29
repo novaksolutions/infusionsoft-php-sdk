@@ -20,7 +20,7 @@ class SavedSearchDataService extends Service {
         $className = get_class($object);
         foreach($rows as $row){
             /**
-             * @var Generated_Base $dataObject
+             * @var Base $dataObject
              */
             if(isset($row['Follow-UpSequence'])){
                 $row['FollowUpSequence'] = $row['Follow-UpSequence'];

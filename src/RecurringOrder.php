@@ -30,7 +30,7 @@ namespace NovakSolutions\Infusionsoft;
  */
 class RecurringOrder extends BaseWithCustomFields{
     protected static $tableFields = array('Id', 'ContactId', 'OriginatingOrderId', 'ProgramId', 'SubscriptionPlanId', 'ProductId', 'StartDate', 'EndDate', 'LastBillDate', 'NextBillDate', 'PaidThruDate', 'BillingCycle', 'Frequency', 'BillingAmt', 'Status', 'ReasonStopped', 'AutoCharge', 'CC1', 'CC2', 'NumDaysBetweenRetry', 'MaxRetry', 'MerchantAccountId', 'AffiliateId', 'PromoCode', 'LeadAffiliateId', 'Qty');
-    public static $customFieldFormId = -10;
+    const CUSTOM_FIELD_FORM_ID = -10;
 
     public function __construct($id = null, $app = null){
         parent::__construct('RecurringOrder', $id, $app);

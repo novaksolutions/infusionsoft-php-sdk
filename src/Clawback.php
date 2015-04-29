@@ -1,7 +1,7 @@
 <?php
 namespace NovakSolutions\Infusionsoft;
 
-class Clawback extends Generated_Base {
+class Clawback extends Base {
 
     protected static $tableFields = array(
         "Id", //This is non-numeric

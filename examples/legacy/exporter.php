@@ -12,7 +12,7 @@
 
         $reflection = new ReflectionObject(new $class_name());
 
-        if($reflection->hasProperty('customFieldFormId')){
+        if($reflection->hasConstant('CUSTOM_FIELD_FORM_ID')){
             echo 'Adding all custom fields available to object' . '<br/>';
             $custom_fields = Infusionsoft_DataService::getCustomFields(new $class_name());
             $class_name::addCustomFields(array_keys($custom_fields));

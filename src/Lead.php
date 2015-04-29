@@ -20,7 +20,7 @@ namespace NovakSolutions\Infusionsoft;
  */
 class Lead extends BaseWithCustomFields{
     protected static $tableFields = array('Id', 'OpportunityTitle', 'ContactID', 'AffiliateId', 'UserID', 'StageID', 'StatusID', 'Leadsource', 'Objection', 'ProjectedRevenueLow', 'ProjectedRevenueHigh', 'OpportunityNotes', 'DateCreated', 'LastUpdated', 'LastUpdatedBy', 'CreatedBy', 'EstimatedCloseDate', 'NextActionDate', 'NextActionNotes');
-    var $customFieldFormId = -4;
+    const CUSTOM_FIELD_FORM_ID = -4;
 
     public function __construct($id = null, $app = null){
         parent::__construct('Lead', $id, $app);

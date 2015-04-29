@@ -1,7 +1,7 @@
 <?php
 namespace NovakSolutions\Infusionsoft;
 
-class EmailSent  extends Generated_Base {
+class EmailSent  extends Base {
     protected static $tableFields = array(
         "Id",
         "ContactId",

@@ -10,3 +10,4 @@ Namespaced everything NovakSolutions\Infusionsoft
 Removed Generated Base Objects Everywhere
 Moved ping method to App object and removed from all services.
 Removed the RemoveBrokenFields code - we think Infusionsoft got the message and isn't removing fields anytime soon.
+renamed infusionsoft.pem to mozilla-ca-root-cert-bundle.pem to accurately reflect what it is...

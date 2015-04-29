@@ -33,7 +33,7 @@ class Service{
         return $object;        	
     }
     
-    protected static function getObjectOrDefaultAppIfNull(App $app = null, Generated_Base $object = null){
+    protected static function getObjectOrDefaultAppIfNull(App $app = null, Base $object = null){
     	//If an app is explicitly set, skip this...
     	if($app == null){			    		
     		//If the object has an app key, return it's app       				    		
@@ -72,4 +72,10 @@ class Service{
     // PHP date representation of the XMLRPC date format, for use with other conversions.
 
     const apiDateFormat = 'Ymd\TH:i:s';
+
+    public static function getDefaultAppIfNull($app){
+        if($app == null){
+            return AppPool::getApp();
+        }
+    }
 }

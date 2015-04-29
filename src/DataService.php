@@ -1,9 +1,9 @@
 <?php
 namespace NovakSolutions\Infusionsoft;
 
-class DataService extends DataServiceBase
+class DataService extends Service
 {
-    public static function addCustomField(Generated_Base &$object, $displayName, $dataType, $groupId, App $app = null)
+    public static function addCustomField(Base &$object, $displayName, $dataType, $groupId, App $app = null)
     {
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
 
@@ -18,7 +18,7 @@ class DataService extends DataServiceBase
         return $customFieldId;
     }
 
-    public static function delete(Generated_Base &$object, $id, App $app = null)
+    public static function delete(Base &$object, $id, App $app = null)
     {
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
 
@@ -78,7 +78,7 @@ class DataService extends DataServiceBase
 
     /*
      * This is in the DataService.java file, but not exposed...
-    public static function getMetaData(Generated_Base &$object, App $app = null)
+    public static function getMetaData(Base &$object, App $app = null)
     {
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
 
@@ -91,7 +91,7 @@ class DataService extends DataServiceBase
     }
     */
 
-    public static function load(Generated_Base &$object, $id, $returnFields = false, App $app = null)
+    public static function load(Base &$object, $id, $returnFields = false, App $app = null)
     {
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
 
@@ -109,16 +109,16 @@ class DataService extends DataServiceBase
         return self::_returnResult(get_class($object), $app->getHostName(), $records);
     }
 
-    public static function query($objectClass, $queryData, $limit = 1000, $page = 0, $returnFields = false, App $app = null)
+    public static function query(Base $object, $queryData, $limit = 1000, $page = 0, $returnFields = false, App $app = null)
     {
-        $app = parent::getObjectOrDefaultAppIfNull($app, $objectClass);
+        $app = parent::getDefaultAppIfNull($app);
 
         if(!$returnFields){
-            $returnFields = $objectClass->getFields();
+            $returnFields = $object->getFields();
         }
 
         $params = array(
-            $objectClass->getTable(),
+            $object->getTable(),
             (int) $limit,
             (int) $page,
             $queryData,
@@ -126,7 +126,7 @@ class DataService extends DataServiceBase
         );
 
         $records = $app->send('DataService.query', $params, true);
-        return self::_returnResults(get_class($objectClass), $app->getHostName(), $records, $returnFields);
+        return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
     }
 
     public static function count($object, $queryData, App $app = null)
@@ -190,7 +190,7 @@ class DataService extends DataServiceBase
         return $queryData;
     }
 
-    public static function save(Generated_Base &$object, App $app = null)
+    public static function save(Base &$object, App $app = null)
     {
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
         $out = 0;
@@ -232,7 +232,7 @@ class DataService extends DataServiceBase
 
     public static function getCustomFields($object, $app = null)
     {
-        $fields = DataService::query(new DataFormField(), array('FormId' => $object->customFieldFormId), 1000, 0, false, $app);
+        $fields = DataService::query(new DataFormField(), array('FormId' => $object::CUSTOM_FIELD_FORM_ID), 1000, 0, false, $app);
         $returnData = array();
         foreach ($fields as $field){
             $field->Name = '_' . $field->Name;

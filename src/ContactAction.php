@@ -22,7 +22,7 @@ namespace NovakSolutions\Infusionsoft;
  */
 class ContactAction extends BaseWithCustomFields{
     protected static $tableFields = array('Id', 'ContactId', 'OpportunityId', 'ActionType', 'ActionDescription', 'CreationDate', 'CreationNotes', 'CompletionDate', 'ActionDate', 'EndDate', 'PopupDate', 'UserID', 'Accepted', 'CreatedBy', 'LastUpdated', 'LastUpdatedBy', 'Priority', 'IsAppointment');
-    public static $customFieldFormId = -5;
+    const CUSTOM_FIELD_FORM_ID = -5;
 
     public function __construct($id = null, $app = null){
         parent::__construct('ContactAction', $id, $app);

@@ -15,13 +15,16 @@ class App{
     protected $Logger;
 
 	public function __construct($hostname, $apiKey, $port = 443){
+        if(strpos($hostname, ".") === false){
+            $hostname = $hostname . '.infusionsoft.com';
+        }
 		$this->hostname = $hostname;
 		$this->apiKey = $apiKey;
 		$this->port = $port;
 
 		$this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
 		$this->client->setSSLVerifyPeer(true);
-        $this->client->setCaCertificate(dirname(__FILE__) . '/infusionsoft.pem');
+        $this->client->setCaCertificate(dirname(__FILE__) . '/mozilla-ca-root-cert-bundle.pem');
         $this->client->request_charset_encoding = "UTF-8";
 	}
 
@@ -82,7 +85,12 @@ class App{
 
         $this->totalHttpCalls += $attempts;
         if (!$req->faultCode()){
-            $result = php_xmlrpc_decode($req->value());
+            if(is_object($req->value())){
+                $result = php_xmlrpc_decode($req->value());
+            } else {
+                $result = $req->value();
+            }
+
         } else {
             $result = array();
         }

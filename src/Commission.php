@@ -1,7 +1,7 @@
 <?php
 namespace NovakSolutions\Infusionsoft;
 
-class Commission extends Generated_Base {
+class Commission extends Base {
 
     protected static $tableFields = array(
         "Id", //This is non-numeric

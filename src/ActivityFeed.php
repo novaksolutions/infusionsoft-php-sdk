@@ -1,7 +1,7 @@
 <?php
 namespace NovakSolutions\Infusionsoft;
 
-class ActivityFeed  extends Generated_Base {
+class ActivityFeed extends Base {
     protected static $tableFields = array(
         "Id",
         "Name",
@@ -25,10 +25,6 @@ class ActivityFeed  extends Generated_Base {
 
     public function __construct($idString = null, $app = null){
         $this->table = 'ActivityFeed';
-    }
-
-    public function getFields(){
-        return self::$tableFields;
     }
 
     public function save() {

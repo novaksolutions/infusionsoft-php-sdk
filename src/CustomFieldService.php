@@ -32,17 +32,13 @@ class CustomFieldService extends DataService{
     static $DataType_User = 22;
     static $DataType_UserListBox = 25;
 
-    public static function getCachedCustomFields(Generated_Base $object, $dataType = null, $ttl = 43200 /*12 Hours*/, App $app = null){
-        if(!property_exists($object, 'customFieldFormId')){
-            throw new Exception(get_class($object) . ' does not have Custom Fields.');
-        }
-
+    public static function getCachedCustomFields(Base $object, $dataType = null, $ttl = 43200 /*12 Hours*/, App $app = null){
         $dataFormField = new DataFormField();
         if($object->getAppPoolAppKey() != null){
             $dataFormField->setAppPoolAppKey($object->getAppPoolAppKey());
         }
 
-        $conditions = array('FormId' => $object->customFieldFormId);
+        $conditions = array('FormId' => $object->getCustomFieldFormId());
         if($dataType != null){
             $conditions['DataType'] = $dataType;
         }
@@ -52,8 +48,8 @@ class CustomFieldService extends DataService{
         return $out;
     }
 
-	public static function getCustomFields(Generated_Base $object, $dataType = null, App $app = null){
-        if(!property_exists($object, 'customFieldFormId')){
+	public static function getCustomFields(Base $object, $dataType = null, App $app = null){
+        if(!property_exists($object, 'CUSTOM_FIELD_FORM_ID')){
             throw new Exception(get_class($object) . ' does not have Custom Fields.');
         }
 
@@ -62,7 +58,7 @@ class CustomFieldService extends DataService{
             $dataFormField->setAppPoolAppKey($object->getAppPoolAppKey());
         }
 
-        $conditions = array('FormId' => $object->customFieldFormId);
+        $conditions = array('FormId' => $object::CUSTOM_FIELD_FORM_ID);
         if($dataType != null){
             $conditions['DataType'] = $dataType;
         }
@@ -71,12 +67,12 @@ class CustomFieldService extends DataService{
 		return $out;	
 	}
 
-    public static function getCustomField(Generated_Base $object, $name, App $app = null){
+    public static function getCustomField(Base $object, $name, App $app = null){
         if(strpos($name, '_') === 0){
             $name = substr($name, 1, strlen($name) - 1);
         }
         
-        if(!property_exists($object, 'customFieldFormId')){
+        if(!property_exists($object, 'CUSTOM_FIELD_FORM_ID')){
             throw new Exception(get_class($object) . ' does not have Custom Fields.');
         }
 
@@ -85,7 +81,7 @@ class CustomFieldService extends DataService{
             $dataFormField->setAppPoolAppKey($object->getAppPoolAppKey());
         }
 
-        $conditions = array('FormId' => $object->customFieldFormId, 'Name' => $name);
+        $conditions = array('FormId' => $object::CUSTOM_FIELD_FORM_ID, 'Name' => $name);
 		$out = parent::query(new DataFormField(), $conditions);
 
 		return array_pop($out);

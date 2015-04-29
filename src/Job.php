@@ -27,7 +27,7 @@ namespace NovakSolutions\Infusionsoft;
  */
 class Job extends BaseWithCustomFields{
     protected static $tableFields = array('Id', 'JobTitle', 'ContactId', 'StartDate', 'DueDate', 'JobNotes', 'ProductId', 'JobRecurringId', 'JobStatus', 'DateCreated', 'OrderType', 'OrderStatus', 'ShipFirstName', 'ShipMiddleName', 'ShipLastName', 'ShipCompany', 'ShipPhone', 'ShipStreet1', 'ShipStreet2', 'ShipCity', 'ShipState', 'ShipZip', 'ShipCountry');
-    public static $customFieldFormId = -9;
+    const CUSTOM_FIELD_FORM_ID = -9;
 
     public function __construct($id = null, $app = null){
         parent::__construct('Job', $id, $app);

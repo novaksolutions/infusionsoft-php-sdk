@@ -8,7 +8,7 @@ namespace NovakSolutions\Infusionsoft;
  * Time: 8:04 AM
  */
 
-class EmailBroadcast  extends Generated_Base {
+class EmailBroadcast  extends Base {
     protected static $tableFields = array(
         "Id",
         "Name",

@@ -9,7 +9,7 @@ class ObjectCache extends SmartCache{
     var $returnFields;
     var $app_name;
 
-    public function __construct(Generated_Base $object, array $conditions = array(), $ttl = 300, $limit = 1000, $page = 0, $returnFields = false, App $app = null){
+    public function __construct(Base $object, array $conditions = array(), $ttl = 300, $limit = 1000, $page = 0, $returnFields = false, App $app = null){
         $this->object = $object;
         $this->conditions = $conditions;
         $this->limit = $limit;
@@ -41,7 +41,7 @@ class ObjectCache extends SmartCache{
         return false;
     }
 
-    public function addObjectToCache(Generated_Base $object) {
+    public function addObjectToCache(Base $object) {
         // Get the cache data and add our new object
         $data = $this->getData();
         $data[] = $object;

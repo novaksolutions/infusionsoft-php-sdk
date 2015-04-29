@@ -21,7 +21,7 @@ namespace NovakSolutions\Infusionsoft;
  */
 class Affiliate extends BaseWithCustomFields{
     protected static $tableFields = array('Id', 'ContactId', 'ParentId', 'LeadAmt', 'LeadPercent', 'SaleAmt', 'SalePercent', 'PayoutType', 'DefCommissionType', 'Status', 'AffName', 'Password', 'AffCode', 'NotifyLead', 'NotifySale', 'LeadCookieFor');
-    public static $customFieldFormId = -3;
+    const CUSTOM_FIELD_FORM_ID = -3;
 
     public function __construct($id = null, $app = null){
         parent::__construct('Affiliate', $id, $app);

@@ -3,6 +3,8 @@ namespace NovakSolutions\Infusionsoft;
 
 abstract class Base
 {
+    const CUSTOM_FIELD_FORM_ID = 0;
+
     protected $fields;
     protected $table;
     protected $data = array();
@@ -142,5 +144,14 @@ abstract class Base
             unset(static::$tableFields[$fieldIndex]);
             static::$tableFields = array_values(static::$tableFields);
         }
+    }
+
+    public static function getCustomFieldFormId(){
+        return static::CUSTOM_FIELD_FORM_ID;
+    }
+
+    public static function blankClass(){
+        $className = get_called_class();
+        return new $className();
     }
 }
