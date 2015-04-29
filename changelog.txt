@@ -1,0 +1,12 @@
+way back when
+----
+Added AffiliateDataService, which has an interface which is compatible with DataService.query
+Added SavedSearchDataService, which has an interface which is compatible with DataService.query
+
+
+v1.0
+----
+Namespaced everything NovakSolutions\Infusionsoft
+Removed Generated Base Objects Everywhere
+Moved ping method to App object and removed from all services.
+Removed the RemoveBrokenFields code - we think Infusionsoft got the message and isn't removing fields anytime soon.

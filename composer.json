@@ -2,7 +2,7 @@
     "name": "novaksolutions/infusionsoft-php-sdk",
     "description": "A better Infusionsoft SDK for PHP",
     "keywords": ["api", "infusionsoft", "marketing", "infusionsoft-api", "infusion", "php-infusionsoft-api"],
-    "version": "v2014-09-11",
+    "version": "1.0.0-dev",
     "license": "MIT",
     "homepage": "https://novaksolutions.com",
     "authors": [
@@ -12,10 +12,12 @@
         }
     ],
     "require": {
-        "php": ">=5.2.0",
+        "php": ">=5.3.0",
         "ext-curl": "*"
     },
     "autoload": {
-        "classmap": ["Infusionsoft/infusionsoft.php"]
+        "psr-4": {
+            "NovakSolutions\\Infusionsoft\\": "src"
+        }
     }
 }
