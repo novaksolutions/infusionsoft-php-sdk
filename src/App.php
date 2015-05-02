@@ -1,9 +1,19 @@
 <?php
 namespace NovakSolutions\Infusionsoft;
 
+/**
+ * Class App
+ * @package NovakSolutions\Infusionsoft
+ * @property Providers\TokenStorageProvider $tokenStorageProvider
+ * @property xmlrpc_client $client
+ */
 class App{
+    protected $usingOAuth = false;
+    protected $tokenStorageProvider = null;
 	protected $hostname = '';
-	protected $apiKey = '';
+	protected $accessToken = '';
+    protected $apiKey = '';
+
 	protected $port;
     protected $timeout = 0;
 	protected $debug = false;
@@ -14,19 +24,53 @@ class App{
     protected $totalHttpCalls = 0;
     protected $Logger;
 
-	public function __construct($hostname, $apiKey, $port = 443){
+	public function __construct($hostname, $apiKeyOrStorageProvider = null, $port = 443){
         if(strpos($hostname, ".") === false){
             $hostname = $hostname . '.infusionsoft.com';
         }
+
 		$this->hostname = $hostname;
-		$this->apiKey = $apiKey;
+
+        if(is_a($apiKeyOrStorageProvider, 'NovakSolutions\Infusionsoft\TokenStorageProvider')){
+            /** @var TokenStorageProvider $storageProvider */
+            $this->tokenStorageProvider = $apiKeyOrStorageProvider;
+        } elseif($apiKeyOrStorageProvider == null) {
+            $this->tokenStorageProvider = AppPool::getDefaultStorageProvider();
+        }
+
+        if($this->tokenStorageProvider != null){
+            $this->usingOAuth = true;
+            $tokens = $this->tokenStorageProvider->getTokens($this->hostname);
+            $this->accessToken = $tokens['accessToken'];
+            $this->refreshToken = $tokens['refreshToken'];
+            $this->tokenExpiresAt = $tokens['expiresAt'];
+        }
+
 		$this->port = $port;
 
-		$this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+        if($this->usingOAuth){
+            $this->client	= new xmlrpc_client('/crm/xmlrpc/v1', 'api.infusionsoft.com', 443);
+        } else {
+            $this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+        }
+
 		$this->client->setSSLVerifyPeer(true);
         $this->client->setCaCertificate(dirname(__FILE__) . '/mozilla-ca-root-cert-bundle.pem');
         $this->client->request_charset_encoding = "UTF-8";
+
+        if($this->usingOAuth == true){
+            $this->client->extraUrlParams = array('access_token' => $this->accessToken);
+        }
 	}
+
+    /**
+     * @param $hostName
+     * @param string $apiKey
+     * @return App
+     */
+    public static function connect($hostName, $apiKey = null){
+        return AppPool::addApp(new App($hostName, $apiKey));
+    }
 
     public function logger(Logger $object){
         if (method_exists($object, 'log')){
@@ -41,8 +85,8 @@ class App{
         $this->client->dump_payloads = true;
     }
 
-	public function getApiKey(){
-		return $this->apiKey;
+	public function getAccessToken(){
+		return $this->accessToken;
 	}
 
 	public function getHostname(){
@@ -119,7 +163,7 @@ class App{
 		return $result;
 	}
 	public function send($method, $args, $retry = false){
-		array_unshift($args, $this->getApiKey());
+		array_unshift($args, $this->usingOAuth ? $this->accessToken : $this->apiKey);
 		return $this->sendWithoutAddingKey($method, $args, $retry);
 	}
 
@@ -162,5 +206,21 @@ class App{
             $out = FALSE;
         }
         return $out;
+    }
+
+    public function hasTokens(){
+        return $this->accessToken != '' && $this->refreshToken != '';
+    }
+
+    public static function refreshTokens(){
+
+    }
+
+    public function updateAndSaveTokens($accessToken, $refreshToken, $expiresIn){
+        $this->tokenStorageProvider->saveTokens($this->hostname, $accessToken, $refreshToken, $expiresIn);
+        $this->accessToken = $accessToken;
+        $this->refreshToken = $refreshToken;
+        $this->tokenExpires = time() + $expiresIn;
+        $this->client->extraUrlParams = array('access_token' => $this->accessToken);
     }
 }

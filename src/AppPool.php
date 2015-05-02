@@ -5,8 +5,10 @@ namespace NovakSolutions\Infusionsoft;
  */
 class AppPool{
 	static protected $apps = array();
-	
+	static private $defaultTokenStorageProvider = null;
+
 	public function __construct(){
+
 	}
 
     /**
@@ -18,6 +20,10 @@ class AppPool{
         return self::$apps['default']->getHostname();
     }
 
+    /**
+     * @param string $appHostname
+     * @return App
+     */
     public static function getApp($appHostname = ''){
 		$appKey = strtolower($appHostname);
 		if($appKey == '') $appKey = 'default';				
@@ -61,5 +67,16 @@ class AppPool{
             self::$apps['default'] = $app;
         }
         return self::$apps['default'];
+    }
+
+    public static function getDefaultStorageProvider(){
+        if(static::$defaultTokenStorageProvider == null){
+            static::$defaultTokenStorageProvider = new Providers\SimpleJsonFileTokenStorage();
+        }
+        return static::$defaultTokenStorageProvider;
+    }
+
+    public static function setDefaultStorageProvider(Providers\TokenStorageProvider $storageProvider){
+        static::$defaultTokenStorageProvider = $storageProvider;
     }
 }

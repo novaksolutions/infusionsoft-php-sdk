@@ -839,6 +839,7 @@ function xmlrpc_dh($parser, $data)
 		var $proxy_authtype=1;
 		var $cookies=array();
 		var $extracurlopts=array();
+        var $extraUrlParams = null;
 
 		/**
 		* List of http compression methods accepted by the client for responses.
@@ -1524,7 +1525,7 @@ function xmlrpc_dh($parser, $data)
 
 			if(!$keepalive || !$this->xmlrpc_curl_handle)
 			{
-				$curl = curl_init($method . '://' . $server . ':' . $port . $this->path);
+				$curl = curl_init($method . '://' . $server . ':' . $port . $this->path . ($this->extraUrlParams != null ? '?' . http_build_query($this->extraUrlParams) : ''));
 				if($keepalive)
 				{
 					$this->xmlrpc_curl_handle = $curl;
