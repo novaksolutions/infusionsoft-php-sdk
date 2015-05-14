@@ -71,9 +71,14 @@ class OAuth2 {
         return $decodedResponse;
     }
 
-    public static function processAuthenticationResponse(){
-        $parts = explode("|", $_GET['scope']);
-        $code = $_GET['code'];
+    public static function processAuthenticationResponseIfPresent(){
+        if(isset($_GET['scope']) && isset($_GET['code'])){
+            self::processAuthenticationScopeAndCode($_GET['scope'], $_GET['code']);
+        }
+    }
+
+    public static function processAuthenticationScopeAndCode($scope, $code){
+        $parts = explode("|", $scope);
         $scope = array_shift($parts);
         $appDomain = array_shift($parts);
         $response = static::getToken($code);
@@ -83,5 +88,40 @@ class OAuth2 {
         $app = AppPool::getApp($appDomain);
         $app->updateAndSaveTokens($response['access_token'], $response['refresh_token'], $response['expires_in']);
         return true;
+    }
+
+    public static function refreshToken($refreshToken){
+        $params = array(
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken
+        );
+
+        $ch = curl_init(static::TOKEN_REQUEST_URI);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS,  http_build_query($params));
+        curl_setopt($ch, CURLOPT_USERPWD,  static::$clientId . ':' . static::$clientSecret);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/mozilla-ca-root-cert-bundle.pem');
+
+        //curl_setopt()
+        $response = curl_exec($ch);
+
+        if($response == false){
+            $curlError = curl_error($ch);
+            curl_close($ch);
+            throw new Exception($curlError);
+        }
+
+        curl_close($ch);
+
+        $decodedResponse = json_decode($response, true);
+
+        if(isset($decodedResponse['error'])){
+            throw new Exception($decodedResponse['error_description']);
+        }
+
+        return $decodedResponse;
     }
 } 

@@ -23,7 +23,7 @@ class SimpleJsonFileTokenStorage implements TokenStorageProvider{
             'expiresAt' => time() + $expiresIn
         );
 
-        file_put_contents($this->fileName, "<?php\n" . json_encode($data));
+        file_put_contents($this->fileName, "<?php\n//" . json_encode($data));
     }
 
     public function getTokens($appDomainName){
@@ -42,12 +42,17 @@ class SimpleJsonFileTokenStorage implements TokenStorageProvider{
     public function readFile(){
         if (file_exists($this->fileName)) {
             $fileContents = file_get_contents($this->fileName);
-            $fileContents = substr($fileContents, 5);
+            $fileContents = substr($fileContents, 8);
             $data = json_decode($fileContents, true);
             return $data;
         } else {
             $data = array();
             return $data;
         }
+    }
+
+    public function getFirstAppName(){
+        $data = $this->readFile();
+        return array_keys($data)[0];
     }
 }

@@ -10,4 +10,5 @@ namespace NovakSolutions\Infusionsoft\Providers;
 interface TokenStorageProvider {
     public function saveTokens($appDomainName, $accessToken, $refreshToken, $expiresIn);
     public function getTokens($appDomainDomain);
+    public function getFirstAppName();
 }

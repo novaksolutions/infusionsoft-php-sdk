@@ -30,7 +30,7 @@ class AppPool{
 		if(array_key_exists($appKey, self::$apps)){
 			return self::$apps[$appKey];	
 		} else{
-			return null;
+			return new App($appHostname);
 		}
 	}
 

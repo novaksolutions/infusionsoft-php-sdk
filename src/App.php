@@ -24,7 +24,7 @@ class App{
     protected $totalHttpCalls = 0;
     protected $Logger;
 
-	public function __construct($hostname, $apiKeyOrStorageProvider = null, $port = 443){
+	public function __construct($hostname = '', $apiKeyOrStorageProvider = null, $port = 443){
         if(strpos($hostname, ".") === false){
             $hostname = $hostname . '.infusionsoft.com';
         }
@@ -68,8 +68,14 @@ class App{
      * @param string $apiKey
      * @return App
      */
-    public static function connect($hostName, $apiKey = null){
-        return AppPool::addApp(new App($hostName, $apiKey));
+    public static function connect($tokenStorageProvider = null){
+        if($tokenStorageProvider == null){
+            $tokenStorageProvider =  AppPool::getDefaultStorageProvider();
+        }
+
+        $hostName = $tokenStorageProvider->getFirstAppName();
+
+        return AppPool::addApp(new App($hostName));
     }
 
     public function logger(Logger $object){
@@ -116,6 +122,7 @@ class App{
         $start = time();
         $req = null;
         do{
+
             if ($attempts > 0){
                 if (class_exists('CakeLog') && $attempts > 1){
                     $lastAttemptFaultCode = $req->faultCode();
@@ -125,7 +132,20 @@ class App{
             }
             $attempts++;
             $req = $this->client->send($call, $this->timeout, 'https');
-        } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false) && $attempts < 3);
+            if($req != null && strpos($req->faultString(), 'Didn\'t receive 200 OK') !== false){
+                self::refreshTokens();
+                $req = $this->client->send($call, $this->timeout, 'https');
+            }
+        } while(
+            $retry &&
+                (
+                    $req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] ||
+                    $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] ||
+                    strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false ||
+                    strpos($req->faultString(), 'Didn\'t receive 200 OK') !== false
+                )
+            && $attempts < 3
+        );
 
         $this->totalHttpCalls += $attempts;
         if (!$req->faultCode()){
@@ -212,8 +232,9 @@ class App{
         return $this->accessToken != '' && $this->refreshToken != '';
     }
 
-    public static function refreshTokens(){
-
+    public function refreshTokens(){
+        $tokens = OAuth2::refreshToken($this->refreshToken);
+        $this->updateAndSaveTokens($tokens['access_token'], $tokens['refresh_token'], $tokens['expires_in']);
     }
 
     public function updateAndSaveTokens($accessToken, $refreshToken, $expiresIn){

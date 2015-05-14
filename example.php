@@ -54,15 +54,16 @@ use NovakSolutions\Infusionsoft as Infusionsoft;
 Infusionsoft\OAuth2::$clientId = $clientId;
 Infusionsoft\OAuth2::$clientSecret = $clientSecret;
 
-//For local development, using our OAuth2 proxy makes things easier.
+//For local development, using our OAuth2 proxy makes things easier, it ONLY works if the redirect uri is *.nlocal.info or localhost
+//The source for the proxy is in extra/ and you can modify it and upload it wherever you would like.
+
 Infusionsoft\OAuth2::$useProxy = true;
 Infusionsoft\OAuth2::$proxy = 'https://proxy.novaksolutions.com/index.php';
-
-if(isset($_GET['scope']) && isset($_GET['code'])){
-    Infusionsoft\OAuth2::processAuthenticationResponse($_GET['scope'], $_GET['code'], false);
-}
-
 Infusionsoft\OAuth2::$redirectUri = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+Infusionsoft\OAuth2::processAuthenticationResponseIfPresent();
+
+
 
 $app = Infusionsoft\App::connect('');
 //If We Just Got Back From The OAuth Page...
