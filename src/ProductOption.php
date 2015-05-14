@@ -16,7 +16,7 @@ namespace NovakSolutions\Infusionsoft;
  * @property Integer Order
  * @property String TextMessage
  */
-class ProductOption extends Generated_ProductOption {
+class ProductOption extends Base {
     protected static $tableFields = array('Id', 'ProductId', 'AllowSpaces', 'CanContain', 'CanEndWith', 'CanStartWith', 'IsRequired', 'Label', 'MaxChars', 'MinChars', 'Name', 'OptionType', 'Order', 'TextMessage');
 
     public function __construct($id = null, $app = null){
