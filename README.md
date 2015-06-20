@@ -27,7 +27,43 @@ git clone git@github.com:novaksolutions/infusionsoft-php-sdk.git
 
 You'll also need to copy `Infusionsoft/config.sample.php` to `Infusionsoft/config.php`. Edit this file and add your app name and [API key](http://ug.infusionsoft.com/article/AA-00442).
 
-## Usage
+##OAuth2 Usage
+
+The following example code shows how to authenticate using OAuth2.  This will automatically save your access and refresh tokens to the current directory in a file called infusionsoft-tokens.php.  We store it in a php file that is empty except for a comment so that no one can access this file on your server unless you aren't running php.
+
+```php
+//This makes troubleshooting MUCH easier.
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+//Load Infusionsoft
+require 'Infusionsoft/infusionsoft.php';
+
+//Load config file (copy config.sample.php to config.php and put your clientid (key) and secret in.
+require 'config.php';
+
+//Sets the redirect url to the current url
+Infusionsoft_OAuth2::$redirectUri = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+//When this is called, it will process the authentication response, convert the OAuth2 GET params to your access and refresh tokens.  And then save them.
+Infusionsoft_OAuth2::processAuthenticationResponseIfPresent();
+
+//If you don't specify a hostname, connect() will load the hostname automatically from the saved file.  Note, this library does support multiple apps, so, if you authenticate to more then one app, you really should specify the app to connect to.
+$app = Infusionsoft_App::connect();
+
+//If We Just Got Back From The OAuth Page...
+if(!$app->hasTokens()){
+    header("Location: " . Infusionsoft_OAuth2::getAuthorizationUrl());//Send To OAuth Page...
+    die();
+}
+
+$results = Infusionsoft_DataService::query(new Infusionsoft_Contact(), array('FirstName' => '%'), 2);
+
+?>
+<pre><?php var_dump($results); ?></pre>
+```
+
+## Legacy API Key Usage
 
 To help you get started, we've created a screencast that will walk you through using the SDK to create a contact in your Infusionsoft app. You can find the video on YouTube: [Using the Novak Solutions SDK with the Infusionsoft API](http://youtu.be/I4NvbIKrE1E).
 
