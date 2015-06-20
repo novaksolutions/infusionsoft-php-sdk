@@ -34,6 +34,8 @@ class Infusionsoft_App{
             $this->tokenStorageProvider = $apiKeyOrStorageProvider;
         } elseif($apiKeyOrStorageProvider == null) {
             $this->tokenStorageProvider = Infusionsoft_AppPool::getDefaultStorageProvider();
+        } else{
+            $this->apiKey = $apiKeyOrStorageProvider;
         }
 
         if($this->tokenStorageProvider != null){
