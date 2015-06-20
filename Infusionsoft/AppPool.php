@@ -4,7 +4,8 @@
  */
 class Infusionsoft_AppPool{
 	static protected $apps = array();
-	
+	static protected $defaultTokenStorageProvider = null;
+
 	public function __construct(){
 	}
 
@@ -60,5 +61,16 @@ class Infusionsoft_AppPool{
             self::$apps['default'] = $app;
         }
         return self::$apps['default'];
+    }
+
+    public static function getDefaultStorageProvider(){
+        if(static::$defaultTokenStorageProvider == null){
+            static::$defaultTokenStorageProvider = new Infusionsoft_SimpleJsonFileTokenStorageProvider();
+        }
+        return static::$defaultTokenStorageProvider;
+    }
+
+    public static function setDefaultStorageProvider(Infusionsoft_TokenStorageProvider $storageProvider){
+        static::$defaultTokenStorageProvider = $storageProvider;
     }
 }
