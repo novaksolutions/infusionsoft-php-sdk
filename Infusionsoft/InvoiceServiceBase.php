@@ -4,10 +4,10 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
     public static function addManualPayment($invoiceId, $amt, $paymentDate, $paymentType, $paymentDescription, $bypassCommissions, Infusionsoft_App $app = null){
         $params = array(
             (int) $invoiceId, 
-            (double) $amt, 
-            $paymentDate, 
-            $paymentType, 
-            $paymentDescription, 
+            (double) $amt,
+            date('Ymd\TH:i:s', strtotime($paymentDate)),
+            (string) $paymentType,
+            (string) $paymentDescription,
             (boolean) $bypassCommissions
         );
 
