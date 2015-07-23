@@ -239,8 +239,8 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
     
     public static function updateJobRecurringNextBillDate($jobRecurringId, $newNextBillDate, Infusionsoft_App $app = null){
         $params = array(
-            (int) $jobRecurringId, 
-            $newNextBillDate
+            (int) $jobRecurringId,
+            date('Ymd\TH:i:s', strtotime($newNextBillDate))
         );
 
         return parent::send($app, "InvoiceService.updateJobRecurringNextBillDate", $params);

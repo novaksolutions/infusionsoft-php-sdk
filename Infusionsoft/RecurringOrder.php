@@ -63,4 +63,16 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
             return false;
         }
     }
+
+    public function save($app = null){
+        if($this->Id == ''){
+            $id = Infusionsoft_InvoiceService::addRecurringOrder($this->ContactId, true, $this->SubscriptionPlanId, $this->Qty, $this->BillingAmt, true, $this->MerchantAccountId, $this->CC1, $this->AffiliateId, 0);
+            $this->Id = $id;
+        }
+
+        $result = parent::save($app);
+        Infusionsoft_InvoiceService::updateJobRecurringNextBillDate($this->Id, $this->NextBillDate);
+        Infusionsoft_InvoiceService::createInvoiceForRecurring($this->Id);
+        return $result;
+    }
 }
