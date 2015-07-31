@@ -1,8 +1,9 @@
-# Infusionsoft PHP SDK
+# Novak Solutions - Infusionsoft PHP SDK
 
-[Novak Solutions](https://novaksolutions.com/?utm_source=github&utm_medium=readme&utm_campaign=homepage) created the *Infusionsoft PHP SDK* to make it easier to develop for the Infusionsoft platform. The SDK utilizes the official Infusionsoft API, but works around some of its [known gotchas](https://novaksolutions.com/infusionsoft-api-gotchas/?utm_source=github&utm_medium=readme&utm_campaign=gotchas).
+[Novak Solutions](https://novaksolutions.com/?utm_source=github&utm_medium=readme&utm_campaign=homepage) created our *Infusionsoft PHP SDK* to make it easier to develop for the Infusionsoft platform. The SDK utilizes the Infusionsoft API, but works around some of its [known gotchas](https://novaksolutions.com/infusionsoft-api-gotchas/?utm_source=github&utm_medium=readme&utm_campaign=gotchas).  
+**Note: This IS NOT the official sdk.**  The official Infusionsoft created SDK is here: https://github.com/infusionsoft/infusionsoft-php 
 
-## Why use the Infusionsoft PHP SDK?
+## Why use the our SDK instead of the official one?
 
 - **No dependencies.** If your server has PHP and cURL, then you are good to go!
 - **Code completion.** We've added all the necessary PHPDoc comments so code completion will work in popular editors, like Eclipse and PhpStorm.
