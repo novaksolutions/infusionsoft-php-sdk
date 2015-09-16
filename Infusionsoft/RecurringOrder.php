@@ -1,6 +1,11 @@
 <?php
 class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
     var $customFieldFormId = -10;
+    public static $billingCycleMap = array(
+        'month' => 2,
+        'day' => 6,
+        'week' => 3,
+    );
     public function __construct($id = null, $app = null){
     	parent::__construct($id, $app);    	    	
     }
