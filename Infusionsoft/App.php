@@ -118,7 +118,7 @@ class Infusionsoft_App{
 		$call = new xmlrpcmsg($method, $encoded_arguments);
 
         $attempts = 0;
-        $start = time();
+        $start = microtime(true);
         $req = null;
         do{
             if ($attempts > 0){
@@ -141,8 +141,8 @@ class Infusionsoft_App{
 
         if (is_object($this->Logger)){
             $this->Logger->log(array(
-                'time' => date('Y-m-d H:i:s'),
-                'duration' => time() - $start,
+                'time' => date('Y-m-d H:i:s', $start),
+                'duration' => round(microtime(true) - $start, 4),
                 'method' => $method,
                 'args' => $args,
                 'attempts' => $attempts,
