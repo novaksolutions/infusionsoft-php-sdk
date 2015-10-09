@@ -44,7 +44,7 @@ class Infusionsoft_Generated_RecurringOrder extends Infusionsoft_Generated_Base{
     }
 
     public function addCustomField($name){
-        if (array_search($name, self::$tableFields) === false){
+        if (!in_array($name, self::$tableFields)){
             self::$tableFields[] = $name;
         }
 	}
