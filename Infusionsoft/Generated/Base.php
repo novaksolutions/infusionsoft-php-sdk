@@ -9,12 +9,9 @@ class Infusionsoft_Generated_Base
 
     public function __construct($table, $id = null, $app = null)
     {
-        CakeLog::write('debug', 'Construct called for ' . $table . ' ID: ' . $id);
         $this->table = $table;
         if($id != null){
-            CakeLog::write('debug', 'Loading ' . $table . ' ID: ' . $id);
             $this->load($id, $app);
-            CakeLog::write('debug', 'Load complete');
         }
     }
 
@@ -25,9 +22,7 @@ class Infusionsoft_Generated_Base
 
     public function load($id, $app = null)
     {
-        CakeLog::write('debug', 'Calling DataService::load');
         $object = Infusionsoft_DataService::load($this, $id, false, $app);
-        CakeLog::write('debug', 'DataService::load complete');
         CakeLog::write('debug', 'Calling loadFromObject with data: ' . json_encode($object));
         $this->loadFromObject($object);
         CakeLog::write('debug', 'loadFromObject complete');
@@ -35,9 +30,7 @@ class Infusionsoft_Generated_Base
             throw new Infusionsoft_Exception("Could not load " . $this->table . " with id " . $id);
         }
 
-        CakeLog::write('debug', 'Dispatching event');
         Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($this), 'DataObject.Loaded');
-        CakeLog::write('debug', 'Event complete');
     }
 
     public function save($app = null)
