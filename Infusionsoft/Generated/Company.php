@@ -89,7 +89,9 @@ class Infusionsoft_Generated_Company extends Infusionsoft_Generated_Base{
 	}
 	
 	public function addCustomField($name){
-		self::$tableFields[] = $name;
+		if (!in_array($name, self::$tableFields)){
+            self::$tableFields[] = $name;
+        }
 	}
 
     public function addCustomFields($fields){

@@ -33,7 +33,9 @@ class Infusionsoft_Generated_ContactAction extends Infusionsoft_Generated_Base{
 	}
 	
 	public function addCustomField($name){
-		self::$tableFields[] = $name;
+		if (!in_array($name, self::$tableFields)){
+            self::$tableFields[] = $name;
+        }
 	}
 
 
