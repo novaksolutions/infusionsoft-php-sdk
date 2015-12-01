@@ -1,15 +1,11 @@
 <?php
+ini_set("")
+error_reporting(E_ALL);
 
 // Include the SDK
 require_once('Infusionsoft/infusionsoft.php');
 
 // Create a new contact object
-$contact = new Infusionsoft_Contact();
+$payment = new Infusionsoft_InvoicePayment(78649);
 
-// Set the contact fields
-$contact->FirstName = 'Jacob';
-$contact->LastName = 'Allred';
-$contact->Email = 'jacob@novaksolutions.com';
-
-// Save the contact to Infusionsoft
-$contact->save();
+var_dump($payment->toArray());
