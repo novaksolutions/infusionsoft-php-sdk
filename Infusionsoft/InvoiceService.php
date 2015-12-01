@@ -7,23 +7,22 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
 
         try {
             //Add an order item that is the correct amount you want to charge...
-            Infusionsoft_InvoiceService::addOrderItem($dummyInvoiceId, 0, 3, $amount, 1, $invoiceNotes . " order", "");
+            Infusionsoft_InvoiceService::addOrderItem($dummyInvoiceId, 0, 3, $amount, 1, $invoiceNotes, "");
             //Set orders custom field "_ChargeStatus" to "Pending"
             $invoice = new Infusionsoft_Invoice($dummyInvoiceId);
             $dummyOrder = new Infusionsoft_Job($invoice->JobId);
             $dummyOrder->OrderStatus = "Pending";
             $dummyOrder->save();
             //Try to charge the invoice
-            $result = Infusionsoft_InvoiceService::chargeInvoice($dummyInvoiceId, $invoiceNotes . " payment", $cardId, $merchantAccountId, false);
+            $result = Infusionsoft_InvoiceService::chargeInvoice($dummyInvoiceId, $invoiceNotes, $cardId, $merchantAccountId, false);
         } catch(Exception $e) {
             Infusionsoft_InvoiceService::deleteInvoice($dummyInvoiceId);
             throw new Exception("Failed to charge partial payment. Infusionsoft says: " . $e->getMessage());
         }
-    //Update order status "_ChargeStatus" to "Failed", or "Succeeded"
 
         if($result['Successful']) {
             //add a credit to the order
-            Infusionsoft_InvoiceService::addManualPayment($invoiceId, $amount, date('Ymd\TH:i:s'), "Credit Card", $invoiceNotes . " partial payment", false);
+            Infusionsoft_InvoiceService::addManualPayment($invoiceId, $amount, date('Ymd\TH:i:s'), "Credit Card", $invoiceNotes, false);
             $dummyOrder->OrderStatus = "Successful";
             $dummyOrder->save();
 

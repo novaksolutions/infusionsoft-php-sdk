@@ -1,5 +1,22 @@
 <?php
-class Infusionsoft_OrderItem extends Infusionsoft_Generated_OrderItem{	
+class Infusionsoft_OrderItem extends Infusionsoft_Generated_OrderItem{
+
+    public $itemTypeMap = array(
+        1 => 'Shipping',
+        2 => 'Tax',
+        3 => 'Service & Misc',
+        4 => 'Product',
+        5 => 'Upsell Product',
+        6 => 'Finance Charge',
+        7 => 'Special',
+        8 => 'Program',
+        9 => 'Subscription Plan',
+        10 => 'Special: Free Trial Days',
+        12 => 'Special: Order Total',
+        13 => 'Special: Category',
+        14 => 'Special: Shipping',
+    );
+
     public function __construct($id = null, $app = null){
     	parent::__construct($id, $app);    	    	
     }
