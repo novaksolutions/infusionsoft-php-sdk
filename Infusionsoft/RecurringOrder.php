@@ -1,6 +1,11 @@
 <?php
 class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
     var $customFieldFormId = -10;
+    public static $billingCycleMap = array(
+        'month' => 2,
+        'day' => 6,
+        'week' => 3,
+    );
     public function __construct($id = null, $app = null){
     	parent::__construct($id, $app);    	    	
     }
@@ -62,5 +67,17 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
             CakeLog::write('error', 'getSusbscriptionIdForOrder failed to get the Order! orderId: ' . $orderId);
             return false;
         }
+    }
+
+    public function save($app = null){
+        if($this->Id == ''){
+            $id = Infusionsoft_InvoiceService::addRecurringOrder($this->ContactId, true, $this->SubscriptionPlanId, $this->Qty, $this->BillingAmt, true, $this->MerchantAccountId, $this->CC1, $this->AffiliateId, 0);
+            $this->Id = $id;
+        }
+
+        $result = parent::save($app);
+        Infusionsoft_InvoiceService::updateJobRecurringNextBillDate($this->Id, $this->NextBillDate);
+        Infusionsoft_InvoiceService::createInvoiceForRecurring($this->Id);
+        return $result;
     }
 }

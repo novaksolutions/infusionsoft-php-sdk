@@ -44,7 +44,21 @@ class Infusionsoft_AppData {
                 $results[] = $row;
             }
         }
-        return $results;
+
+        $resultPages = array();
+        $pageNumber = 0;
+        foreach ($results as $result) {
+            $resultPages[$pageNumber][] = $result;
+            if(count($resultPages[$pageNumber]) == $limit) {
+                $pageNumber++;
+            }
+        }
+
+        if(!array_key_exists($page, $resultPages)) {
+            return array();
+        }
+
+        return $resultPages[$page];
     }
 
     public function add($params){

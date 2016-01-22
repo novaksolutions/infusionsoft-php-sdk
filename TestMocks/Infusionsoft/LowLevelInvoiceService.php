@@ -18,7 +18,9 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $orderItem->ProductId = $productId;
         $orderItem->ItemType = $type;
         $orderItem->OrderId = $invoice->JobId;
-        $orderItem->save();
+
+        $app = Infusionsoft_AppPool::getApp('');
+        $app->data->add(array($orderItem->getTable(), $orderItem->toArray()));
 
         $total = $orderItem->PPU * $orderItem->Qty;
 

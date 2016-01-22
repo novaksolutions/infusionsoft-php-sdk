@@ -3,6 +3,7 @@
  * @property String Id
  * @property String ContactId
  * @property String OpportunityId
+ * @property String ObjectType
  * @property String ActionType
  * @property String ActionDescription
  * @property String CreationDate
@@ -20,7 +21,7 @@
  * @property String IsAppointment
  */
 class Infusionsoft_Generated_ContactAction extends Infusionsoft_Generated_Base{
-    protected static $tableFields = array('Id', 'ContactId', 'OpportunityId', 'ActionType', 'ActionDescription', 'CreationDate', 'CreationNotes', 'CompletionDate', 'ActionDate', 'EndDate', 'PopupDate', 'UserID', 'Accepted', 'CreatedBy', 'LastUpdated', 'LastUpdatedBy', 'Priority', 'IsAppointment');
+    protected static $tableFields = array('Id', 'ContactId', 'OpportunityId', 'ObjectType', 'ActionType', 'ActionDescription', 'CreationDate', 'CreationNotes', 'CompletionDate', 'ActionDate', 'EndDate', 'PopupDate', 'UserID', 'Accepted', 'CreatedBy', 'LastUpdated', 'LastUpdatedBy', 'Priority', 'IsAppointment');
     
     
     public function __construct($id = null, $app = null){    	    	
@@ -32,7 +33,9 @@ class Infusionsoft_Generated_ContactAction extends Infusionsoft_Generated_Base{
 	}
 	
 	public function addCustomField($name){
-		self::$tableFields[] = $name;
+		if (!in_array($name, self::$tableFields)){
+            self::$tableFields[] = $name;
+        }
 	}
 
 

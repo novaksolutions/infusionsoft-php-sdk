@@ -14,10 +14,11 @@ class Infusionsoft_Job extends Infusionsoft_Generated_Job{
 
     public function save($app = null){
         if($this->Id == ''){
-            $invoiceId = Infusionsoft_InvoiceService::createBlankOrder($this->ContactId, $this->JobNotes, $this->DateCreated);
+            $invoiceId = Infusionsoft_InvoiceService::createBlankOrder($this->ContactId, $this->JobNotes, date('Ymd\TH:i:s', strtotime($this->StartDate)), 0, 0, $app);
             $invoice = new Infusionsoft_Invoice($invoiceId);
             $this->Id = $invoice->JobId;
         }
+
         $result = parent::save($app);
 
         return $result;

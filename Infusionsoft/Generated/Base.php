@@ -129,4 +129,12 @@ class Infusionsoft_Generated_Base
     {
         return $this->data;
     }
+
+    public function removeRestrictedFields(){
+
+    }
+
+    public function addRestrictedFields(){
+
+    }
 }

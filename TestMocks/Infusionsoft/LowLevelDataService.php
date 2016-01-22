@@ -28,6 +28,9 @@ class Infusionsoft_LowLevelDataService extends Infusionsoft_LowLevelMockService{
         $queryData = array('Id' => $id);
         $matchingArrays = $this->data->query(array($table, $limit, $page, $queryData, $returnFields));
         $item = array_shift($matchingArrays);
+        if ($item == null){
+            throw new Exception('[RecordNotFound]Record was not found Attempted: 1 time(s).');
+        }
         return $item;
     }
 

@@ -89,6 +89,24 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
 		return array_pop($out);
 	}
 
+
+    public static function getAllValuesFor($field_name){
+        $field_name = trim($field_name, '_');
+        $fields = Infusionsoft_ObjectTools::findObjectsInList(Infusionsoft_CustomFieldService::getCachedCustomFields(new Infusionsoft_Contact()), array('Name' => $field_name));
+        $field = array_shift($fields);
+        $values = array();
+        if (is_object($field)){
+            $values = $field->getValues();
+        }
+
+        $keyed_array = array();
+        foreach ($values as $value){
+            $keyed_array[$value] = $value;
+        }
+        return $keyed_array;
+    }
+
+
     public static $customFieldDataTypeList = array(
         1 => 'Phone',
         2 => 'SSN',

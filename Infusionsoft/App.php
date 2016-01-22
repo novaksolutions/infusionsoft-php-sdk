@@ -1,6 +1,16 @@
 <?php
+
+/**
+ * Class Infusionsoft_App
+ * @property Infusionsoft_TokenStorageProvider $tokenStorageProvider
+ */
 class Infusionsoft_App{
+    protected $usingOAuth = false;
+    protected $tokenStorageProvider = null;
+
 	protected $hostname = '';
+    protected $accessToken = '';
+
 	protected $apiKey = '';
 	protected $port;
     protected $timeout = 0;
@@ -12,16 +22,56 @@ class Infusionsoft_App{
     protected $totalHttpCalls = 0;
     protected $Logger;
 
-	public function __construct($hostname, $apiKey, $port = 443){
-		$this->hostname = $hostname;
-		$this->apiKey = $apiKey;
-		$this->port = $port;
+	public function __construct($hostname = '', $apiKeyOrStorageProvider = null, $port = 443){
+        if(strpos($hostname, ".") === false){
+            $hostname = $hostname . '.infusionsoft.com';
+        }
 
-		$this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
-		$this->client->setSSLVerifyPeer(true);
+        $this->hostname = $hostname;
+
+        if(is_a($apiKeyOrStorageProvider, 'NovakSolutions\Infusionsoft\TokenStorageProvider')){
+            /** @var Infusionsoft_TokenStorageProvider $storageProvider */
+            $this->tokenStorageProvider = $apiKeyOrStorageProvider;
+        } elseif($apiKeyOrStorageProvider == null) {
+            $this->tokenStorageProvider = Infusionsoft_AppPool::getDefaultStorageProvider();
+        } else{
+            $this->apiKey = $apiKeyOrStorageProvider;
+        }
+
+        if($this->tokenStorageProvider != null){
+            $this->usingOAuth = true;
+            $tokens = $this->tokenStorageProvider->getTokens($this->hostname);
+            $this->accessToken = $tokens['accessToken'];
+            $this->refreshToken = $tokens['refreshToken'];
+            $this->tokenExpiresAt = $tokens['expiresAt'];
+        }
+
+        $this->port = $port;
+
+        if($this->usingOAuth){
+            $this->client	= new xmlrpc_client('/crm/xmlrpc/v1', 'api.infusionsoft.com', 443);
+        } else {
+            $this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+        }
+
+        $this->client->setSSLVerifyPeer(true);
         $this->client->setCaCertificate(dirname(__FILE__) . '/infusionsoft.pem');
         $this->client->request_charset_encoding = "UTF-8";
+
+        if($this->usingOAuth == true){
+            $this->client->extraUrlParams = array('access_token' => $this->accessToken);
+        }
 	}
+
+    public static function connect(Infusionsoft_TokenStorageProvider $tokenStorageProvider = null){
+        if($tokenStorageProvider == null){
+            $tokenStorageProvider =  Infusionsoft_AppPool::getDefaultStorageProvider();
+        }
+
+        $hostName = $tokenStorageProvider->getFirstAppName();
+
+        return Infusionsoft_AppPool::addApp(new Infusionsoft_App($hostName));
+    }
 
     public function logger(Infusionsoft_Logger $object){
         if (method_exists($object, 'log')){
@@ -34,6 +84,10 @@ class Infusionsoft_App{
     public function enableDebug(){
         $this->debug = true;
         $this->client->dump_payloads = true;
+    }
+
+    public function getAccessToken(){
+        return $this->accessToken;
     }
 
 	public function getApiKey(){
@@ -64,18 +118,18 @@ class Infusionsoft_App{
 		$call = new xmlrpcmsg($method, $encoded_arguments);
 
         $attempts = 0;
-        $start = time();
+        $start = microtime(true);
         $req = null;
         do{
             if ($attempts > 0){
-                if (class_exists('CakeLog') && $attempts > 1){
-                    $lastAttemptFaultCode = $req->faultCode();
-                    $lastAttemptFaultString = $req->faultString();
-                }
                 sleep(5);
             }
             $attempts++;
             $req = $this->client->send($call, $this->timeout, 'https');
+            if($req != null && strpos($req->faultString(), 'Didn\'t receive 200 OK') !== false){
+                self::refreshTokens();
+                $req = $this->client->send($call, $this->timeout, 'https');
+            }
         } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false) && $attempts < 3);
 
         $this->totalHttpCalls += $attempts;
@@ -87,8 +141,8 @@ class Infusionsoft_App{
 
         if (is_object($this->Logger)){
             $this->Logger->log(array(
-                'time' => date('Y-m-d H:i:s'),
-                'duration' => time() - $start,
+                'time' => date('Y-m-d H:i:s', $start),
+                'duration' => round(microtime(true) - $start, 4),
                 'method' => $method,
                 'args' => $args,
                 'attempts' => $attempts,
@@ -100,12 +154,9 @@ class Infusionsoft_App{
 		if ($req->faultCode()){
 			$exception = new Infusionsoft_Exception($req->faultString() . "\nAttempted: $attempts time(s).", $method, $args);
 			$this->addException($exception);			
-			throw $exception; 
-			return FALSE;
+			throw $exception;
 		}
-        if ($attempts > 2){
-            CakeLog::write('notice', "Infusionsoft call required $attempts calls to receive a successful response. Method: $method FaultCode: $lastAttemptFaultCode FaultString: $lastAttemptFaultString");
-        }
+
 		return $result;
 	}
 	public function send($method, $args, $retry = false){
@@ -136,6 +187,23 @@ class Infusionsoft_App{
             }
             throw new Infusionsoft_Exception($message);
         }
+    }
+
+    public function hasTokens(){
+        return $this->accessToken != '' && $this->refreshToken != '';
+    }
+
+    public function refreshTokens(){
+        $tokens = Infusionsoft_OAuth2::refreshToken($this->refreshToken);
+        $this->updateAndSaveTokens($tokens['access_token'], $tokens['refresh_token'], $tokens['expires_in']);
+    }
+
+    public function updateAndSaveTokens($accessToken, $refreshToken, $expiresIn){
+        $this->tokenStorageProvider->saveTokens($this->hostname, $accessToken, $refreshToken, $expiresIn);
+        $this->accessToken = $accessToken;
+        $this->refreshToken = $refreshToken;
+        $this->tokenExpires = time() + $expiresIn;
+        $this->client->extraUrlParams = array('access_token' => $this->accessToken);
     }
 
 }
