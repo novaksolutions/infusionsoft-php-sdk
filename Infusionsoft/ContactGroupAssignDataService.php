@@ -10,26 +10,28 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataServic
         }
 
         Infusionsoft_ContactGroupAssign::removeField('Id');
-        if(in_array('Id', $returnFields)){
+        if(is_array($returnFields) && in_array('Id', $returnFields)){
             unset($returnFields[array_search('Id', $returnFields)]);
             $returnFields[] = 'ContactId';
             $returnFields[] = 'GroupId';
+            $returnFields = array_values($returnFields);
         }
-        $returnFields = array_values($returnFields);
 
         $results = Infusionsoft_DataService::queryWithOrderBy($object, $queryData, $orderByField, $ascending, $limit, $page, $returnFields, $app);
+
         Infusionsoft_ContactGroupAssign::addCustomField('Id');
         self::addCompoundKeyToResults($results);
 
-        if($orderByField == 'ContactId' && $ascending){
+        if($orderByField == 'ContactId' && $ascending && count($results) > 0){
             if($page > 0){
                 self::removeRecordsForContactsAlreadyProcseed(self::$lastProcessedContactId, $results);
             }
             $lastRecordOfResultSet = $results[count($results)-1];
             $lastContactId = $lastRecordOfResultSet->ContactId;
+            self::$lastProcessedContactId = $lastContactId;
             $foundLastRecordForLastContact = false;
             $extraPages = 1;
-            while(!$foundLastRecordForLastContact){
+            while(!$foundLastRecordForLastContact && count($results) > 0){
                 Infusionsoft_ContactGroupAssign::removeField('Id');
                 $extraResults = Infusionsoft_DataService::queryWithOrderBy($object, $queryData, $orderByField, $ascending, $limit, $page + $extraPages, $returnFields, $app);
                 Infusionsoft_ContactGroupAssign::addCustomField('Id');
@@ -42,6 +44,9 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataServic
                         $foundLastRecordForLastContact = true;
                         break;
                     }
+                }
+                if(count($extraResults) == 0){
+                    $foundLastRecordForLastContact = true;
                 }
                 $extraPages++;
             }
@@ -65,7 +70,7 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataServic
     public static function removeRecordsForContactsAlreadyProcseed($lastProcessedContactId, &$results){
         /** @var Infusionsoft_ContactGroupAssign $result */
         foreach ($results as $key => $result) {
-            if ($result->ContactId < $lastProcessedContactId) {
+            if ($result->ContactId <= $lastProcessedContactId) {
                 unset($results[$key]);
             } else {
                 return;
