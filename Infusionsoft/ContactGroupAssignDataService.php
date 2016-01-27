@@ -1,6 +1,6 @@
 <?php
 
-//This service will populate returned objects with a compound key for the Id.  This facilitates use with iDos (A Proprietery NovakSolutions tool).
+//This service will populate returned objects with a compound key for the Id.  This facilitates use with iDos (A Proprietery NovakSolutions Sync tool).
 
 class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataService {
     static $lastProcessedContactId = 0;
@@ -26,7 +26,7 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataServic
             if($page > 0){
                 self::removeRecordsForContactsAlreadyProcseed(self::$lastProcessedContactId, $results);
             }
-            $lastRecordOfResultSet = $results[count($results)-1];
+            $lastRecordOfResultSet = end($results);
             $lastContactId = $lastRecordOfResultSet->ContactId;
             self::$lastProcessedContactId = $lastContactId;
             $foundLastRecordForLastContact = false;
