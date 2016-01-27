@@ -24,7 +24,7 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataServic
 
         if($orderByField == 'ContactId' && $ascending && count($results) > 0){
             if($page > 0){
-                self::removeRecordsForContactsAlreadyProcseed(self::$lastProcessedContactId, $results);
+                self::removeRecordsForContactsAlreadyProcessed(self::$lastProcessedContactId, $results);
             }
             $lastRecordOfResultSet = end($results);
             $lastContactId = $lastRecordOfResultSet->ContactId;
@@ -67,7 +67,7 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataServic
     /**
      * @param $results
      */
-    public static function removeRecordsForContactsAlreadyProcseed($lastProcessedContactId, &$results){
+    public static function removeRecordsForContactsAlreadyProcessed($lastProcessedContactId, &$results){
         /** @var Infusionsoft_ContactGroupAssign $result */
         foreach ($results as $key => $result) {
             if ($result->ContactId <= $lastProcessedContactId) {
