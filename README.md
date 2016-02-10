@@ -26,6 +26,13 @@ We keep the `master` branch production ready. To install, simply clone the SDK i
 git clone git@github.com:novaksolutions/infusionsoft-php-sdk.git
 ```
 
+If you get a "Permission denied (publickey)." error, you don't have your github ssh keys setup properly.  You can fall back to this:
+
+```sh
+git clone https://github.com/novaksolutions/infusionsoft-php-sdk.git
+```
+
+
 You'll also need to copy `Infusionsoft/config.sample.php` to `Infusionsoft/config.php`. Edit this file and add your app name and [API key](http://ug.infusionsoft.com/article/AA-00442).
 
 ##OAuth2 Usage
