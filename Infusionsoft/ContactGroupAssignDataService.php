@@ -1,26 +1,37 @@
 <?php
 
-//This service will populate returned objects with a compound key for the Id.  This facilitates use with iDos (A Proprietery NovakSolutions tool).
+//This service will populate returned objects with a compound key for the Id.  This facilitates use with iDos (A Proprietery NovakSolutions Sync tool).
 
-class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_Service {
+class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_DataService {
     static $lastProcessedContactId = 0;
     public static function queryWithOrderBy($object, $queryData, $orderByField = null, $ascending = true, $limit = 1000, $page = 0, $returnFields = false, Infusionsoft_App $app = null){
+        if(PHP_INT_SIZE < 8){
+            throw new Exception("This version oh php is not 64 bit it is " . PHP_INT_SIZE * 8 . ' bit.  ContactGroupAssign cannot be synced unless running on a 64bit version of php.');
+        }
 
-        $results = array();
         Infusionsoft_ContactGroupAssign::removeField('Id');
+        if(is_array($returnFields) && in_array('Id', $returnFields)){
+            unset($returnFields[array_search('Id', $returnFields)]);
+            $returnFields[] = 'ContactId';
+            $returnFields[] = 'GroupId';
+            $returnFields = array_values($returnFields);
+        }
+
         $results = Infusionsoft_DataService::queryWithOrderBy($object, $queryData, $orderByField, $ascending, $limit, $page, $returnFields, $app);
+
         Infusionsoft_ContactGroupAssign::addCustomField('Id');
         self::addCompoundKeyToResults($results);
 
-        if($orderByField == 'ContactId' && $ascending){
+        if($orderByField == 'ContactId' && $ascending && count($results) > 0){
             if($page > 0){
-                self::removeRecordsForContactsAlreadyProcseed(self::$lastProcessedContactId, $results);
+                self::removeRecordsForContactsAlreadyProcessed(self::$lastProcessedContactId, $results);
             }
-            $lastRecordOfResultSet = $results[count($results)-1];
+            $lastRecordOfResultSet = end($results);
             $lastContactId = $lastRecordOfResultSet->ContactId;
+            self::$lastProcessedContactId = $lastContactId;
             $foundLastRecordForLastContact = false;
             $extraPages = 1;
-            while(!$foundLastRecordForLastContact){
+            while(!$foundLastRecordForLastContact && count($results) > 0){
                 Infusionsoft_ContactGroupAssign::removeField('Id');
                 $extraResults = Infusionsoft_DataService::queryWithOrderBy($object, $queryData, $orderByField, $ascending, $limit, $page + $extraPages, $returnFields, $app);
                 Infusionsoft_ContactGroupAssign::addCustomField('Id');
@@ -33,6 +44,9 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_Service {
                         $foundLastRecordForLastContact = true;
                         break;
                     }
+                }
+                if(count($extraResults) == 0){
+                    $foundLastRecordForLastContact = true;
                 }
                 $extraPages++;
             }
@@ -53,10 +67,10 @@ class Infusionsoft_ContactGroupAssignDataService extends Infusionsoft_Service {
     /**
      * @param $results
      */
-    public static function removeRecordsForContactsAlreadyProcseed($lastProcessedContactId, &$results){
+    public static function removeRecordsForContactsAlreadyProcessed($lastProcessedContactId, &$results){
         /** @var Infusionsoft_ContactGroupAssign $result */
         foreach ($results as $key => $result) {
-            if ($result->ContactId < $lastProcessedContactId) {
+            if ($result->ContactId <= $lastProcessedContactId) {
                 unset($results[$key]);
             } else {
                 return;

@@ -64,7 +64,7 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
         if($dataType != null){
             $conditions['DataType'] = $dataType;
         }
-		$out = parent::query(new Infusionsoft_DataFormField(), $conditions);
+		$out = parent::query(new Infusionsoft_DataFormField(), $conditions, 1000, 0, false, $app);
 
 		return $out;	
 	}
@@ -84,7 +84,7 @@ class Infusionsoft_CustomFieldService extends Infusionsoft_DataService{
         }
 
         $conditions = array('FormId' => $object->customFieldFormId, 'Name' => $name);
-		$out = parent::query(new Infusionsoft_DataFormField(), $conditions);
+		$out = parent::query(new Infusionsoft_DataFormField(), $conditions, 1000, 0, false, $app);
 
 		return array_pop($out);
 	}
