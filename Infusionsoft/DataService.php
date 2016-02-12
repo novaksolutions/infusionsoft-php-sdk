@@ -99,7 +99,9 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         $app = parent::getObjectOrDefaultAppIfNull($app, $object);
 
         if(!$returnFields){
+            $object->removeRestrictedFields();
             $returnFields = $object->getFields();
+            $object->addRestrictedFields();
         }
 
         $params = array(

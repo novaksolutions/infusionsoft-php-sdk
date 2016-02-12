@@ -97,10 +97,9 @@ class Infusionsoft_Generated_Contact extends Infusionsoft_Generated_Base{
     }
 	
 	public function addCustomField($name){
-        if (array_search($name, self::$tableFields) === false){
+        if (!in_array($name, self::$tableFields)){
             self::$tableFields[] = $name;
         }
-
 	}
 
     public function addCustomFields($fields){

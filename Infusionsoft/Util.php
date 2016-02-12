@@ -26,7 +26,7 @@ class Infusionsoft_Util
         }
     }
 
-    public function contactSearch($search){
+    public static function contactSearch($search){
         $contacts = array();
         if(strpos($search, " ") !== false){
             $searchParts = explode(" ", $search);
