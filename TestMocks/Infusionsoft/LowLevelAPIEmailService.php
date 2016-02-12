@@ -48,9 +48,15 @@ class Infusionsoft_LowLevelAPIEmailService extends Infusionsoft_LowLevelMockServ
     public function sendTemplate($args){
         //Remove Api Key
         array_shift($args);
-        throw new Exception("Not yet Implmented");
-//        return $this->data->update($args);
+        list($contactIds, $templateId) = $args;
+        if(!isset($this->data->templatesSent[$templateId])){
+            $this->data->templatesSent[$templateId] = array();
+        }
+        foreach($contactIds as $contactId){
+            $this->data->templatesSent[$templateId][] = $contactId;
+        }
     }
+
     public function updateEmailTemplate($args){
         //Remove Api Key
         array_shift($args);

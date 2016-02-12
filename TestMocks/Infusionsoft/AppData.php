@@ -10,6 +10,7 @@
  */
 
 class Infusionsoft_AppData {
+    public $templatesSent = array();
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
     protected $emailOptStatus = array();
