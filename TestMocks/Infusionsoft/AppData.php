@@ -19,6 +19,7 @@ class Infusionsoft_AppData {
     public function clearAll(){
         $this->tables = array();
         $this->fileBoxData = array();
+        $this->templatesSent = array();
     }
 
     public function query($params){
