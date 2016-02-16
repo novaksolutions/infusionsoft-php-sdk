@@ -10,6 +10,7 @@
  */
 
 class Infusionsoft_AppData {
+    public $templatesSent = array();
     protected $tables = array();
     protected $contactApiGoalsAchieved = array();
     protected $emailOptStatus = array();
@@ -18,6 +19,7 @@ class Infusionsoft_AppData {
     public function clearAll(){
         $this->tables = array();
         $this->fileBoxData = array();
+        $this->templatesSent = array();
     }
 
     public function query($params){
