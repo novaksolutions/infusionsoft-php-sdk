@@ -51,7 +51,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         );
 
         $records = $app->send('DataService.findByField', $params, true);
-        return self::_returnResults(get_class($object), $app->getHostName(), $records);
+        return self::_returnResults(get_class($object), $app->getHostName(), $records, $returnFields);
     }
 
     public static function getAppointmentICal($appointmentId, Infusionsoft_App $app = null)

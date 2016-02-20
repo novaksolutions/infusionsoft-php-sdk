@@ -66,6 +66,7 @@ class Infusionsoft_SmartCache{
 
     public function getDataFromCache(){
         $data = false;
+        $serialized_data = "";
         if(self::$staticExternalCacheClass == null){
             if(file_exists($this->getCacheFileName())){
                 $serialized_data = file_get_contents($this->getCacheFileName());
