@@ -106,6 +106,20 @@ class Infusionsoft_WebFormService extends Infusionsoft_WebFormServiceBase
         $html = Infusionsoft_WebFormService::getHTML($webFormId, $app);
 
         // Create our search string
+        return self::getHostedUrlFromHtml($html, $app);
+    }
+
+    /**
+     * @param Infusionsoft_App $app
+     * @param $html
+     * @return string
+     */
+    public static function getHostedUrlFromHtml($html, Infusionsoft_App $app = null)
+    {
+        if($app == null){
+            $app = parent::getObjectOrDefaultAppIfNull($app);
+        }
+
         $search = $app->getHostname() . '/app/form/process/';
 
         // Find the start and stop position of the form GUID
