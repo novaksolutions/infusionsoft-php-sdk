@@ -5,6 +5,9 @@
  * @property String ApprCode
  * @property String Amt
  * @property String CCId
+ * @property String MerchantId
+ * @property String PaymentId
+ * @property String OrderNum
  */
 class Infusionsoft_Generated_CCharge extends Infusionsoft_Generated_Base{
     protected static $tableFields = array('Id', 'CCId', 'PaymentId', 'MerchantId', 'OrderNum', 'RefNum', 'ApprCode', 'Amt');
