@@ -1,6 +1,6 @@
 
 <form>
-            invoiceId: <input type="text" name="invoiceId" value="<?php if(isset($_REQUEST['invoiceId'])) echo htmlspecialchars(['invoiceId']); ?>"><br/>
+            invoiceId: <input type="text" name="invoiceId" value="<?php if(isset($_REQUEST['invoiceId'])) echo htmlspecialchars($_REQUEST['invoiceId']); ?>"><br/>
             autoCharge: <input type="text" name="autoCharge" value="<?php if(isset($_REQUEST['autoCharge'])) echo htmlspecialchars($_REQUEST['autoCharge']); ?>"><br/>
             creditCardId: <input type="text" name="creditCardId" value="<?php if(isset($_REQUEST['creditCardId'])) echo htmlspecialchars($_REQUEST['creditCardId']); ?>"><br/>
             merchantAccountId: <input type="text" name="merchantAccountId" value="<?php if(isset($_REQUEST['merchantAccountId'])) echo htmlspecialchars($_REQUEST['merchantAccountId']); ?>"><br/>

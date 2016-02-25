@@ -42,6 +42,19 @@ class Infusionsoft_ActivityFeed  extends Infusionsoft_Generated_Base {
 
     public function loadFromArray($data){
         parent::loadFromArray($data, true);
-        $this->Id = $data['Date'] . '-' . $data['ContactId'];
+        $this->Id = $data['ContactId'] * 100000000000 + $this->actionToId($data['Type']) * 10000000000 + strtotime($data['Date']);
+    }
+
+    public function actionToId($actionName){
+        switch($actionName){
+            case "EmailOpen":
+                return 1;
+            case "EmailClick":
+                return 2;
+            case "WebFormSubmission":
+                return 3;
+            default:
+                return 4;
+        }
     }
 }
