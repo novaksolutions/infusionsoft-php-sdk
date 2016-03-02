@@ -8,6 +8,7 @@
  * @property boolean Prorate
  * @property boolean Active
  * @property float PlanPrice
+ * @property int NumberOfcycles
  */
 class Infusionsoft_Generated_SubscriptionPlan extends Infusionsoft_Generated_Base{
     static $Cycle_WEEK  = 3;
@@ -15,7 +16,7 @@ class Infusionsoft_Generated_SubscriptionPlan extends Infusionsoft_Generated_Bas
     static $Cycle_YEAR  = 1;
     static $Cycle_DAY   = 6;
 
-    protected static $tableFields = array('Id', 'ProductId', 'Cycle', 'Frequency', 'PreAuthorizeAmount', 'Prorate', 'Active', 'PlanPrice');
+    protected static $tableFields = array('Id', 'ProductId', 'Cycle', 'Frequency', 'PreAuthorizeAmount', 'Prorate', 'Active', 'PlanPrice', 'NumberOfCycles');
 
     public function __construct($id = null, $app = null){    	    	
     	parent::__construct('SubscriptionPlan', $id, $app);
