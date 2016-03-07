@@ -62,4 +62,12 @@ class Infusionsoft_Generated_CreditCard extends Infusionsoft_Generated_Base{
             self::$tableFields = array_values(self::$tableFields);
         }
     }
+
+    public function __set($name, $value)
+    {
+        if($name == 'expirationMonth'){
+            $value = str_pad($value, 2, "0", STR_PAD_LEFT);
+        }
+        parent::__set($name, $value);
+    }
 }
