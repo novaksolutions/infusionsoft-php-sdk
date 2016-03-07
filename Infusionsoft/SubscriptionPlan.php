@@ -42,5 +42,14 @@ class Infusionsoft_SubscriptionPlan extends Infusionsoft_Generated_SubscriptionP
 
         return $cycle;
     }
+
+    public function __set($name, $value)
+    {
+        if(in_array($name, array('Frequency', 'Cycle', 'ProductId'))) {
+            $value = (int) $value;
+        }
+
+        parent::__set($name, $value);
+    }
 }
 
