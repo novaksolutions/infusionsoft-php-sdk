@@ -23,7 +23,7 @@ class Infusionsoft_AppData {
     }
 
     public function query($params){
-        list($table, $limit, $page, $queryData, $returnFields) = $params;
+        list($table, $limit, $page, $queryData, $returnFields, $orderByField, $ascending) = $params;
         $this->createTableIfNotExists($table);
         $results = array();
 
@@ -47,6 +47,12 @@ class Infusionsoft_AppData {
             }
         }
 
+        if (!empty($orderByField)){
+            $this->orderByField = $orderByField;
+            $this->ascending = $ascending;
+            usort($results, array($this, 'sortQueryResults'));
+        }
+
         $resultPages = array();
         $pageNumber = 0;
         foreach ($results as $result) {
@@ -61,6 +67,22 @@ class Infusionsoft_AppData {
         }
 
         return $resultPages[$page];
+    }
+
+    public function sortQueryResults($a, $b){
+        if ($a[$this->orderByField] < $b[$this->orderByField]){
+            if ($this->ascending){
+                return -1;
+            } else {
+                return 1;
+            }
+        } else {
+            if ($this->ascending){
+                return 1;
+            } else {
+                return -1;
+            }
+        }
     }
 
     public function add($params){

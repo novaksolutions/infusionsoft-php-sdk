@@ -26,7 +26,7 @@ class Infusionsoft_LowLevelDataService extends Infusionsoft_LowLevelMockService{
         $limit = 1;
         $page = 0;
         $queryData = array('Id' => $id);
-        $matchingArrays = $this->data->query(array($table, $limit, $page, $queryData, $returnFields));
+        $matchingArrays = $this->data->query(array($table, $limit, $page, $queryData, $returnFields, null, null));
         $item = array_shift($matchingArrays);
         if ($item == null){
             throw new Exception('[RecordNotFound]Record was not found Attempted: 1 time(s).');
@@ -37,6 +37,10 @@ class Infusionsoft_LowLevelDataService extends Infusionsoft_LowLevelMockService{
     public function query($args){
         //Remove Api Key
         array_shift($args);
+        if (count($args) == 5){ //Fills in params for queryWithOrderBy
+            $args[] = null;
+            $args[] = null;
+        }
         return $this->data->query($args);
     }
 
