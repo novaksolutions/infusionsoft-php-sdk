@@ -1,6 +1,8 @@
 <?php
 class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
-    var $customFieldFormId = -10;
+    public $customFieldFormId = -10;
+    public $freeTrialDays = 0;
+
     public static $billingCycleMap = array(
         'month' => 2,
         'day' => 6,
@@ -80,7 +82,7 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
 
     public function save($app = null){
         if($this->Id == ''){
-            $id = Infusionsoft_InvoiceService::addRecurringOrder($this->ContactId, true, $this->SubscriptionPlanId, $this->Qty, $this->BillingAmt, true, $this->MerchantAccountId, $this->CC1, $this->AffiliateId, 0);
+            $id = Infusionsoft_InvoiceService::addRecurringOrder($this->ContactId, true, $this->SubscriptionPlanId, $this->Qty, $this->BillingAmt, true, $this->MerchantAccountId, $this->CC1, $this->AffiliateId, $this->freeTrialDays);
             $this->Id = $id;
         }
 
