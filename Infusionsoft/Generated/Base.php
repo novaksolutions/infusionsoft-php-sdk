@@ -102,6 +102,11 @@ class Infusionsoft_Generated_Base
         }
     }
 
+    public function __isset($property)
+    {
+        return (isset($this->$property) || $this->isValidField($property));
+    }
+
     public function isEmpty()
     {
         foreach($this->getFields() as $fieldName){
