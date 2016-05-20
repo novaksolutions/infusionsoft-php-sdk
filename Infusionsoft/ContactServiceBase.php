@@ -248,5 +248,33 @@ class Infusionsoft_ContactServiceBase extends Infusionsoft_Service{
 
         return parent::send($app, "ContactService.applyActivityHistoryTemplate", $params);
     }
-    
+
+
+    public static function linkContacts($contactId1, $contactId2, $contactLinkTypeId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId1,
+            (int) $contactId2,
+            (int) $contactLinkTypeId
+        );
+
+        return parent::send($app, "ContactService.linkContacts", $params);
+    }
+
+    public static function unlinkContacts($contactId1, $contactId2, $contactLinkTypeId, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId1,
+            (int) $contactId2,
+            (int) $contactLinkTypeId
+        );
+
+        return parent::send($app, "ContactService.linkContacts", $params);
+    }
+
+    public static function listLinkedContacts($contactId1, Infusionsoft_App $app = null){
+        $params = array(
+            (int) $contactId1,
+        );
+
+        return parent::send($app, "ContactService.listLinkedContacts", $params);
+    }
 }
