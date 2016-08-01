@@ -839,6 +839,9 @@ class xmlrpc_client
     var $cookies=array();
     var $extracurlopts=array();
     var $extraUrlParams = null;
+    var $curlError = null;
+    var $curlInfo = null;
+    var $curlErrorNo = null;
 
     /**
      * List of http compression methods accepted by the client for responses.
@@ -1691,6 +1694,12 @@ class xmlrpc_client
             }
 
             print "---END---\n</PRE>";
+        }
+
+        $this->curlError = curl_error($curl);
+        if ($this->curlError){
+            $this->curlInfo = curl_getinfo($curl);
+            $this->curlErrorNo = curl_errno($curl);
         }
 
         if(!$result) /// @todo we should use a better check here - what if we get back '' or '0'?
