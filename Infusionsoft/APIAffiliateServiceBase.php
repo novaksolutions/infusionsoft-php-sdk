@@ -8,7 +8,7 @@ class Infusionsoft_APIAffiliateServiceBase extends Infusionsoft_Service{
             $filterEndDate
         );
 
-        return parent::send($app, "AffiliateService.affPayouts", $params);
+        return parent::send($app, "APIAffiliateService.affPayouts", $params);
     }
     
     public static function affCommissions($affiliateId, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null){
@@ -18,7 +18,7 @@ class Infusionsoft_APIAffiliateServiceBase extends Infusionsoft_Service{
             $filterEndDate
         );
 
-        return parent::send($app, "AffiliateService.affCommissions", $params, null, true);
+        return parent::send($app, "APIAffiliateService.affCommissions", $params, null, true);
     }
     
     public static function affClawbacks($affiliateId, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null){
@@ -28,7 +28,7 @@ class Infusionsoft_APIAffiliateServiceBase extends Infusionsoft_Service{
             $filterEndDate
         );
 
-        return parent::send($app, "AffiliateService.affClawbacks", $params);
+        return parent::send($app, "APIAffiliateService.affClawbacks", $params);
     }
     
     public static function affSummary($affiliateIds, $filterStartDate, $filterEndDate, Infusionsoft_App $app = null){
@@ -38,7 +38,7 @@ class Infusionsoft_APIAffiliateServiceBase extends Infusionsoft_Service{
             $filterEndDate
         );
 
-        return parent::send($app, "AffiliateService.affSummary", $params);
+        return parent::send($app, "APIAffiliateService.affSummary", $params);
     }
     
     public static function affRunningTotals($affiliateIds, Infusionsoft_App $app = null){
@@ -46,7 +46,7 @@ class Infusionsoft_APIAffiliateServiceBase extends Infusionsoft_Service{
             $affiliateIds
         );
 
-        return parent::send($app, "AffiliateService.affRunningTotals", $params);
+        return parent::send($app, "APIAffiliateService.affRunningTotals", $params);
     }
     
     public static function updatePhoneStats($firstName, $lastName, $calls, $totalTime, $averageTime, Infusionsoft_App $app = null){
