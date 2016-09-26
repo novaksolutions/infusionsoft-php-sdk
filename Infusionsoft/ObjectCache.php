@@ -33,9 +33,6 @@ class Infusionsoft_ObjectCache extends Infusionsoft_SmartCache{
 
     public function getDataFromSource(){
         $data = Infusionsoft_DataService::query($this->object, $this->conditions, $this->limit, $this->page, $this->returnFields, $this->app);
-
-        $this->addObjectToCache($data);
-
         return $data;
     }
 
