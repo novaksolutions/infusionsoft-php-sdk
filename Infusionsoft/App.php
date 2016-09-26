@@ -163,6 +163,7 @@ class Infusionsoft_App{
 	}
 	public function send($method, $args, $retry = false){
 		array_unshift($args, $this->getApiKey());
+        CakeLog::write('debug', 'API Call generated.');
 		return $this->sendWithoutAddingKey($method, $args, $retry);
 	}
 
