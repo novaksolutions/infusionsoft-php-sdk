@@ -57,7 +57,7 @@ class Infusionsoft_SmartCache{
 
     public function getDataFromCacheIfNotStale(){
         $data = $this->getDataFromCache();
-        if($this->isDataNotStale($data)){
+        if(!empty($data) && $this->isDataNotStale($data)){
             return $data;
         } else {
             return false;
