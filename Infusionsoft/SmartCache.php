@@ -49,7 +49,7 @@ class Infusionsoft_SmartCache{
     public function isDataNotStale($data){
         $isGood = true;
         //If this is expired, return false, or if the creation data (extrapolated by expiration time stamp minus ttl) is in the future).
-        if($data['expiration'] < time() || $data['expiration'] - $this->ttl > time() || defined('INFUSIONSOFT_SDK_TEST')){
+        if(empty($data) || $data['expiration'] < time() || $data['expiration'] - $this->ttl > time() || defined('INFUSIONSOFT_SDK_TEST')){
             $isGood = false;
         }
         return $isGood;
