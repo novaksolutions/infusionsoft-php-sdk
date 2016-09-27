@@ -22,17 +22,30 @@ class Infusionsoft_ObjectCache extends Infusionsoft_SmartCache{
         $this->returnFields = $returnFields;
         $this->app = $app;
         $this->app_name = $app == null ? Infusionsoft_AppPool::getApp()->getHostname() : $app->getHostname();
+
+        $directory = dirname(__FILE__) . '/cache';
+        if(!empty(self::$staticExternalCacheClass)){
+            $staticClass = self::$staticExternalCacheClass;
+            if (method_exists($staticClass, 'config')){
+                $config = $staticClass::config('default');
+                if (!empty($config['engine']) && $config['engine'] != 'File') {
+                    $directory = '/cache';
+                }
+            }
+        }
+
         parent::__construct('objects_' . $this->object->getTable() . '_' . $this->app_name . '_' . md5(
             http_build_query($conditions) .
             $this->limit .
             $this->page .
             ($returnFields ? http_build_query($returnFields) : '') .
             $this->app_name
-        ) , 600,dirname(__FILE__) . '/cache/');
+        ) , 600,$directory);
     }
 
     public function getDataFromSource(){
-        return Infusionsoft_DataService::query($this->object, $this->conditions, $this->limit, $this->page, $this->returnFields, $this->app);
+        $data = Infusionsoft_DataService::query($this->object, $this->conditions, $this->limit, $this->page, $this->returnFields, $this->app);
+        return $data;
     }
 
     public function getById($id){
