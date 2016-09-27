@@ -26,9 +26,11 @@ class Infusionsoft_ObjectCache extends Infusionsoft_SmartCache{
         $directory = dirname(__FILE__) . '/cache';
         if(!empty(self::$staticExternalCacheClass)){
             $staticClass = self::$staticExternalCacheClass;
-            $config = $staticClass::config('default');
-            if (!empty($config['engine']) && $config['engine'] != 'File') {
-                $directory = '/cache';
+            if (method_exists($staticClass, 'config')){
+                $config = $staticClass::config('default');
+                if (!empty($config['engine']) && $config['engine'] != 'File') {
+                    $directory = '/cache';
+                }
             }
         }
 
