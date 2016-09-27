@@ -24,15 +24,7 @@ class Infusionsoft_ObjectCache extends Infusionsoft_SmartCache{
         $this->app_name = $app == null ? Infusionsoft_AppPool::getApp()->getHostname() : $app->getHostname();
 
         $directory = dirname(__FILE__) . '/cache';
-        if(!empty(self::$staticExternalCacheClass)){
-            $staticClass = self::$staticExternalCacheClass;
-            if (method_exists($staticClass, 'config')){
-                $config = $staticClass::config('default');
-                if (!empty($config['engine']) && $config['engine'] != 'File') {
-                    $directory = '/cache';
-                }
-            }
-        }
+        // SmartCache class checks the Cache engine being used and shortens the "directory" if it is being used as the key in a caching system instead of as a file-name in a file-based cache.
 
         parent::__construct('objects_' . $this->object->getTable() . '_' . $this->app_name . '_' . md5(
             http_build_query($conditions) .
