@@ -86,7 +86,7 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
             $daysBetweenPayments = 1;
         }
         try{
-            Infusionsoft_InvoiceService::addPaymentPlan($invoiceId, 0, $cardId, $merchantAccountId, 1, 1, $temporaryFirstPayment, Infusionsoft_App::formatDate(date('Y-m-d')), Infusionsoft_App::formatDate(date('Y-m-d', strtotime(' + 1 month'))), 1, 1);
+            Infusionsoft_InvoiceService::addPaymentPlan($invoiceId, 0, $cardId, $merchantAccountId, 1, 1, $temporaryFirstPayment, Infusionsoft_App::formatDate(date('Y-m-d')), Infusionsoft_App::formatDate(date('Y-m-d', strtotime(' + 1 day'))), 1, 1);
 
             Infusionsoft_InvoiceService::chargeInvoice($invoiceId, $paymentNotes, $cardId, $merchantAccountId, false);
         } catch (Exception $e){
