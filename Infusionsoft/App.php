@@ -29,7 +29,7 @@ class Infusionsoft_App{
 
         $this->hostname = $hostname;
 
-        if(is_a($apiKeyOrStorageProvider, 'NovakSolutions\Infusionsoft\TokenStorageProvider')){
+        if(is_a($apiKeyOrStorageProvider, 'Infusionsoft_TokenStorageProvider')){
             /** @var Infusionsoft_TokenStorageProvider $storageProvider */
             $this->tokenStorageProvider = $apiKeyOrStorageProvider;
         } elseif($apiKeyOrStorageProvider == null) {
