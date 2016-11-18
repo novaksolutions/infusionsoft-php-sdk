@@ -1,5 +1,5 @@
 <?php
-ini_set("")
+ini_set("");
 error_reporting(E_ALL);
 
 // Include the SDK
