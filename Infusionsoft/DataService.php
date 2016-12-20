@@ -247,4 +247,11 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
 
         return $fields;
     }
+
+    //Returns User data of the OAuth2 authenticated User
+    public static function getUserData($app = null)
+    {
+        $app = parent::getObjectOrDefaultAppIfNull($app);
+        return $app->sendWithoutAddingKey('DataService.getUserInfo', array());
+    }
 }
