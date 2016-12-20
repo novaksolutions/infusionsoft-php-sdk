@@ -72,7 +72,7 @@ class Infusionsoft_OAuth2 {
 
     public static function processAuthenticationResponseIfPresent(){
         if(isset($_GET['scope']) && isset($_GET['code'])){
-            self::processAuthenticationScopeAndCode($_GET['scope'], $_GET['code']);
+            return self::processAuthenticationScopeAndCode($_GET['scope'], $_GET['code']);
         }
     }
 
@@ -90,7 +90,7 @@ class Infusionsoft_OAuth2 {
             $app = new Infusionsoft_App($appDomain);
         }
         $app->updateAndSaveTokens($response['access_token'], $response['refresh_token'], $response['expires_in']);
-        return true;
+        return $appDomain;
     }
 
     public static function refreshToken($refreshToken){
