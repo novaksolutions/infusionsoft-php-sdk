@@ -1541,6 +1541,9 @@ class xmlrpc_client
         // results into variable
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
+        //Force TLS v1.2
+        curl_setopt($curl, CURLOPT_SSLVERSION, 6);
+
         if($this->debug)
         {
             curl_setopt($curl, CURLOPT_VERBOSE, 1);
