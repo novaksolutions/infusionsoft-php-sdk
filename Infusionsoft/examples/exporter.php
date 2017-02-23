@@ -26,7 +26,7 @@
 
 
         $file_name = "../exports/" . $_GET['object'] . '_export_' . date('Ymd-h.i.s') . '.csv';
-        echo 'Creating csv file: ' . $file_name . '<br/>';
+        echo 'Creating csv file: ' . htmlspecialchars($file_name) . '<br/>';
         $csv_file = fopen($file_name, 'w');
 
         fputcsv($csv_file, $object->getFields(), ",", "\"");
@@ -50,7 +50,7 @@
 
         echo 'Closing csv file. <br/>';
         fclose($csv_file);
-        ?><a href="<?=$file_name?>"><?=$file_name?></a><br/><br/><?
+        ?><a href="<?=htmlspecialchars($file_name)?>"><?=htmlspecialchars($file_name)?></a><br/><br/><?
 
         if($_GET['object'] == 'Template'){
             echo 'Exporting email templates into files.' . "<br/>";
@@ -72,7 +72,7 @@
                             $template = Infusionsoft_APIEmailService::getEmailTemplate($result->Id);
 
                             $file_name = "../exports/" . $_GET['object'] . '_' . $result->Id . '_' . date('Ymd-h.i.s') . '.txt';
-                            echo 'Creating file: ' . $file_name . '<br/>';
+                            echo 'Creating file: ' . htmlspecialchars($file_name) . '<br/>';
                             $file = fopen($file_name, 'w');
                             fwrite($file, 'Title: ' . $template['pieceTitle'] . "\n");
                             fwrite($file, 'Categories: ' . $template['categories'] . "\n");
@@ -103,7 +103,7 @@
             global $all_tables;
             sort($all_tables);
             foreach($all_tables as $table){
-                ?><option value="<?php echo $table; ?>"><?php echo $table; ?></option><?php
+                ?><option value="<?php echo htmlspecialchars($table); ?>"><?php echo htmlspecialchars($table); ?></option><?php
             }
         ?>
     </select><br/>
