@@ -13,7 +13,7 @@ include('../infusionsoft.php');
             global $all_tables;
             sort($all_tables);
             foreach($all_tables as $table){
-                ?><option value="<?php echo $table; ?>"><?php echo $table; ?></option><?php
+                ?><option value="<?php echo htmlspecialchars($table); ?>"><?php echo htmlspecialchars($table); ?></option><?php
             }
         ?>
     </select><br/>
@@ -32,7 +32,7 @@ if(isset($_GET['object'])){
                 <tr>
                     <?php
                         foreach($object->getFields() as $field){
-                            ?><th><?=$field?></th><?php
+                            ?><th><?=htmlspecialchars($field)?></th><?php
                         }
                     ?>
                 </tr>

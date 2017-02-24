@@ -9,7 +9,7 @@ if(isset($_POST['contactid'])){
     $recurringOrder->StartDate = date('Y-m-d H:i:s', strtotime("-1 month"));
     $recurringOrder->PaidThruDate = date('Y-m-d H:i:s', strtotime("-1 month"));
     $recurringOrder->save();
-    echo "<h1>Subscription Created: $recurring_order_id</h1>";
+    echo "<h1>Subscription Created: " . htmlspecialchars($recurring_order_id) . "</h1>";
 }
 
 ?>

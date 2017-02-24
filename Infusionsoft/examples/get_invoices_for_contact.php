@@ -5,7 +5,7 @@
 <html>
 	<body>
 		<form method="post">					
-			ContactId: <input type="text" name="ContactId" value="<?php if(isset($_POST['ContactId'])) echo $_POST['ContactId']; ?>"><br/>			
+			ContactId: <input type="text" name="ContactId" value="<?php if(isset($_POST['ContactId'])) echo htmlspecialchars($_POST['ContactId']); ?>"><br/>
 			<input type="submit"/>
 		</form>
 			
@@ -23,8 +23,8 @@
 				foreach($invoice->getFields() as $field){
 					?>
 					<tr>
-						<td><?php echo $field; ?></td>
-						<td><?php echo $invoice->$field; ?></td>
+						<td><?php echo htmlspecialchars($field); ?></td>
+						<td><?php echo htmlspecialchars($invoice->$field); ?></td>
 					</tr>
 					<?php
 				}										

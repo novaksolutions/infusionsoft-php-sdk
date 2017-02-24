@@ -14,7 +14,7 @@
 			$object = new $class_name($_GET['Id']);
 		}
 		catch(Exception $e){
-			echo $e->getMessage();
+			echo htmlspecialchars($e->getMessage());
 			renderLoadForm();
 			return;
 		}
@@ -35,7 +35,7 @@
 			$object = new $class_name($_GET['Id']);
 		}
 		catch(Exception $e){
-			echo $e->getMessage();
+			echo htmlspecialchars($e->getMessage());
 			renderLoadForm();
 			return;
 		}		
@@ -51,7 +51,7 @@
 						global $all_tables;
 						sort($all_tables);
 						foreach($all_tables as $table){
-							?><option value="<?php echo $table; ?>"><?php echo $table; ?></option><?php 
+							?><option value="<?php echo htmlspecialchars($table); ?>"><?php echo htmlspecialchars($table); ?></option><?php
 						} 
 					?>					
 				</select><br/>				
@@ -65,12 +65,12 @@
 	function renderObjectForm($object){
 	?>
 		<form method="post">
-			<input type="hidden" name="object" value="<?php echo $object->getTable();?>"/>
+			<input type="hidden" name="object" value="<?php echo htmlspecialchars($object->getTable());?>"/>
 		<?php 
 		foreach($object->toArray() as $field=>$value){
 			?>
-				<?php echo $field; ?><br/>
-				<input type="text" name="<?php echo $field; ?>" value="<?php echo $value; ?>"><br/>
+				<?php echo htmlspecialchars($field); ?><br/>
+				<input type="text" name="<?php echo htmlspecialchars($field); ?>" value="<?php echo htmlspecialchars($value); ?>"><br/>
 			<?php 
 		}
 		?>
