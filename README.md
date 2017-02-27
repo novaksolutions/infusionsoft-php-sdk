@@ -1,6 +1,6 @@
 # Novak Solutions - Infusionsoft PHP SDK
 
-[Novak Solutions](https://novaksolutions.com/?utm_source=github&utm_medium=readme&utm_campaign=homepage) created our *Infusionsoft PHP SDK* to make it easier to develop for the Infusionsoft platform. The SDK utilizes the Infusionsoft API, but works around some of its [known gotchas](https://novaksolutions.com/infusionsoft-api-gotchas/?utm_source=github&utm_medium=readme&utm_campaign=gotchas).  
+[Novak Solutions](https://novaksolutions.com/?utm_source=github&utm_medium=readme&utm_campaign=homepage) created our *Infusionsoft PHP SDK* to make it easier to develop for the Infusionsoft platform. The SDK utilizes the Infusionsoft API, but works around some of its [known gotchas](https://blog.novaksolutions.com/infusionsoft-api-gotchas/?utm_source=github&utm_medium=readme&utm_campaign=gotchas).  
 
 **Note: This IS NOT the official sdk.**  The official Infusionsoft created SDK is here: https://github.com/infusionsoft/infusionsoft-php 
 
