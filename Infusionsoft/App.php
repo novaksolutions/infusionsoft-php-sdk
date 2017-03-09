@@ -43,12 +43,15 @@ class Infusionsoft_App{
 
 	}
 
-	public function initApiKeyClient($apiKey = null){
+	public function initApiKeyClient($apiKey = null, $initAsFallback = false){
 	    if ($apiKey != null){
 	        $this->apiKey = $apiKey;
         }
 
         $this->client = new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+	    if ($initAsFallback){
+	        $this->initOauthClient();
+        }
     }
 
     public function apiKey($apiKey){
