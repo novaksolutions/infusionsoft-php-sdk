@@ -143,9 +143,12 @@ class Infusionsoft_App{
                 $req = $this->client->send($call, $this->timeout, 'https');
             }
 
+            $callMethod = $this->client->server == 'api.infusionsoft.com' ? 'OAuth' : 'ApiKey';
+            $callSuccess = false;
             if (!$callSuccess && $retry && $this->useApiKeyFallback == true){
                 $this->initApiKeyClient();
                 $req = $this->client->send($call, $this->timeout, 'https');
+                $callMethod = 'ApiKey';
                 $attempts++;
                 $this->initOauthClient();
             }
@@ -177,6 +180,7 @@ class Infusionsoft_App{
                 'attempts' => $attempts,
                 'result' => $req->faultCode() ? 'Failed' : count($result) . ' Records Returned',
                 'error_message' => $req->faultCode() ? $req->faultString() : null,
+                'connection_method' => $callMethod,
             ));
         }
 
