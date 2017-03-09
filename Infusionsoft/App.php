@@ -144,7 +144,6 @@ class Infusionsoft_App{
             }
 
             $callMethod = $this->client->server == 'api.infusionsoft.com' ? 'OAuth' : 'ApiKey';
-            $callSuccess = false;
             if (!$callSuccess && $retry && $this->useApiKeyFallback == true){
                 $this->initApiKeyClient();
                 $req = $this->client->send($call, $this->timeout, 'https');
@@ -227,8 +226,16 @@ class Infusionsoft_App{
     }
 
     public function refreshTokens(){
-        $tokens = Infusionsoft_OAuth2::refreshToken($this->refreshToken);
-        $this->updateAndSaveTokens($tokens['access_token'], $tokens['refresh_token'], $tokens['expires_in']);
+        if (method_exists($this->tokenStorageProvider, 'refreshTokens')){
+            $tokens = $this->tokenStorageProvider->refreshTokens();
+            $this->accessToken = $tokens['accessToken'];
+            $this->refreshToken = $tokens['refreshToken'];
+            $this->tokenExpires = $tokens['expiresAt'];
+            $this->client->extraUrlParams = array('access_token' => $this->accessToken);
+        } else {
+            $tokens = Infusionsoft_OAuth2::refreshToken($this->refreshToken);
+            $this->updateAndSaveTokens($tokens['access_token'], $tokens['refresh_token'], $tokens['expires_in']);
+        }
     }
 
     public function updateAndSaveTokens($accessToken, $refreshToken, $expiresIn){
