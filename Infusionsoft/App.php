@@ -82,6 +82,10 @@ class Infusionsoft_App{
         }
     }
 
+    public function usingOauth(){
+        return $this->usingOAuth;
+    }
+
     public function logger(Infusionsoft_Logger $object){
         if (method_exists($object, 'log')){
             $this->Logger = $object;
