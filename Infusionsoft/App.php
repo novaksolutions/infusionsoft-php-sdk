@@ -3,8 +3,10 @@
 /**
  * Class Infusionsoft_App
  * @property Infusionsoft_TokenStorageProvider $tokenStorageProvider
+ * @property xmlrpc_client $client
  */
 class Infusionsoft_App{
+    protected $useApiKeyFallback = false;
     protected $usingOAuth = false;
     protected $tokenStorageProvider = null;
 
@@ -26,51 +28,62 @@ class Infusionsoft_App{
         if(strpos($hostname, ".") === false){
             $hostname = $hostname . '.infusionsoft.com';
         }
-
+        $this->port = $port;
         $this->hostname = $hostname;
 
-        if(is_a($apiKeyOrStorageProvider, 'Infusionsoft_TokenStorageProvider')){
-            /** @var Infusionsoft_TokenStorageProvider $storageProvider */
-            $this->tokenStorageProvider = $apiKeyOrStorageProvider;
-        } elseif($apiKeyOrStorageProvider == null) {
-            $this->tokenStorageProvider = Infusionsoft_AppPool::getDefaultStorageProvider();
-        } else{
-            $this->apiKey = $apiKeyOrStorageProvider;
-        }
-
-        if($this->tokenStorageProvider != null){
-            $this->usingOAuth = true;
-            $tokens = $this->tokenStorageProvider->getTokens($this->hostname);
-            $this->accessToken = $tokens['accessToken'];
-            $this->refreshToken = $tokens['refreshToken'];
-            $this->tokenExpiresAt = $tokens['expiresAt'];
-        }
-
-        $this->port = $port;
-
-        if($this->usingOAuth){
-            $this->client	= new xmlrpc_client('/crm/xmlrpc/v1', 'api.infusionsoft.com', 443);
+        if (is_string($apiKeyOrStorageProvider)){
+            $this->initApiKeyClient($apiKeyOrStorageProvider);
         } else {
-            $this->client	= new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+            $this->initOauthClient($apiKeyOrStorageProvider);
         }
 
         $this->client->setSSLVerifyPeer(true);
         $this->client->setCaCertificate(dirname(__FILE__) . '/infusionsoft.pem');
         $this->client->request_charset_encoding = "UTF-8";
 
-        if($this->usingOAuth == true){
-            $this->client->extraUrlParams = array('access_token' => $this->accessToken);
-        }
 	}
 
-    public static function connect(Infusionsoft_TokenStorageProvider $tokenStorageProvider = null){
-        if($tokenStorageProvider == null){
-            $tokenStorageProvider =  Infusionsoft_AppPool::getDefaultStorageProvider();
+	public function initApiKeyClient($apiKey = null, $initAsFallback = false){
+	    if ($apiKey != null){
+	        $this->apiKey = $apiKey;
         }
 
-        $hostName = $tokenStorageProvider->getFirstAppName();
+        $this->client = new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+	    if ($initAsFallback){
+	        $this->initOauthClient();
+        }
+    }
 
-        return Infusionsoft_AppPool::addApp(new Infusionsoft_App($hostName));
+    public function apiKey($apiKey){
+	    $this->apiKey = $apiKey;
+    }
+
+    public function initOauthClient($tokenStorageProvider = null){
+        if ($tokenStorageProvider != null){
+            $this->tokenStorageProvider = $tokenStorageProvider;
+        }
+        if ($this->tokenStorageProvider == null){
+            $this->tokenStorageProvider = Infusionsoft_AppPool::getDefaultStorageProvider();
+        }
+
+        if ($this->tokenStorageProvider != null){
+            $this->usingOAuth = true;
+            $tokens = $this->tokenStorageProvider->getTokens($this->hostname);
+            $this->accessToken = $tokens['accessToken'];
+            $this->refreshToken = $tokens['refreshToken'];
+            $this->tokenExpiresAt = $tokens['expiresAt'];
+
+            $this->client = new xmlrpc_client('/crm/xmlrpc/v1', 'api.infusionsoft.com', 443);
+            $this->client->extraUrlParams = array('access_token' => $this->accessToken);
+
+            if ($this->apiKey != null){
+                $this->useApiKeyFallback = true;
+            }
+        }
+    }
+
+    public function usingOauth(){
+        return $this->usingOAuth;
     }
 
     public function logger(Infusionsoft_Logger $object){
@@ -126,13 +139,33 @@ class Infusionsoft_App{
             }
             $attempts++;
             $req = $this->client->send($call, $this->timeout, 'https');
-            if($req != null && strpos($req->faultString(), 'Didn\'t receive 200 OK') !== false){
+            $callSuccess = !($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail']);
+            if(!$callSuccess && $req != null && strpos($req->faultString(), 'Didn\'t receive 200 OK') !== false){
                 if ($this->hasTokens()){
                     $this->refreshTokens();
                 }
                 $req = $this->client->send($call, $this->timeout, 'https');
             }
-        } while($retry && ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false) && $attempts < 3);
+
+            $callMethod = $this->client->server == 'api.infusionsoft.com' ? 'OAuth' : 'ApiKey';
+            if (!$callSuccess && $retry && $this->useApiKeyFallback == true){
+                $this->initApiKeyClient();
+                $req = $this->client->send($call, $this->timeout, 'https');
+                $callMethod = 'ApiKey';
+                $attempts++;
+                $this->initOauthClient();
+            }
+        } while(
+            $retry
+                &&
+            ($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return']
+                ||
+            $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail']
+                ||
+            strpos($req->faultString(), 'com.infusionsoft.throttle.ThrottlingException: Maximum number of threads throttled') !== false)
+                &&
+            $attempts < 3
+        );
 
         $this->totalHttpCalls += $attempts;
         if (!$req->faultCode()){
@@ -150,6 +183,7 @@ class Infusionsoft_App{
                 'attempts' => $attempts,
                 'result' => $req->faultCode() ? 'Failed' : count($result) . ' Records Returned',
                 'error_message' => $req->faultCode() ? $req->faultString() : null,
+                'connection_method' => $callMethod,
             ));
         }
 
@@ -196,8 +230,16 @@ class Infusionsoft_App{
     }
 
     public function refreshTokens(){
-        $tokens = Infusionsoft_OAuth2::refreshToken($this->refreshToken);
-        $this->updateAndSaveTokens($tokens['access_token'], $tokens['refresh_token'], $tokens['expires_in']);
+        if (method_exists($this->tokenStorageProvider, 'refreshTokens')){
+            $tokens = $this->tokenStorageProvider->refreshTokens();
+            $this->accessToken = $tokens['accessToken'];
+            $this->refreshToken = $tokens['refreshToken'];
+            $this->tokenExpires = $tokens['expiresAt'];
+            $this->client->extraUrlParams = array('access_token' => $this->accessToken);
+        } else {
+            $tokens = Infusionsoft_OAuth2::refreshToken($this->refreshToken);
+            $this->updateAndSaveTokens($tokens['access_token'], $tokens['refresh_token'], $tokens['expires_in']);
+        }
     }
 
     public function updateAndSaveTokens($accessToken, $refreshToken, $expiresIn){
