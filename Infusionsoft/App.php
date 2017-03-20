@@ -139,12 +139,13 @@ class Infusionsoft_App{
             }
             $attempts++;
             $req = $this->client->send($call, $this->timeout, 'https');
-            $callSuccess = !($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail']);
+            $callSuccess = $this->checkCallSuccess($req);
             if(!$callSuccess && $req != null && strpos($req->faultString(), 'Didn\'t receive 200 OK') !== false){
                 if ($this->hasTokens()){
                     $this->refreshTokens();
                 }
                 $req = $this->client->send($call, $this->timeout, 'https');
+                $callSuccess = $this->checkCallSuccess($req);
             }
 
             $callMethod = $this->client->server == 'api.infusionsoft.com' ? 'OAuth' : 'ApiKey';
@@ -199,6 +200,14 @@ class Infusionsoft_App{
 		array_unshift($args, $this->getApiKey());
 		return $this->sendWithoutAddingKey($method, $args, $retry);
 	}
+
+	public function checkCallSuccess($req){
+        if (!($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['curl_fail'] || $req->faultCode() == $GLOBALS['xmlrpcerr']['http_error'])){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function getTotalHttpCalls(){
         return $this->totalHttpCalls;
