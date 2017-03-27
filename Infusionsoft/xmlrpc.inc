@@ -2653,7 +2653,7 @@ class xmlrpcmsg
         // **BEGIN JORDAN NOVAK EDIT**
         // Sometimes customer data has these random characters in it, and it breaks the XML parsing
 //            $test = preg_match('/\&#[0-9]{1,3}/', $data, $matches);
-        $data = preg_replace(array('/\&#[0-9]{1,4}/'),'', $data);
+        $data = preg_replace(array('/\&#[0-9]{1,4}(?![0-9]{0,3};)/'),'', $data);
         // **END JORDAN NOVAK EDIT**
 
 
