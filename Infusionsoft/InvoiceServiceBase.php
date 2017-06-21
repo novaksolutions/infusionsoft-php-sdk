@@ -140,7 +140,7 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         );
 
         $result = parent::send($app, "InvoiceService.createBlankOrder", $params);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result, array('result' => $result)), 'InvoiceService.OrderCreated');
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result), 'InvoiceService.OrderCreated');
         return $result;
     }
     
@@ -272,7 +272,7 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         );
 
         $result = parent::send($app, "InvoiceService.deleteInvoice", $params);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result, array('result' => $result)), 'InvoiceService.OrderDeleted');
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.OrderDeleted');
         return $result;
     }
     
