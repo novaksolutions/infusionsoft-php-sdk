@@ -40,7 +40,9 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             $notes
         );
 
-        return parent::send($app, "InvoiceService.addOrderItem", $params);
+        $result = parent::send($app, "InvoiceService.addOrderItem", $params);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.OrderItemAdded');
+        return $result;
     }
     
     public static function addPaymentPlan($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $planStartDate, $numPmts, $daysBetweenPmts, Infusionsoft_App $app = null){
@@ -137,7 +139,9 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $saleAffiliateId
         );
 
-        return parent::send($app, "InvoiceService.createBlankOrder", $params);
+        $result = parent::send($app, "InvoiceService.createBlankOrder", $params);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result), 'InvoiceService.OrderCreated');
+        return $result;
     }
     
     public static function getInvoiceId($orderId, Infusionsoft_App $app = null){
@@ -267,7 +271,9 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $invoiceId
         );
 
-        return parent::send($app, "InvoiceService.deleteInvoice", $params);
+        $result = parent::send($app, "InvoiceService.deleteInvoice", $params);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.OrderDeleted');
+        return $result;
     }
     
 }
