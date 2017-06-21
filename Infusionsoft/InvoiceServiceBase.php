@@ -40,7 +40,9 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             $notes
         );
 
-        return parent::send($app, "InvoiceService.addOrderItem", $params);
+        $result = parent::send($app, "InvoiceService.addOrderItem", $params);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.OrderItemAdded');
+        return $result;
     }
     
     public static function addPaymentPlan($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $planStartDate, $numPmts, $daysBetweenPmts, Infusionsoft_App $app = null){
@@ -138,10 +140,7 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         );
 
         $result = parent::send($app, "InvoiceService.createBlankOrder", $params);
-        $invoice = new Infusionsoft_Invoice($result);
-        $job = new Infusionsoft_Job($invoice->JobId);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoice, array('result' => $result)), 'DataObject.Saved');
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($job, array('result' => $result)), 'DataObject.Saved');
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result, array('result' => $result)), 'InvoiceService.OrderCreated');
         return $result;
     }
     
@@ -272,11 +271,8 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $invoiceId
         );
 
-        $invoice = new Infusionsoft_Invoice($invoiceId);
-        $job = new Infusionsoft_Job($invoice->JobId);
         $result = parent::send($app, "InvoiceService.deleteInvoice", $params);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoice, array('result' => $result)), 'DataObject.Deleted');
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($job, array('result' => $result)), 'DataObject.Deleted');
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result, array('result' => $result)), 'InvoiceService.OrderDeleted');
         return $result;
     }
     
