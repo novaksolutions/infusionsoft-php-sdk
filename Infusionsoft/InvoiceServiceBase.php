@@ -275,8 +275,7 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
         );
 
         Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId), 'InvoiceService.OrderDeleted');
-        $result = parent::send($app, "InvoiceService.deleteInvoice", $params);
-        return $result;
+        return parent::send($app, "InvoiceService.deleteInvoice", $params);
     }
     
 }
