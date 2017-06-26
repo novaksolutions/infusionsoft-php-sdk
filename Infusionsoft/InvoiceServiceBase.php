@@ -265,9 +265,8 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $subscriptionId
         );
 
-        $result = parent::send($app, "InvoiceService.deleteSubscription", $params);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($subscriptionId, array('result' => $result)), 'InvoiceService.SubscriptionDeleted');
-        return $result;
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($subscriptionId), 'InvoiceService.SubscriptionDeleted');
+        return parent::send($app, "InvoiceService.deleteSubscription", $params);
     }
     
     public static function deleteInvoice($invoiceId, Infusionsoft_App $app = null){
@@ -275,8 +274,8 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $invoiceId
         );
 
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId), 'InvoiceService.OrderDeleted');
         $result = parent::send($app, "InvoiceService.deleteInvoice", $params);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.OrderDeleted');
         return $result;
     }
     
