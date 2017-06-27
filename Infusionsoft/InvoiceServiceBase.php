@@ -89,7 +89,9 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $daysTillCharge
         );
 
-        return parent::send($app, "InvoiceService.addRecurringOrder", $params);
+        $result = parent::send($app, "InvoiceService.addRecurringOrder", $params);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($result), 'InvoiceService.SubscriptionCreated');
+        return $result;
     }
     
     public static function calculateAmountOwed($invoiceId, Infusionsoft_App $app = null){
@@ -263,6 +265,7 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $subscriptionId
         );
 
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($subscriptionId), 'InvoiceService.SubscriptionDeleted');
         return parent::send($app, "InvoiceService.deleteSubscription", $params);
     }
     
@@ -271,9 +274,8 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $invoiceId
         );
 
-        $result = parent::send($app, "InvoiceService.deleteInvoice", $params);
-        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.OrderDeleted');
-        return $result;
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId), 'InvoiceService.OrderDeleted');
+        return parent::send($app, "InvoiceService.deleteInvoice", $params);
     }
     
 }
