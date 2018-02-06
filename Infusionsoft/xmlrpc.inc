@@ -259,7 +259,7 @@ function xmlrpc_encode_entitites($data, $src_encoding='', $dest_encoding='')
     /* Jordan Novak edit
     * clean out invalid characters before sending
     */
-    $data = str_replace(array("&#11;", "&#0;", "&#20;", "’", "“",  "”"), "", $data);
+    $data = str_replace(array("&#11;", "&#0;", "&#20;", "&#16", "’", "“",  "”"), "", $data);
     /*
      * End Jordan Novak edit
      */
@@ -2654,7 +2654,7 @@ class xmlrpcmsg
         // Sometimes customer data has these random characters in it, and it breaks the XML parsing
 //            $test = preg_match('/\&#[0-9]{1,3}/', $data, $matches);
         $data = preg_replace(array('/\&#[0-9]{1,4}(?![0-9]{0,3};)/'),'', $data);
-        $data = str_replace(array("&#11;", "&#0;", "&#3;", "&#6;", "&#7;", "&#12", "&#20;", "&#25;"), "", $data);
+        $data = str_replace(array("&#11;", "&#0;", "&#3;", "&#6;", "&#7;", "&#12", "&#20;", "&#25;", "&#16"), "", $data);
         // **END JORDAN NOVAK EDIT**
 
 
