@@ -2659,7 +2659,7 @@ class xmlrpcmsg
 
 
         // first error check: xml not well formed
-        if(!xml_parse($parser, $data, count($data)))
+        if(!xml_parse($parser, $data, strlen($data)))
         {
             try{
                 $bad_return = fopen("bad_return.xml.php", "w");
