@@ -21,6 +21,13 @@ We also appreciate community contributions. To contribute: fork the SDK repo, ma
 
 ## Installation
 
+### Composer
+```
+composer require novaksolutions/infusionsoft-php-sdk
+```
+
+### Git
+
 We keep the `master` branch production ready. To install, simply clone the SDK into a convenient folder. For example:
 
 ```sh
@@ -36,7 +43,7 @@ git clone https://github.com/novaksolutions/infusionsoft-php-sdk.git
 
 You'll also need to copy `Infusionsoft/config.sample.php` to `Infusionsoft/config.php`. Edit this file and add your app name and [API key](http://ug.infusionsoft.com/article/AA-00442).
 
-##OAuth2 Usage
+## OAuth2 Usage
 
 The following example code shows how to authenticate using OAuth2.  This will automatically save your access and refresh tokens to the current directory in a file called infusionsoft-tokens.php.  We store it in a php file that is empty except for a comment so that no one can access this file on your server unless you aren't running php.
 
