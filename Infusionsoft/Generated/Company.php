@@ -107,4 +107,71 @@ class Infusionsoft_Generated_Company extends Infusionsoft_Generated_Base{
             self::$tableFields = array_values(self::$tableFields);
         }
     }
+
+    public function removeHiddenFields(){
+        $hiddenFields = array(
+            'Address1Type',
+            'Address2Street1',
+            'Address2Street2',
+            'Address2Type',
+            'Address3Street1',
+            'Address3Street2',
+            'Address3Type',
+            'Anniversary',
+            'AssistantName',
+            'AssistantPhone',
+            'BillingInformation',
+            'Birthday',
+            'City2',
+            'City3',
+            'AccountId',
+            'CompanyID',
+            'ContactType',
+            'Country2',
+            'Country3',
+            'CreatedBy',
+            'EmailAddress2',
+            'EmailAddress3',
+            'Fax2',
+            'Fax2Type',
+            'FirstName',
+            'Groups',
+            'Id',
+            'JobTitle',
+            'LastName',
+            'MiddleName',
+            'Nickname',
+            'OwnerID',
+            'Password',
+            'Phone2',
+            'Phone2Ext',
+            'Phone2Type',
+            'Phone3',
+            'Phone3Ext',
+            'Phone3Type',
+            'Phone4',
+            'Phone4Ext',
+            'Phone4Type',
+            'Phone5',
+            'Phone5Ext',
+            'Phone5Type',
+            'PostalCode2',
+            'PostalCode3',
+            'ReferralCode',
+            'SpouseName',
+            'State2',
+            'State3',
+            'Suffix',
+            'Title',
+            'Username',
+            'Validated',
+            'Website',
+            'ZipFour2',
+            'ZipFour3',
+        );
+
+        foreach ($hiddenFields as $field){
+            $this->removeField($field);
+        }
+    }
 }
