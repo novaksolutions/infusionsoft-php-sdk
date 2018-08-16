@@ -17,7 +17,8 @@ class Infusionsoft_ContactServiceBase extends Infusionsoft_Service{
 
         return parent::send($app, "ContactService.load", $params);
     }
-    
+
+    /** The first contactId will be kept */
     public static function merge($contactId, $duplicateContactId, Infusionsoft_App $app = null){
         $params = array(
             (int) $contactId, 
