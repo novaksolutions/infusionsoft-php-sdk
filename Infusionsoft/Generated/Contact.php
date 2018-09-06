@@ -36,6 +36,7 @@
  * @property String Groups
  * @property String Id
  * @property String JobTitle
+ * @property String Language
  * @property String LastName
  * @property String LastUpdated
  * @property String LastUpdatedBy
@@ -71,6 +72,7 @@
  * @property String StreetAddress1
  * @property String StreetAddress2
  * @property String Suffix
+ * @property String TimeZone
  * @property String Title
  * @property String Username
  * @property String Validated
