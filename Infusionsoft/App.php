@@ -182,7 +182,7 @@ class Infusionsoft_App{
                 'method' => $method,
                 'args' => $args,
                 'attempts' => $attempts,
-                'result' => $req->faultCode() ? 'Failed' : count($result) . ' Records Returned',
+                'result' => $req->faultCode() ? 'Failed' : (is_array($result) ? (count($result) . ' Records Returned') : $result),
                 'error_message' => $req->faultCode() ? $req->faultString() : null,
                 'connection_method' => $callMethod,
             ));
