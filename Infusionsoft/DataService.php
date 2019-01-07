@@ -235,7 +235,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         return $out;
     }
 
-    public static function getCustomFields($object, $app = null)
+    public static function getCustomFields(Infusionsoft_Generated_Base $object, Infusionsoft_App $app = null)
     {
         $fields = Infusionsoft_DataService::query(new Infusionsoft_DataFormField(), array('FormId' => $object->customFieldFormId), 1000, 0, false, $app);
         $returnData = array();
