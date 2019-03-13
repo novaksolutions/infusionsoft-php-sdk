@@ -79,7 +79,6 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
                 $payPlanItemDueDate1 = $payPlanStartDate;
             }
         } else { //If there is no PayPlan, then just set the order to the default of all due up front
-            CakeLog::write('warning', 'PayPlan not found for InvoiceId: ' . $invoiceId . ' PayPlan will be set to the default');
             $payPlanFirstPaymentAmount = $invoice->InvoiceTotal;
             $payPlanStartDate = $invoice->DateCreated;
             $numberOfPayments = 0;
