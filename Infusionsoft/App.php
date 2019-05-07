@@ -69,9 +69,13 @@ class Infusionsoft_App{
         if ($this->tokenStorageProvider != null){
             $this->usingOAuth = true;
             $tokens = $this->tokenStorageProvider->getTokens($this->hostname);
-            $this->accessToken = $tokens['accessToken'];
-            $this->refreshToken = $tokens['refreshToken'];
-            $this->tokenExpiresAt = $tokens['expiresAt'];
+            if (time() > strtotime($tokens['expiresAt'])){
+                $this->refreshTokens();
+            } else {
+                $this->accessToken = $tokens['accessToken'];
+                $this->refreshToken = $tokens['refreshToken'];
+                $this->tokenExpiresAt = $tokens['expiresAt'];
+            }
 
             $this->client = new xmlrpc_client('/crm/xmlrpc/v1', 'api.infusionsoft.com', 443);
             $this->client->extraUrlParams = array('access_token' => $this->accessToken);
