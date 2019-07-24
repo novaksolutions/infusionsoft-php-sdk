@@ -9,14 +9,14 @@ class Infusionsoft_AppPool{
 	public function __construct(){
 	}
 
+    public static function defaultAppHostname(){
+        return self::$apps['default']->getHostname();
+    }
+
     /**
      * @param string $appHostname
      * @return Infusionsoft_App
      */
-
-    public static function defaultAppHostname(){
-        return self::$apps['default']->getHostname();
-    }
 
     public static function getApp($appHostname = ''){
 		$appKey = strtolower($appHostname);
