@@ -60,7 +60,9 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
             (int) $daysBetweenPmts
         );
 
-        return parent::send($app, "InvoiceService.addPaymentPlan", $params);
+        $result = parent::send($app, "InvoiceService.addPaymentPlan", $params);
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.addPaymentPlan');
+        return $result;
     }
     
     public static function addRecurringCommissionOverride($recurringinvoiceId, $affiliateId, $amount, $payoutType, $description, Infusionsoft_App $app = null){
@@ -128,6 +130,8 @@ class Infusionsoft_InvoiceServiceBase extends Infusionsoft_Service{
                 throw $e;
             }
         }
+
+        Infusionsoft_SdkEventManager::dispatch(new Infusionsoft_SdkEvent($invoiceId, array('result' => $result)), 'InvoiceService.chargeInvoice');
 
         return $result;
     }
