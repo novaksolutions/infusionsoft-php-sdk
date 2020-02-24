@@ -122,7 +122,7 @@ class Infusionsoft_OAuth2 {
         $decodedResponse = json_decode($response, true);
 
         if(isset($decodedResponse['error'])){
-            throw new Exception($decodedResponse['error_description']);
+            throw new Exception($decodedResponse['error']);
         }
 
         return $decodedResponse;
