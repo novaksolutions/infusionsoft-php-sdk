@@ -3097,7 +3097,8 @@ class xmlrpcval
         //if (is_object($o) && (get_class($o) == 'xmlrpcval' || is_subclass_of($o, 'xmlrpcval')))
         //{
         reset($this->me);
-        list($typ, $val) = each($this->me);
+        $typ = key($this->me);
+        $val = current($this->me);
         return '<value>' . $this->serializedata($typ, $val, $charset_encoding) . "</value>\n";
         //}
     }
