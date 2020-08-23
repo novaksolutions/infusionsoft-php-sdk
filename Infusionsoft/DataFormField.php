@@ -21,7 +21,8 @@ class Infusionsoft_DataFormField extends Infusionsoft_Generated_DataFormField{
     {
         return in_array($this->DataType, array(
             Infusionsoft_CustomFieldService::$DataType_Dropdown,
-            Infusionsoft_CustomFieldService::$DataType_List
+            Infusionsoft_CustomFieldService::$DataType_List,
+            Infusionsoft_CustomFieldService::$DataType_Radio
             )
         );
     }

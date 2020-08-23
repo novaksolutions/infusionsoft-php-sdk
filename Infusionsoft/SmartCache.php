@@ -30,7 +30,18 @@ class Infusionsoft_SmartCache{
     }
 
     public function getCacheFileName(){
-        return $this->dir . '/' . $this->name . '.cache';
+        $directory = $this->dir;
+        if(!empty(self::$staticExternalCacheClass)){
+            $staticClass = self::$staticExternalCacheClass;
+            if (method_exists($staticClass, 'config')){
+                $config = $staticClass::config('default');
+                if (!empty($config['engine']) && $config['engine'] != 'File') {
+                    $directory = '/cache';
+                }
+            }
+        }
+
+        return $directory . '/' . $this->name . '.cache';
     }
 
     public function expireCache(){
@@ -49,7 +60,7 @@ class Infusionsoft_SmartCache{
     public function isDataNotStale($data){
         $isGood = true;
         //If this is expired, return false, or if the creation data (extrapolated by expiration time stamp minus ttl) is in the future).
-        if($data['expiration'] < time() || $data['expiration'] - $this->ttl > time() || defined('INFUSIONSOFT_SDK_TEST')){
+        if(empty($data) || $data['expiration'] < time() || $data['expiration'] - $this->ttl > time() || defined('INFUSIONSOFT_SDK_TEST')){
             $isGood = false;
         }
         return $isGood;

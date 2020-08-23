@@ -235,7 +235,7 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         return $out;
     }
 
-    public static function getCustomFields($object, $app = null)
+    public static function getCustomFields(Infusionsoft_Generated_Base $object, Infusionsoft_App $app = null)
     {
         $fields = Infusionsoft_DataService::query(new Infusionsoft_DataFormField(), array('FormId' => $object->customFieldFormId), 1000, 0, false, $app);
         $returnData = array();
@@ -246,5 +246,12 @@ class Infusionsoft_DataService extends Infusionsoft_DataServiceBase
         $fields = $returnData;
 
         return $fields;
+    }
+
+    //Returns User data of the OAuth2 authenticated User
+    public static function getUserData($app = null)
+    {
+        $app = parent::getObjectOrDefaultAppIfNull($app);
+        return $app->sendWithoutAddingKey('DataService.getUserInfo', array());
     }
 }

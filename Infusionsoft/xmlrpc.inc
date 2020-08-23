@@ -259,7 +259,7 @@ function xmlrpc_encode_entitites($data, $src_encoding='', $dest_encoding='')
     /* Jordan Novak edit
     * clean out invalid characters before sending
     */
-    $data = str_replace(array("&#11;", "&#0;", "&#20;", "’", "“",  "”"), "", $data);
+    $data = str_replace(array("&#11;", "&#0;", "&#20;", "&#16", "’", "“",  "”"), "", $data);
     /*
      * End Jordan Novak edit
      */
@@ -2653,12 +2653,13 @@ class xmlrpcmsg
         // **BEGIN JORDAN NOVAK EDIT**
         // Sometimes customer data has these random characters in it, and it breaks the XML parsing
 //            $test = preg_match('/\&#[0-9]{1,3}/', $data, $matches);
-        $data = preg_replace(array('/\&#[0-9]{1,4}/'),'', $data);
+        $data = preg_replace(array('/\&#[0-9]{1,4}(?![0-9]{0,3};)/'),'', $data);
+        $data = str_replace(array("&#1;", "&#11;", "&#0;", "&#2;", "&#3;", "&#5;", "&#6;", "&#7;", "&#12", "&#14;", "&#20;", "&#24;", "&#25;", "&#16", "&#19;", "&#8;", "&#18;", "&#180;", "&#193;", "&#214;", "&#240;", "&#255;", "&#402;", "&#8218;", "&#8482;", '￿', ''/*non-printing character, this is not an empty string*/), "", $data);
         // **END JORDAN NOVAK EDIT**
 
 
         // first error check: xml not well formed
-        if(!xml_parse($parser, $data, count($data)))
+        if(!xml_parse($parser, $data, $data != null))
         {
             try{
                 $bad_return = fopen("bad_return.xml.php", "w");

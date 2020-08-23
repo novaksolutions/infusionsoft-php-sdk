@@ -8,6 +8,5 @@
 
 interface Infusionsoft_TokenStorageProvider {
     public function saveTokens($appDomainName, $accessToken, $refreshToken, $expiresIn);
-    public function getTokens($appDomainDomain);
-    public function getFirstAppName();
+    public function getTokens($appDomainName);
 }

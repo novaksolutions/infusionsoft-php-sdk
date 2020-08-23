@@ -88,7 +88,9 @@ class Infusionsoft_RecurringOrder extends Infusionsoft_Generated_RecurringOrder{
 
         $result = parent::save($app);
 
-        Infusionsoft_InvoiceService::updateJobRecurringNextBillDate($this->Id, $this->NextBillDate);
+        if ($this->NextBillDate != null){
+            Infusionsoft_InvoiceService::updateJobRecurringNextBillDate($this->Id, $this->NextBillDate);
+        }
 
         //Infusionsoft_InvoiceService::createInvoiceForRecurring($this->Id);
         return $result;

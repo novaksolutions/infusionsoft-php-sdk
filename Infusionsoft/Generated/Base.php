@@ -6,13 +6,20 @@ class Infusionsoft_Generated_Base
     protected $table;
     protected $data = array();
     protected $appPoolAppKey = null;
+    protected $new = null;
 
     public function __construct($table, $id = null, $app = null)
     {
         $this->table = $table;
         if($id != null){
             $this->load($id, $app);
+        } else {
+            $this->new = true;
         }
+    }
+
+    public function isNew(){
+        return $this->new === true;
     }
 
     public function getTable()
@@ -62,6 +69,11 @@ class Infusionsoft_Generated_Base
                 }
             }
         }
+        if (isset($data['Id']) && $data['Id'] != null){
+            $this->new = false;
+        } else {
+            $this->new = true;
+        }
     }
 
     public function loadFromObject($object)
@@ -76,6 +88,13 @@ class Infusionsoft_Generated_Base
             }
         }else{
             throw new Infusionsoft_Exception("Tried to load object " . $this->getTable() . " with loadFromObject from non object.");
+        }
+        if ($this->isValidField('Id')){
+            if ($this->Id != null) {
+                $this->new = false;
+            } else {
+                $this->new = true;
+            }
         }
     }
 

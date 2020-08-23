@@ -136,4 +136,27 @@ class Infusionsoft_WebFormService extends Infusionsoft_WebFormServiceBase
 
         return $url;
     }
+
+    public static function getPostUrlFromHtml($html, Infusionsoft_App $app = null)
+    {
+        if($app == null){
+            $app = parent::getObjectOrDefaultAppIfNull($app);
+        }
+
+        $search = $app->getHostname() . '/app/form/process/';
+
+        // Find the start and stop position of the form GUID
+        $start = strpos($html, $search) + strlen($search);
+        $stop = strpos(substr($html, $start), '"');
+
+        // Pull out the GUID
+        $guid = substr($html, $start, $stop);
+
+        // Put together the hosted URL
+        $url = 'https://';
+        $url .= $app->getHostname();
+        $url .= '/app/form/process/' . $guid;
+
+        return $url;
+    }
 }

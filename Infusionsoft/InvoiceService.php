@@ -32,10 +32,11 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
 
         }
         return $result;
-        //Update order status to "Applied"
 }
 
-    public static function chargeInvoiceArbitraryAmountUsingPayPlan($invoiceId, $cardId, $amount, $merchantAccountId, $paymentNotes = 'API Arbitrary Payment'){
+    public static function chargeInvoiceArbitraryAmountUsingPayPlan($invoiceId, $cardId, $amount, $merchantAccountId, $paymentNotes = 'API Arbitrary Payment', $numberOfPaymentsForChargePaymentPlan = 1, $daysBetweenPaymentsForChargePaymentPlan = 1){
+
+        $result = false;
 
         //Get Invoice info so we can set the temporary PayPlan to match the amount we want to charge
         $invoice = new Infusionsoft_Invoice($invoiceId);
@@ -78,7 +79,6 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
                 $payPlanItemDueDate1 = $payPlanStartDate;
             }
         } else { //If there is no PayPlan, then just set the order to the default of all due up front
-            CakeLog::write('warning', 'PayPlan not found for InvoiceId: ' . $invoiceId . ' PayPlan will be set to the default');
             $payPlanFirstPaymentAmount = $invoice->InvoiceTotal;
             $payPlanStartDate = $invoice->DateCreated;
             $numberOfPayments = 0;
@@ -86,11 +86,12 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
             $daysBetweenPayments = 1;
         }
         try{
-            Infusionsoft_InvoiceService::addPaymentPlan($invoiceId, 0, $cardId, $merchantAccountId, 1, 1, $temporaryFirstPayment, Infusionsoft_App::formatDate(date('Y-m-d')), Infusionsoft_App::formatDate(date('Y-m-d', strtotime(' + 1 month'))), 1, 1);
+            Infusionsoft_InvoiceService::addPaymentPlan($invoiceId, 0, $cardId, $merchantAccountId, 1, 1, $temporaryFirstPayment, Infusionsoft_App::formatDate(date('Y-m-d')), Infusionsoft_App::formatDate(date('Y-m-d', strtotime(' + ' . $daysBetweenPaymentsForChargePaymentPlan . ' days'))), $numberOfPaymentsForChargePaymentPlan, $daysBetweenPaymentsForChargePaymentPlan);
 
-            Infusionsoft_InvoiceService::chargeInvoice($invoiceId, $paymentNotes, $cardId, $merchantAccountId, false);
+            $result = Infusionsoft_InvoiceService::chargeInvoice($invoiceId, $paymentNotes, $cardId, $merchantAccountId, false);
         } catch (Exception $e){
             CakeLog::write('error', 'Failed to charge invoice arbitrary amount! InvoiceId: ' . $invoiceId . ' Infusionsoft error: ' . $e->getMessage());
+            $result = false;
         }
 
         try{
@@ -99,6 +100,7 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
             CakeLog::write('error', 'Failed to reset payment plan after chargeInvoiceArbitraryAmount! InvoiceId: ' . $invoiceId . ' PayPlan Details: ' . json_encode(compact('payPlanFirstPaymentAmount', 'payPlanStartDate', 'payPlanItemDueDate1', 'numberOfPayments', 'daysBetweenPayments')));
         }
 
+        return $result;
     }
 
 }

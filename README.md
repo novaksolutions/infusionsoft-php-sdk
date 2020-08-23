@@ -1,9 +1,10 @@
 # Novak Solutions - Infusionsoft PHP SDK
 
-[Novak Solutions](https://novaksolutions.com/?utm_source=github&utm_medium=readme&utm_campaign=homepage) created our *Infusionsoft PHP SDK* to make it easier to develop for the Infusionsoft platform. The SDK utilizes the Infusionsoft API, but works around some of its [known gotchas](https://novaksolutions.com/infusionsoft-api-gotchas/?utm_source=github&utm_medium=readme&utm_campaign=gotchas).  
+[Novak Solutions](https://novaksolutions.com/?utm_source=github&utm_medium=readme&utm_campaign=homepage) created our *Infusionsoft PHP SDK* to make it easier to develop for the Infusionsoft platform. The SDK utilizes the Infusionsoft API, but works around some of its [known gotchas](https://blog.novaksolutions.com/infusionsoft-api-gotchas/?utm_source=github&utm_medium=readme&utm_campaign=gotchas).  
+
 **Note: This IS NOT the official sdk.**  The official Infusionsoft created SDK is here: https://github.com/infusionsoft/infusionsoft-php 
 
-## Why use the our SDK instead of the official one?
+## Why use our SDK instead of the official one?
 
 - **No dependencies.** If your server has PHP and cURL, then you are good to go!
 - **Code completion.** We've added all the necessary PHPDoc comments so code completion will work in popular editors, like Eclipse and PhpStorm.
@@ -40,28 +41,28 @@ You'll also need to copy `Infusionsoft/config.sample.php` to `Infusionsoft/confi
 The following example code shows how to authenticate using OAuth2.  This will automatically save your access and refresh tokens to the current directory in a file called infusionsoft-tokens.php.  We store it in a php file that is empty except for a comment so that no one can access this file on your server unless you aren't running php.
 
 ```php
-//This makes troubleshooting MUCH easier.
+// This makes troubleshooting MUCH easier during testing. Remove these lines in production.
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-//Load Infusionsoft
+// Load Infusionsoft
 require 'Infusionsoft/infusionsoft.php';
 
-//Load config file (copy config.sample.php to config.php and put your clientid (key) and secret in.
+// Load config file (copy config.sample.php to config.php and put your clientid (key) and secret in.
 require 'config.php';
 
-//Sets the redirect url to the current url
+// Sets the redirect url to the current url
 Infusionsoft_OAuth2::$redirectUri = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-//When this is called, it will process the authentication response, convert the OAuth2 GET params to your access and refresh tokens.  And then save them.
+// When this is called, it will process the authentication response, convert the OAuth2 GET params to your access and refresh tokens.  And then save them.
 Infusionsoft_OAuth2::processAuthenticationResponseIfPresent();
 
-//If you don't specify a hostname, connect() will load the hostname automatically from the saved file.  Note, this library does support multiple apps, so, if you authenticate to more then one app, you really should specify the app to connect to.
+// If you don't specify a hostname, connect() will load the hostname automatically from the saved file.  Note, this library does support multiple apps, so, if you authenticate to more then one app, you really should specify the app to connect to.
 $app = Infusionsoft_App::connect();
 
-//If We Just Got Back From The OAuth Page...
+// If we just got back from the OAuth page...
 if(!$app->hasTokens()){
-    header("Location: " . Infusionsoft_OAuth2::getAuthorizationUrl());//Send To OAuth Page...
+    header("Location: " . Infusionsoft_OAuth2::getAuthorizationUrl()); //Send To OAuth Page...
     die();
 }
 

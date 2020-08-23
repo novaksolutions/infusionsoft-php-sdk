@@ -67,7 +67,7 @@ function dumpObject($object, $indent = 0)
         <tr><?
             foreach ($object->getFields() as $field) {
                 ?>
-                <th><?=$field?></th>
+                <th><?=htmlspecialchars($field)?></th>
                 <?
             }
             ?></tr>
@@ -76,7 +76,7 @@ function dumpObject($object, $indent = 0)
         <tr><?
             foreach ($object->getFields() as $field) {
                 ?>
-                <td><?=htmlentities($data[$field])?></td><?
+                <td><?=htmlspecialchars($data[$field])?></td><?
             }
             ?></tr>
         </tbody>
