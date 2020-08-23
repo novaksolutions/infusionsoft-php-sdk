@@ -39,9 +39,12 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
         $result = false;
 
         //Get Invoice info so we can set the temporary PayPlan to match the amount we want to charge
+
+        //In rare occassions, PHP can interpret the $amount or the $invoice->TotalPaid as a float, messing up the comparisons
+        // For this reason, we force $amount and TotalPaid to float, then round the sum to 2 places and use that value for the comparisons.
         $invoice = new Infusionsoft_Invoice($invoiceId);
-        if ($amount + $invoice->TotalPaid <= $invoice->InvoiceTotal){
-            $temporaryFirstPayment = $amount + $invoice->TotalPaid;
+        if (round((float)$amount + (float)$invoice->TotalPaid, 2) <= $invoice->InvoiceTotal){
+            $temporaryFirstPayment = round((float)$amount + (float)$invoice->TotalPaid, 2);
         } else {
             $temporaryFirstPayment = $invoice->InvoiceTotal - $invoice->TotalPaid;
         }
