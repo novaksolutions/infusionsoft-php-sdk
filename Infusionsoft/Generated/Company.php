@@ -165,7 +165,6 @@ class Infusionsoft_Generated_Company extends Infusionsoft_Generated_Base{
             'Title',
             'Username',
             'Validated',
-            'Website',
             'ZipFour2',
             'ZipFour3',
         );
