@@ -13,7 +13,8 @@
     ],
     "require": {
         "php": ">=5.2.0",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "neitanod/forceutf8": "~2.0"
     },
     "autoload": {
         "classmap": ["Infusionsoft/infusionsoft.php"]
