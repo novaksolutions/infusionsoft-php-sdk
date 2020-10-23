@@ -208,6 +208,7 @@ class Infusionsoft_AppData {
     }
 
     public function getObjectById($tableName, $id){
-        return array_shift($this->query(array($tableName, 1,0,array('Id' => $id), array(), null, null)));
+        $possibleMatches = $this->query(array($tableName, 1,0,array('Id' => $id), array(), null, null));
+        return array_shift($possibleMatches);
     }
 }
