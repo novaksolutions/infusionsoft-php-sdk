@@ -37,13 +37,15 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
     public static function chargeInvoiceArbitraryAmountUsingPayPlan($invoiceId, $cardId, $amount, $merchantAccountId, $paymentNotes = 'API Arbitrary Payment', $numberOfPaymentsForChargePaymentPlan = 1, $daysBetweenPaymentsForChargePaymentPlan = 1){
 
         $result = false;
+        $today = new DateTime('now', new DateTimeZone('America/New_York'));
+        $today = $today->format('Y-m-d');
 
         //Get Invoice info so we can set the temporary PayPlan to match the amount we want to charge
         $invoice = new Infusionsoft_Invoice($invoiceId);
         if ($amount + $invoice->TotalPaid <= $invoice->InvoiceTotal){
-            $temporaryFirstPayment = $amount + $invoice->TotalPaid;
+            $temporaryFirstPaymentAmount = $amount + $invoice->TotalPaid;
         } else {
-            $temporaryFirstPayment = $invoice->InvoiceTotal - $invoice->TotalPaid;
+            $temporaryFirstPaymentAmount = $invoice->InvoiceTotal - $invoice->TotalPaid;
         }
 
         //Get current PayPlan info so we can set it back after taking the payment
@@ -86,7 +88,7 @@ class Infusionsoft_InvoiceService extends Infusionsoft_InvoiceServiceBase{
             $daysBetweenPayments = 1;
         }
         try{
-            Infusionsoft_InvoiceService::addPaymentPlan($invoiceId, 0, $cardId, $merchantAccountId, 1, 1, $temporaryFirstPayment, Infusionsoft_App::formatDate(date('Y-m-d')), Infusionsoft_App::formatDate(date('Y-m-d', strtotime(' + ' . $daysBetweenPaymentsForChargePaymentPlan . ' days'))), $numberOfPaymentsForChargePaymentPlan, $daysBetweenPaymentsForChargePaymentPlan);
+            Infusionsoft_InvoiceService::addPaymentPlan($invoiceId, 0, $cardId, $merchantAccountId, 1, 1, $temporaryFirstPaymentAmount, Infusionsoft_App::formatDate($today), Infusionsoft_App::formatDate(date('Y-m-d', strtotime($today . ' + ' . $daysBetweenPaymentsForChargePaymentPlan . ' days'))), $numberOfPaymentsForChargePaymentPlan, $daysBetweenPaymentsForChargePaymentPlan);
 
             $result = Infusionsoft_InvoiceService::chargeInvoice($invoiceId, $paymentNotes, $cardId, $merchantAccountId, false);
         } catch (Exception $e){
