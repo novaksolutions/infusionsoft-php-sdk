@@ -2657,7 +2657,11 @@ class xmlrpcmsg
         //$data = str_replace(array("&#1;", "&#11;", "&#0;", "&#2;", "&#3;", "&#5;", "&#6;", "&#7;", "&#12", "&#14;", "&#20;", "&#24;", "&#25;", "&#16", "&#19;", "&#8;", "&#18;", "&#180;", "&#193;", "&#214;", "&#240;", "&#255;", "&#402;", "&#8218;", "&#8482;", '￿', ''/*non-printing character, this is not an empty string*/), "", $data);
         // **END JORDAN NOVAK EDIT**
 
+        //ForceUTF8 seems to have fixed our problems..
         $data = ForceUTF8\Encoding::toUTF8($data);
+
+        //0x19 is Ascii End of Medium and is causing problems, but we'll fix it AFTER ForceUTF8
+        $data = str_replace("" . chr(0x19), '', $data);
 
         // first error check: xml not well formed
         if(!xml_parse($parser, $data, $data != null))
