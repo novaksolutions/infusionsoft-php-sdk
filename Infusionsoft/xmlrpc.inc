@@ -2661,7 +2661,12 @@ class xmlrpcmsg
         $data = ForceUTF8\Encoding::toUTF8($data);
 
         //0x19 is Ascii End of Medium and is causing problems, but we'll fix it AFTER ForceUTF8
-        $data = str_replace("" . chr(0x19), '', $data);
+        //0x12 is Ascii something and is causing problems, but we'll fix it AFTER ForceUTF8
+        $asciiControlCharsToRemove = [
+            chr(0x12),
+            chr(0x19)
+        ];
+        $data = str_replace($asciiControlCharsToRemove, '', $data);
 
         // first error check: xml not well formed
         if(!xml_parse($parser, $data, $data != null))
