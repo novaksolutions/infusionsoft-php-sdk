@@ -157,6 +157,10 @@ class Infusionsoft_App{
                 $attempts++;
                 $this->initOauthClient();
             }
+            if($req->faultCode() == $GLOBALS['xmlrpcerr']['invalid_return']){
+                //Get byte position...
+
+            }
         } while(
             $retry
                 &&

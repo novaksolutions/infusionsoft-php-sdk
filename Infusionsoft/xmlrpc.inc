@@ -2662,9 +2662,31 @@ class xmlrpcmsg
 
         //0x19 is Ascii End of Medium and is causing problems, but we'll fix it AFTER ForceUTF8
         //0x12 is Ascii something and is causing problems, but we'll fix it AFTER ForceUTF8
+        //After many more problems, I (Joey) decided to replace more of the non printable ascii control chars...  (Specificaly 18 was causing problems)
+        //I'm wondering if ForceUTF8 is generating these, as they seem to be in odd places, like utm parameters stored in contact record custom fields??
         $asciiControlCharsToRemove = [
+            chr(0x0B),
+            chr(0x0C),
+            //13 is a carriage return
+            //chr(0x0D),
+            chr(0x0E),
+            chr(0x0F),
+            chr(0x10),
+            chr(0x11),
             chr(0x12),
-            chr(0x19)
+            chr(0x13),
+            chr(0x14),
+            chr(0x15),
+            chr(0x16),
+            chr(0x17),
+            chr(0x18),
+            chr(0x19),
+            chr(0x1A),
+            chr(0x1B),
+            chr(0x1C),
+            chr(0x1D),
+            chr(0x1E),
+            chr(0x1F),
         ];
         $data = str_replace($asciiControlCharsToRemove, '', $data);
 
