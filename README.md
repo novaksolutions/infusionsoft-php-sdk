@@ -6,7 +6,7 @@
 
 ## Why use our SDK instead of the official one?
 
-- **No dependencies.** If your server has PHP and cURL, then you are good to go!
+- **No bloated dependencies.** We had no dependencies but we recently added ForceUTF8, If your server has PHP and cURL, and you can add the ForceUTF8 dependency using composer then you are good to go!
 - **Code completion.** We've added all the necessary PHPDoc comments so code completion will work in popular editors, like Eclipse and PhpStorm.
 - **Automatically retries.** Automatically retries failed API calls when it is safe to do so (i.e., updates and deletes).
 - **Automatically handles XML-RPC.** Your requests and responses are automatically encoded and decoded.
