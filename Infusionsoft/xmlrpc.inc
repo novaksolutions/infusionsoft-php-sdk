@@ -2376,7 +2376,7 @@ class xmlrpcmsg
         }
         // be tolerant to line endings, and extra empty lines
         $ar = preg_split("/\r?\n/", trim(substr($data, 0, $pos)));
-        while(list(,$line) = @each($ar))
+        foreach ($ar as $line)
         {
             // take care of multi-line headers and cookies
             $arr = explode(':',$line,2);
@@ -2415,7 +2415,7 @@ class xmlrpcmsg
                         {
                             $val = explode('=', $val, 2);
                             $tag = trim($val[0]);
-                            $val = trim(@$val[1]);
+                            $val = trim(isset($val[1]) ? $val[1] : '');
                             /// @todo with version 1 cookies, we should strip leading and trailing " chars
                             if ($pos == 0)
                             {
@@ -2992,7 +2992,7 @@ class xmlrpcval
             echo "$key => $val<br />";
             if($key == 'array')
             {
-                while(list($key2, $val2) = each($val))
+                foreach ($val as $key2 => $val2)
                 {
                     echo "-- $key2 => $val2<br />";
                 }
@@ -3152,8 +3152,8 @@ class xmlrpcval
         //if (is_object($o) && (get_class($o) == 'xmlrpcval' || is_subclass_of($o, 'xmlrpcval')))
         //{
         $ar=$o->me;
-        reset($ar);
-        list($typ, $val) = each($ar);
+        $val = reset($ar);
+        $typ = key($ar);
         return '<value>' . $this->serializedata($typ, $val) . "</value>\n";
         //}
     }
@@ -3198,7 +3198,7 @@ class xmlrpcval
      */
     function structeach()
     {
-        return each($this->me['struct']);
+        return [key($this->me['struct']), current($this->me['struct'])];
     }
 
     // DEPRECATED! this code looks like it is very fragile and has not been fixed
@@ -3206,8 +3206,7 @@ class xmlrpcval
     function getval()
     {
         // UNSTABLE
-        reset($this->me);
-        list($a,$b)=each($this->me);
+        $b = reset($this->me);
         // contributed by I Sofer, 2001-03-24
         // add support for nested arrays to scalarval
         // i've created a new method here, so as to
@@ -3216,7 +3215,7 @@ class xmlrpcval
         if(is_array($b))
         {
             @reset($b);
-            while(list($id,$cont) = @each($b))
+            foreach ($b as $id => $cont)
             {
                 $b[$id] = $cont->scalarval();
             }
@@ -3227,12 +3226,12 @@ class xmlrpcval
         {
             $t = get_object_vars($b);
             @reset($t);
-            while(list($id,$cont) = @each($t))
+            foreach ($t as $id => $cont)
             {
                 $t[$id] = $cont->scalarval();
             }
             @reset($t);
-            while(list($id,$cont) = @each($t))
+            foreach ($t as $id => $cont)
             {
                 @$b->$id = $cont;
             }
@@ -3248,9 +3247,8 @@ class xmlrpcval
      */
     function scalarval()
     {
-        reset($this->me);
-        list(,$b)=each($this->me);
-        return $b;
+        $val = reset($this->me);
+        return $val;
     }
 
     /**
@@ -3262,7 +3260,7 @@ class xmlrpcval
     function scalartyp()
     {
         reset($this->me);
-        list($a,)=each($this->me);
+        $a = key($this->me);
         if($a==$GLOBALS['xmlrpcI4'])
         {
             $a=$GLOBALS['xmlrpcInt'];
@@ -3395,8 +3393,8 @@ function php_xmlrpc_decode($xmlrpc_val, $options=array())
         case 'scalar':
             if (in_array('extension_api', $options))
             {
-                reset($xmlrpc_val->me);
-                list($typ,$val) = each($xmlrpc_val->me);
+                $val = reset($xmlrpc_val->me);
+                $typ = key($xmlrpc_val->me);
                 switch ($typ)
                 {
                     case 'dateTime.iso8601':
@@ -3452,7 +3450,7 @@ function php_xmlrpc_decode($xmlrpc_val, $options=array())
                 && class_exists($xmlrpc_val->_php_class))
             {
                 $obj = @new $xmlrpc_val->_php_class;
-                while(list($key,$value)=$xmlrpc_val->structeach())
+                foreach ($xmlrpc_val->me['struct'] as $key => $value)
                 {
                     $obj->$key = php_xmlrpc_decode($value, $options);
                 }
@@ -3461,7 +3459,7 @@ function php_xmlrpc_decode($xmlrpc_val, $options=array())
             else
             {
                 $arr = array();
-                while(list($key,$value)=$xmlrpc_val->structeach())
+                foreach ($xmlrpc_val->me['struct'] as $key => $value)
                 {
                     $arr[$key] = php_xmlrpc_decode($value, $options);
                 }
@@ -3573,7 +3571,7 @@ function php_xmlrpc_encode($php_val, $options=array())
             {
                 $arr = array();
                 reset($php_val);
-                while(list($k,$v) = each($php_val))
+                foreach ($php_val as $k => $v)
                 {
                     $arr[$k] = php_xmlrpc_encode($v, $options);
                 }
