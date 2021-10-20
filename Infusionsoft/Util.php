@@ -53,7 +53,7 @@ class Infusionsoft_Util
             $criteria = array('Email' => $search);
             $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
             if(count($contacts) == 0){
-                $criteria['Email'] = $search . '%';
+                $criteria['Email'] = '%' . $search . '%';
                 $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
             }
         }
@@ -67,13 +67,13 @@ class Infusionsoft_Util
 
         if(count($contacts) == 0){
             $criteria = array();
-            $criteria['FirstName'] = $search;
+            $criteria['FirstName'] = '%' . $search . '%';
             $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
         }
 
         if(count($contacts) == 0){
             $criteria = array();
-            $criteria['LastName'] = $search;
+            $criteria['LastName'] = '%' . $search . '%';
             $contacts = Infusionsoft_DataService::query(new Infusionsoft_Contact(), $criteria, 100);
         }
 
