@@ -10,6 +10,7 @@
  * @property String LastName
  * @property String MiddleName
  * @property String Nickname
+ * @property Boolean Partner
  * @property String Phone1
  * @property String Phone1Ext
  * @property String Phone1Type

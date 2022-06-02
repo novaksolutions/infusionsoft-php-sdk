@@ -1,10 +1,10 @@
 {
     "name": "novaksolutions/infusionsoft-php-sdk",
     "description": "A better Infusionsoft SDK for PHP",
-    "keywords": ["api", "infusionsoft", "marketing", "infusionsoft-api", "infusion", "php-infusionsoft-api"],
-    "version": "v2014-09-11",
+    "keywords": ["api", "infusionsoft", "marketing", "infusionsoft-api", "infusion", "php-infusionsoft-api", "keap"],
+    "version": "v2022-06-01",
     "license": "MIT",
-    "homepage": "https://novaksolutions.com",
+    "homepage": "https://github.com/novaksolutions/infusionsoft-php-sdk",
     "authors": [
         {
             "name": "Novak Solutions",
