@@ -842,6 +842,7 @@ class xmlrpc_client
     var $curlError = null;
     var $curlInfo = null;
     var $curlErrorNo = null;
+    var $customheaders=[];
 
     /**
      * List of http compression methods accepted by the client for responses.
@@ -1141,6 +1142,20 @@ class xmlrpc_client
         $this->user_agent = $agentstring;
     }
 
+    
+    /**
+     * Add a custom header
+     * @param type $customheader
+     * @return type
+     */
+    function setCustomHeader($customheader){
+        foreach($this->customheaders as $ch){
+            if ($ch===$customheader) return;
+        }
+        $this->customheaders[] = $customheader;
+    }
+    
+    
     /**
      * Send an xmlrpc request
      * @param mixed $msg The message object, or an array of messages for using multicall, or the complete xml representation of a request
@@ -1195,7 +1210,8 @@ class xmlrpc_client
                 $this->proxy_authtype,
                 $this->keepalive,
                 $this->key,
-                $this->keypass
+                $this->keypass,
+                $this->customheaders
             );
         }
         elseif($method == 'http11')
@@ -1235,7 +1251,8 @@ class xmlrpc_client
                 $this->proxyport,
                 $this->proxy_user,
                 $this->proxy_pass,
-                $this->proxy_authtype
+                $this->proxy_authtype,
+                $this->customheaders
             );
         }
 
@@ -1247,7 +1264,7 @@ class xmlrpc_client
      */
     function &sendPayloadHTTP10($msg, $server, $port, $timeout=0,
                                 $username='', $password='', $authtype=1, $proxyhost='',
-                                $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1)
+                                $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1, $customheaders=[])
     {
         if($port==0)
         {
@@ -1361,6 +1378,9 @@ class xmlrpc_client
         // omit port if 80
         $port = ($port == 80) ? '' : (':' . $port);
 
+        $customheaderString = (is_array($customheaders) && sizeof($customheaders)>0 ) ? implode("\r\n", $customheaders) . "\r\n" : "";
+       
+        
         $op= 'POST ' . $uri. " HTTP/1.0\r\n" .
             'User-Agent: ' . $this->user_agent . "\r\n" .
             'Host: '. $server . $port . "\r\n" .
@@ -1369,6 +1389,7 @@ class xmlrpc_client
             $accepted_encoding .
             $encoding_hdr .
             'Accept-Charset: ' . implode(',', $this->accepted_charset_encodings) . "\r\n" .
+            $customheaderString . 
             $cookieheader .
             'Content-Type: ' . $msg->content_type . "\r\nContent-Length: " .
             strlen($payload) . "\r\n\r\n" .
@@ -1436,11 +1457,11 @@ class xmlrpc_client
     function &sendPayloadHTTPS($msg, $server, $port, $timeout=0, $username='',
                                $password='', $authtype=1, $cert='',$certpass='', $cacert='', $cacertdir='',
                                $proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1,
-                               $keepalive=false, $key='', $keypass='')
+                               $keepalive=false, $key='', $keypass='', $customheaders=[])
     {
         $r =& $this->sendPayloadCURL($msg, $server, $port, $timeout, $username,
             $password, $authtype, $cert, $certpass, $cacert, $cacertdir, $proxyhost, $proxyport,
-            $proxyusername, $proxypassword, $proxyauthtype, 'https', $keepalive, $key, $keypass);
+            $proxyusername, $proxypassword, $proxyauthtype, 'https', $keepalive, $key, $keypass, $customheaders);
         return $r;
     }
 
@@ -1453,7 +1474,7 @@ class xmlrpc_client
     function &sendPayloadCURL($msg, $server, $port, $timeout=0, $username='',
                               $password='', $authtype=1, $cert='', $certpass='', $cacert='', $cacertdir='',
                               $proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1, $method='https',
-                              $keepalive=false, $key='', $keypass='')
+                              $keepalive=false, $key='', $keypass='', $customheaders=[])
     {
         if(!function_exists('curl_init'))
         {
@@ -1581,6 +1602,12 @@ class xmlrpc_client
             $headers[] = $encoding_hdr;
         }
 
+        if(is_array($customheaders) && sizeof($customheaders)>0){
+            foreach($customheaders as $ch){
+                $headers[] = $ch;
+            }
+        }
+        
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         // timeout is borked
         if($timeout)
@@ -2658,7 +2685,12 @@ class xmlrpcmsg
         // **END JORDAN NOVAK EDIT**
 
         //ForceUTF8 seems to have fixed our problems..
-        $data = ForceUTF8\Encoding::toUTF8($data);
+        if (method_exists('ForceUTF8\Encoding','toUTF8')){
+            $data = ForceUTF8\Encoding::toUTF8($data);
+        }else{
+            $data = preg_replace(array('/\&#[0-9]{1,4}(?![0-9]{0,3};)/'),'', $data);
+            $data = str_replace(array("&#1;", "&#11;", "&#0;", "&#2;", "&#3;", "&#5;", "&#6;", "&#7;", "&#12", "&#14;", "&#20;", "&#24;", "&#25;", "&#16", "&#19;", "&#8;", "&#18;", "&#180;", "&#193;", "&#214;", "&#240;", "&#255;", "&#402;", "&#8218;", "&#8482;", '￿', ''/*non-printing character, this is not an empty string*/), "", $data);
+        }
 
         //0x19 is Ascii End of Medium and is causing problems, but we'll fix it AFTER ForceUTF8
         //0x12 is Ascii something and is causing problems, but we'll fix it AFTER ForceUTF8
