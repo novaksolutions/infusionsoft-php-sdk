@@ -48,7 +48,9 @@ class Infusionsoft_App{
 	        $this->apiKey = $apiKey;
         }
 
-        $this->client = new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+        //$this->client = new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port); // Deprecated as of Oct 2024 - Keap sunsetting legacy api keys
+        $this->client	= new xmlrpc_client('/crm/xmlrpc', 'api.infusionsoft.com', 443);
+        $this->client->setCustomHeader('X-Keap-Api-Key: ' . $apiKey);
 	    if ($initAsFallback){
 	        $this->initOauthClient();
         }
