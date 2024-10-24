@@ -842,7 +842,7 @@ class xmlrpc_client
     var $curlError = null;
     var $curlInfo = null;
     var $curlErrorNo = null;
-
+    var $customheaders=[];
     /**
      * List of http compression methods accepted by the client for responses.
      * NB: PHP supports deflate, gzip compressions out of the box if compiled w. zlib
@@ -1142,6 +1142,18 @@ class xmlrpc_client
     }
 
     /**
+     * Add a custom header
+     * @param type $customheader
+     * @return type
+     */
+    function setCustomHeader($customheader){
+        foreach($this->customheaders as $ch){
+            if ($ch===$customheader) return;
+        }
+        $this->customheaders[] = $customheader;
+    }
+
+    /**
      * Send an xmlrpc request
      * @param mixed $msg The message object, or an array of messages for using multicall, or the complete xml representation of a request
      * @param integer $timeout Connection timeout, in seconds, If unspecified, a platform specific timeout will apply
@@ -1195,7 +1207,8 @@ class xmlrpc_client
                 $this->proxy_authtype,
                 $this->keepalive,
                 $this->key,
-                $this->keypass
+                $this->keypass,
+                $this->customheaders
             );
         }
         elseif($method == 'http11')
@@ -1235,7 +1248,8 @@ class xmlrpc_client
                 $this->proxyport,
                 $this->proxy_user,
                 $this->proxy_pass,
-                $this->proxy_authtype
+                $this->proxy_authtype,
+                $this->customheaders
             );
         }
 
@@ -1247,7 +1261,7 @@ class xmlrpc_client
      */
     function &sendPayloadHTTP10($msg, $server, $port, $timeout=0,
                                 $username='', $password='', $authtype=1, $proxyhost='',
-                                $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1)
+                                $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1, $customheaders=[])
     {
         if($port==0)
         {
@@ -1361,6 +1375,8 @@ class xmlrpc_client
         // omit port if 80
         $port = ($port == 80) ? '' : (':' . $port);
 
+        $customheaderString = (is_array($customheaders) && sizeof($customheaders)>0 ) ? implode("\r\n", $customheaders) . "\r\n" : "";
+
         $op= 'POST ' . $uri. " HTTP/1.0\r\n" .
             'User-Agent: ' . $this->user_agent . "\r\n" .
             'Host: '. $server . $port . "\r\n" .
@@ -1369,6 +1385,7 @@ class xmlrpc_client
             $accepted_encoding .
             $encoding_hdr .
             'Accept-Charset: ' . implode(',', $this->accepted_charset_encodings) . "\r\n" .
+            $customheaderString .
             $cookieheader .
             'Content-Type: ' . $msg->content_type . "\r\nContent-Length: " .
             strlen($payload) . "\r\n\r\n" .
@@ -1436,11 +1453,11 @@ class xmlrpc_client
     function &sendPayloadHTTPS($msg, $server, $port, $timeout=0, $username='',
                                $password='', $authtype=1, $cert='',$certpass='', $cacert='', $cacertdir='',
                                $proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1,
-                               $keepalive=false, $key='', $keypass='')
+                               $keepalive=false, $key='', $keypass='', $customheaders = [])
     {
         $r =& $this->sendPayloadCURL($msg, $server, $port, $timeout, $username,
             $password, $authtype, $cert, $certpass, $cacert, $cacertdir, $proxyhost, $proxyport,
-            $proxyusername, $proxypassword, $proxyauthtype, 'https', $keepalive, $key, $keypass);
+            $proxyusername, $proxypassword, $proxyauthtype, 'https', $keepalive, $key, $keypass, $customheaders);
         return $r;
     }
 
@@ -1453,7 +1470,7 @@ class xmlrpc_client
     function &sendPayloadCURL($msg, $server, $port, $timeout=0, $username='',
                               $password='', $authtype=1, $cert='', $certpass='', $cacert='', $cacertdir='',
                               $proxyhost='', $proxyport=0, $proxyusername='', $proxypassword='', $proxyauthtype=1, $method='https',
-                              $keepalive=false, $key='', $keypass='')
+                              $keepalive=false, $key='', $keypass='', $customheaders=[])
     {
         if(!function_exists('curl_init'))
         {
@@ -1579,6 +1596,12 @@ class xmlrpc_client
         if($encoding_hdr)
         {
             $headers[] = $encoding_hdr;
+        }
+
+        if(is_array($customheaders) && sizeof($customheaders)>0){
+            foreach($customheaders as $ch){
+                $headers[] = $ch;
+            }
         }
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);

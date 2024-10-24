@@ -48,7 +48,13 @@ class Infusionsoft_App{
 	        $this->apiKey = $apiKey;
         }
 
-        $this->client = new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+        if(strpos($this->apiKey, 'KeapAK-') === 0){
+            $this->client = new xmlrpc_client('/crm/xmlrpc/v1', 'api.infusionsoft.com', 443);
+            $this->client->setCustomHeader('X-Keap-Api-Key: ' . $this->apiKey);
+        } else {
+            $this->client = new xmlrpc_client('/api/xmlrpc', $this->getHostname(), $this->port);
+        }
+
 	    if ($initAsFallback){
 	        $this->initOauthClient();
         }
