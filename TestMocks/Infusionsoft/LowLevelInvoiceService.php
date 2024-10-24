@@ -54,6 +54,7 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $invoice->ContactId = $contactId;
         $invoice->DateCreated = date('Y-m-d H:i:s');
         $invoice->JobId = $order->Id;
+        $invoice->TotalPaid = 0;
         $invoice->save();
 
         return $invoice->Id;
@@ -67,7 +68,9 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $invoice = new Infusionsoft_Invoice($invoiceId);
         $contactId = $invoice->ContactId;
 
+        //Must set an ID on the Payment to avoid the SDK class from calling addManualPayment recursively when Payment is saved.
         $payment = new Infusionsoft_Payment();
+        $payment->Id = rand(10000, 100000);
         $payment->PayAmt  = $payAmt;
         $payment->PayType = $payType;
         $payment->PayDate = $payDate;
@@ -85,6 +88,8 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
 
         $invoice->TotalPaid = floatval($invoice->TotalPaid) + $payAmt;
         $invoice->save();
+
+        self::updatePaymentPlanForPayment($invoiceId, $payment->PayAmt);
 
         return $payment->Id;
     }
@@ -125,6 +130,7 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
         $invoice->TotalPaid = floatval($invoice->TotalPaid);
         $invoice->save();
 
+        self::updatePaymentPlanForPayment($invoiceId, $payment->PayAmt);
         return $payment->Id;
     }
 
@@ -155,7 +161,7 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
             $creditCardId,
             $affiliateId,
             $daysTillCharge
-        ) = $args;
+            ) = $args;
 
         $recurringOrder = new Infusionsoft_RecurringOrder();
         $recurringOrder->ContactId = $contactId;
@@ -193,15 +199,72 @@ class Infusionsoft_LowLevelInvoiceService extends Infusionsoft_LowLevelMockServi
     public function addPaymentPlan($args) {
         array_shift($args);
         list($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry,
-$maxRetry, $initialPmtAmt, $initialPmtDate, $planStartDate, $numberOfPmts, $daysBetweenPmts) = $args;
-
+            $maxRetry, $initialPmtAmt, $initialPmtDate, $planStartDate, $numberOfPmts, $daysBetweenPmts) = $args;
+        $invoice = new Infusionsoft_Invoice($invoiceId);
         $payPlan = new Infusionsoft_PayPlan();
-        $payPlan->AmtDue = $initialPmtAmt;
+        $payPlan->AmtDue = $invoice->InvoiceTotal;
         $payPlan->DateDue = $initialPmtDate;
         $payPlan->FirstPayAmt = $initialPmtAmt;
         $payPlan->InitDate = $initialPmtDate;
         $payPlan->InvoiceId = $invoiceId;
         $payPlan->StartDate = $planStartDate;
         $payPlan->save();
+
+        $totalPayments = $numberOfPmts + 1;
+        $monthlyPaymentAmount = round(($invoice->InvoiceTotal - $initialPmtAmt) / $numberOfPmts, 2);
+        for ($i = 0; $i < $totalPayments; $i++) {
+            $payPlanItem = new Infusionsoft_PayPlanItem();
+            $payPlanItem->PayPlanId = $payPlan->Id;
+            $payPlanItem->AmtDue = $i == 0 ? $initialPmtAmt : ($i == ($totalPayments - 1) ? ($invoice->InvoiceTotal - ($initialPmtAmt + ($monthlyPaymentAmount * ($i - 1)))) : $monthlyPaymentAmount);
+            $payPlanItem->DateDue = $i == 0 ? $initialPmtDate : ($i == 1 ? $planStartDate : date('Y-m-d', strtotime($planStartDate . ' + ' . $daysBetweenPmts * ($i - 1) . ' days')));
+            $payPlanItem->Status = 1;
+            $payPlanItem->save();
+        }
+    }
+
+    private function updatePaymentPlanForPayment($invoiceId, $payAmt)
+    {
+        $invoice = new Infusionsoft_Invoice($invoiceId);
+        $payPlan = Infusionsoft_DataService::query(new Infusionsoft_PayPlan(), ['InvoiceId' => $invoiceId]);
+        $payPlan = reset($payPlan);
+
+        $payPlanItems = Infusionsoft_DataService::query(new Infusionsoft_PayPlanItem(), ['PayPlanId' => $payPlan->Id]);
+
+        $totalDue = 0;
+        $totalPaid = 0;
+        $amountAttributedToPayPlanItem = 0;
+        /**
+         * @var Infusionsoft_PayPlanItem $payPlanItem
+         */
+        foreach ($payPlanItems as $payPlanItem) {
+            if ($payPlanItem->AmtPaid < $payPlanItem->AmtDue) {
+                if ($payPlanItem->AmtDue - $payPlanItem->AmtPaid <= $payAmt - $amountAttributedToPayPlanItem) {
+                    $amountAttributedToPayPlanItem += $payPlanItem->AmtDue - $payPlanItem->AmtPaid;
+                    $payPlanItem->AmtPaid = $payPlanItem->AmtDue;
+                    $payPlanItem->save();
+                } elseif ($payAmt - $amountAttributedToPayPlanItem > 0) {
+                    $payPlanItem->AmtPaid += $payAmt - $amountAttributedToPayPlanItem;
+                    $payPlanItem->save();
+                    $amountAttributedToPayPlanItem += $payAmt - $amountAttributedToPayPlanItem;
+                }
+            }
+            if (date('Y-m-d', strtotime($payPlanItem->DateDue)) <= date('Y-m-d')) {
+                $totalDue += $payPlanItem->AmtDue;
+            }
+            if ($payPlanItem->AmtPaid > 0) {
+                $totalPaid += $payPlanItem->AmtPaid;
+            }
+        }
+        $invoice->TotalDue = $totalDue;
+        $invoice->TotalPaid = $totalPaid;
+        $invoice->save();
+    }
+
+    public function validateCreditCard($creditCardId)
+    {
+        return [
+            'Valid' => true,
+            'Message' => '',
+        ];
     }
 }
